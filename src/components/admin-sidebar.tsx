@@ -1,5 +1,5 @@
 import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, Home } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,

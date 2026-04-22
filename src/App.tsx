@@ -5,7 +5,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import Index from "./pages/Index.tsx";
-import ComingSoon from "./pages/ComingSoon.tsx";
+import Produits from "./pages/Produits.tsx";
+import ProduitDetail from "./pages/ProduitDetail.tsx";
+import APropos from "./pages/APropos.tsx";
+import Contact from "./pages/Contact.tsx";
+import Depannage from "./pages/Depannage.tsx";
+import MentionsLegales from "./pages/MentionsLegales.tsx";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -19,13 +25,13 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/produits" element={<ComingSoon title="Catalogue Produits" description="La page produits arrive très bientôt avec toutes nos motos, tricycles et pièces détachées." />} />
-            <Route path="/produits/:slug" element={<ComingSoon title="Détail produit" />} />
-            <Route path="/depannage" element={<ComingSoon title="Service Dépannage" />} />
-            <Route path="/a-propos" element={<ComingSoon title="À propos de Hasilaza Motor" />} />
-            <Route path="/contact" element={<ComingSoon title="Contactez-nous" />} />
-            <Route path="/mentions-legales" element={<ComingSoon title="Mentions Légales" />} />
-            <Route path="/politique-confidentialite" element={<ComingSoon title="Politique de Confidentialité" />} />
+            <Route path="/produits" element={<Produits />} />
+            <Route path="/produits/:slug" element={<ProduitDetail />} />
+            <Route path="/depannage" element={<Depannage />} />
+            <Route path="/a-propos" element={<APropos />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/mentions-legales" element={<MentionsLegales />} />
+            <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

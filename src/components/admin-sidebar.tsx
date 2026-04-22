@@ -28,8 +28,7 @@ export function AdminSidebar() {
   const collapsed = state === "collapsed";
   const { signOut, user } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const isExpanded = items.some((i) => location.pathname.startsWith(i.url));
+
 
   const handleSignOut = async () => {
     await signOut();

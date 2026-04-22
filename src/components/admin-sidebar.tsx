@@ -53,7 +53,7 @@ export function AdminSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup open={isExpanded} onOpenChange={() => {}}>
+        <SidebarGroup>
           <SidebarGroupLabel>Gestion</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

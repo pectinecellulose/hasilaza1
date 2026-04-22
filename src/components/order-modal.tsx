@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { type Product, formatPrice } from "@/lib/products-data";
+import { supabase } from "@/integrations/supabase/client";
 
 interface OrderModalProps {
   product: Product;
@@ -40,9 +41,21 @@ export function OrderModal({ product, quantity, isOpen, onClose }: OrderModalPro
     setErrorMessage("");
 
     try {
-      // Phase 3 will wire this to a Lovable Cloud edge function.
-      // For now we simulate success and prefill a WhatsApp-ready message.
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const { error } = await supabase.from("orders").insert({
+        product_id: product.id,
+        product_name: product.name,
+        product_slug: product.slug,
+        quantity,
+        unit_price: product.price,
+        total_price: product.category === "piece" ? null : totalPrice,
+        customer_name: formData.fullName,
+        customer_phone: formData.phone,
+        customer_email: formData.email || null,
+        customer_address: formData.address,
+        customer_city: formData.city,
+        message: formData.message || null,
+      });
+      if (error) throw error;
       setStatus("success");
       setTimeout(() => {
         setFormData({ fullName: "", phone: "", email: "", address: "", city: "", message: "" });

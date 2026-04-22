@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Phone, Truck, Shield, Wrench, Star } from "lucide-react";
@@ -5,7 +6,9 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { products, formatPrice } from "@/lib/products-data";
+import { formatPrice, type Product } from "@/lib/products-data";
+import { supabase } from "@/integrations/supabase/client";
+import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";
 
 const features = [
   "Livraison gratuite sur Dakar",
@@ -27,7 +30,18 @@ const advantages = [
 ];
 
 const Index = () => {
-  const featured = products.filter((p) => p.category !== "piece").slice(0, 8);
+  const [featured, setFeatured] = useState<Product[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("products")
+        .select("*")
+        .neq("category", "piece")
+        .limit(8);
+      setFeatured(((data as DbProductRow[]) ?? []).map(mapDbProduct));
+    })();
+  }, []);
 
   return (
     <main className="min-h-screen bg-background">

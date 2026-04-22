@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const contactInfos = [
   { icon: Phone, label: "Téléphone", value: "+221 781 094 091", href: "tel:+221781094091" },
@@ -19,11 +21,23 @@ const contactInfos = [
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const { toast } = useToast();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus("loading");
-    await new Promise((r) => setTimeout(r, 1200));
+    const { error } = await supabase.from("contact_messages").insert({
+      name: form.name,
+      email: form.email,
+      phone: form.phone || null,
+      subject: form.subject,
+      message: form.message,
+    });
+    if (error) {
+      setStatus("idle");
+      toast({ title: "Erreur", description: error.message, variant: "destructive" });
+      return;
+    }
     setStatus("success");
     setTimeout(() => {
       setForm({ name: "", email: "", phone: "", subject: "", message: "" });

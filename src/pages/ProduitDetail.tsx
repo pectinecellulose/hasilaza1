@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
   CheckCircle,
+  Loader2,
   Minus,
   Plus,
   ShoppingCart,
@@ -17,20 +18,50 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { OrderModal } from "@/components/order-modal";
-import { getProductBySlug, products, formatPrice } from "@/lib/products-data";
+import { formatPrice, type Product } from "@/lib/products-data";
+import { supabase } from "@/integrations/supabase/client";
+import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";
 import NotFound from "@/pages/NotFound";
 
 const ProduitDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const product = slug ? getProductBySlug(slug) : undefined;
+  const [product, setProduct] = useState<Product | null>(null);
+  const [related, setRelated] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [orderOpen, setOrderOpen] = useState(false);
 
-  if (!product) return <NotFound />;
+  useEffect(() => {
+    if (!slug) return;
+    (async () => {
+      setLoading(true);
+      const { data } = await supabase.from("products").select("*").eq("slug", slug).maybeSingle();
+      if (data) {
+        const p = mapDbProduct(data as DbProductRow);
+        setProduct(p);
+        const { data: rel } = await supabase
+          .from("products")
+          .select("*")
+          .eq("category", p.category)
+          .neq("id", p.id)
+          .limit(4);
+        setRelated(((rel as DbProductRow[]) ?? []).map(mapDbProduct));
+      } else {
+        setProduct(null);
+      }
+      setLoading(false);
+    })();
+  }, [slug]);
 
-  const related = products
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 4);
+  if (loading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </main>
+    );
+  }
+
+  if (!product) return <NotFound />;
 
   const whatsappLink = `https://wa.me/221781094091?text=${encodeURIComponent(
     `Bonjour, je suis intéressé par : ${product.name}`,
@@ -51,7 +82,6 @@ const ProduitDetail = () => {
           </Link>
 
           <div className="grid lg:grid-cols-2 gap-10">
-            {/* Visuals */}
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
               <div className="relative aspect-square bg-muted rounded-3xl overflow-hidden flex items-center justify-center">
                 <Wrench className="w-32 h-32 text-muted-foreground/30" />
@@ -68,7 +98,6 @@ const ProduitDetail = () => {
               </div>
             </motion.div>
 
-            {/* Info */}
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
               <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 {product.subcategory ?? product.category}
@@ -171,7 +200,6 @@ const ProduitDetail = () => {
             </motion.div>
           </div>
 
-          {/* Specifications */}
           <div className="mt-16">
             <h2 className="text-2xl font-bold text-foreground mb-6">Spécifications techniques</h2>
             <div className="bg-muted/30 rounded-2xl overflow-hidden">
@@ -186,7 +214,6 @@ const ProduitDetail = () => {
             </div>
           </div>
 
-          {/* Related */}
           {related.length > 0 && (
             <div className="mt-20">
               <h2 className="text-2xl font-bold text-foreground mb-8">Produits similaires</h2>

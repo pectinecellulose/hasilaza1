@@ -88,7 +88,7 @@ const AdminProductForm = () => {
     e.preventDefault();
     setSaving(true);
 
-    let specs: unknown, feats: unknown, imgs: unknown;
+    let specs: unknown[], feats: unknown[], imgs: unknown[];
     try {
       specs = JSON.parse(form.specifications || "[]");
       feats = JSON.parse(form.features || "[]");
@@ -108,9 +108,9 @@ const AdminProductForm = () => {
       old_price: form.old_price ? Number(form.old_price) : null,
       description: form.description,
       short_description: form.short_description,
-      specifications: specs,
-      features: feats,
-      images: imgs,
+      specifications: specs as never,
+      features: feats as never,
+      images: imgs as never,
       in_stock: form.in_stock,
       is_best_seller: form.is_best_seller,
       is_new: form.is_new,

@@ -337,18 +337,111 @@ const ProduitDetail = () => {
           </div>
 
           <div className="mt-20">
-            <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Spécifications</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">Détails techniques</h2>
-            <div className="bg-card rounded-3xl border border-border overflow-hidden">
-              <dl className="divide-y divide-border">
-                {product.specifications.map((spec) => (
-                  <div key={spec.label} className="grid grid-cols-2 px-6 py-4 hover:bg-muted/30 transition-colors">
-                    <dt className="font-medium text-foreground text-sm">{spec.label}</dt>
-                    <dd className="text-muted-foreground text-sm">{spec.value}</dd>
+            <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Tout savoir</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">À propos de ce produit</h2>
+
+            <Tabs defaultValue="description" className="w-full">
+              <TabsList className="h-auto p-1.5 bg-muted/60 rounded-2xl flex flex-wrap gap-1 w-full sm:w-auto sm:inline-flex">
+                <TabsTrigger
+                  value="description"
+                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Description
+                </TabsTrigger>
+                <TabsTrigger
+                  value="specifications"
+                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2"
+                >
+                  <Package className="w-4 h-4" />
+                  Spécifications
+                </TabsTrigger>
+                <TabsTrigger
+                  value="features"
+                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  Caractéristiques
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="description" className="mt-6">
+                <div className="bg-card rounded-3xl border border-border p-6 md:p-10">
+                  <div className="prose prose-neutral dark:prose-invert max-w-none">
+                    <p className="text-foreground/85 leading-relaxed text-base md:text-lg whitespace-pre-line">
+                      {product.description}
+                    </p>
                   </div>
-                ))}
-              </dl>
-            </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="specifications" className="mt-6">
+                {product.specifications.length > 0 ? (
+                  <div className="bg-card rounded-3xl border border-border overflow-hidden">
+                    <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border">
+                      <div className="divide-y divide-border">
+                        {product.specifications
+                          .filter((_, i) => i % 2 === 0)
+                          .map((spec) => (
+                            <div
+                              key={spec.label}
+                              className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-muted/30 transition-colors"
+                            >
+                              <dt className="font-medium text-muted-foreground text-sm">{spec.label}</dt>
+                              <dd className="font-display font-semibold text-foreground text-sm text-right">
+                                {spec.value}
+                              </dd>
+                            </div>
+                          ))}
+                      </div>
+                      <div className="divide-y divide-border">
+                        {product.specifications
+                          .filter((_, i) => i % 2 === 1)
+                          .map((spec) => (
+                            <div
+                              key={spec.label}
+                              className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-muted/30 transition-colors"
+                            >
+                              <dt className="font-medium text-muted-foreground text-sm">{spec.label}</dt>
+                              <dd className="font-display font-semibold text-foreground text-sm text-right">
+                                {spec.value}
+                              </dd>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-card rounded-3xl border border-border p-10 text-center text-muted-foreground">
+                    Aucune spécification disponible pour ce produit.
+                  </div>
+                )}
+              </TabsContent>
+
+              <TabsContent value="features" className="mt-6">
+                {product.features.length > 0 ? (
+                  <div className="bg-card rounded-3xl border border-border p-6 md:p-8">
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {product.features.map((feature) => (
+                        <div
+                          key={feature}
+                          className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 border border-border/50 hover:border-primary/40 hover:bg-muted/60 transition-all"
+                        >
+                          <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                            <CheckCircle2 className="w-4 h-4 text-primary" />
+                          </div>
+                          <span className="text-foreground/90 text-sm leading-relaxed pt-1">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-card rounded-3xl border border-border p-10 text-center text-muted-foreground">
+                    Aucune caractéristique disponible pour ce produit.
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
           </div>
 
           {related.length > 0 && (

@@ -101,6 +101,7 @@ const Index = () => {
         .from("products")
         .select("*")
         .neq("category", "piece")
+        .order("created_at", { ascending: false })
         .limit(8);
       setFeatured(((data as DbProductRow[]) ?? []).map(mapDbProduct));
     })();

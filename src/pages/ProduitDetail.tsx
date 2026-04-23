@@ -14,12 +14,18 @@ import {
   Wrench,
   MessageCircle,
   ArrowUpRight,
+  Phone,
+  Sparkles,
+  Package,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { OrderModal } from "@/components/order-modal";
 import { SEO } from "@/components/seo";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatPrice, type Product } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";

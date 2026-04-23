@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, ChevronDown, Sparkles, User as UserIcon } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
@@ -211,13 +211,13 @@ export function Header() {
                 </nav>
 
                 <div className="flex flex-col gap-2 mt-5 pt-5 border-t border-border">
-                  <Link
-                    to="/compte"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground hover:bg-muted transition-colors"
+                  <a
+                    href="tel:+221769358317"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground"
                   >
-                    <UserIcon className="w-5 h-5 text-primary" />
-                    <span className="font-medium">Mon compte</span>
-                  </Link>
+                    <Phone className="w-5 h-5 text-primary" />
+                    <span className="font-medium">+221 76 935 83 17</span>
+                  </a>
                   <a
                     href="tel:+221769358317"
                     className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground"

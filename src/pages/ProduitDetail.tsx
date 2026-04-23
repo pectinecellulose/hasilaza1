@@ -14,12 +14,18 @@ import {
   Wrench,
   MessageCircle,
   ArrowUpRight,
+  Phone,
+  Sparkles,
+  Package,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { OrderModal } from "@/components/order-modal";
 import { SEO } from "@/components/seo";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatPrice, type Product } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";
@@ -33,9 +39,11 @@ const ProduitDetail = () => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [orderOpen, setOrderOpen] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
     if (!slug) return;
+    setActiveImage(0);
     (async () => {
       setLoading(true);
       const { data } = await supabase.from("products").select("*").eq("slug", slug).maybeSingle();
@@ -135,20 +143,47 @@ const ProduitDetail = () => {
             Retour au catalogue
           </Link>
 
-          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12">
+          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-12">
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <div className="relative aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-[2rem] overflow-hidden flex items-center justify-center border border-border">
+              <div className="relative aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-[2rem] overflow-hidden flex items-center justify-center border border-border group">
                 <div className="absolute inset-0 bg-gradient-radial opacity-30" />
-                {product.images?.[0] ? (
+                {product.images && product.images.length > 0 ? (
                   <img
-                    src={product.images[0]}
-                    alt={product.name}
+                    src={product.images[activeImage] ?? product.images[0]}
+                    alt={`${product.name} - vue ${activeImage + 1}`}
                     loading="eager"
-                    className="relative w-full h-full object-cover"
+                    className="relative w-full h-full object-cover transition-opacity duration-300"
                   />
                 ) : (
                   <Wrench className="relative w-40 h-40 text-muted-foreground/30" strokeWidth={1} />
                 )}
+
+                {product.images && product.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={() =>
+                        setActiveImage((i) => (i === 0 ? product.images.length - 1 : i - 1))
+                      }
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-background/80 backdrop-blur-md border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-background hover:scale-110"
+                      aria-label="Image précédente"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() =>
+                        setActiveImage((i) => (i === product.images.length - 1 ? 0 : i + 1))
+                      }
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-background/80 backdrop-blur-md border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-background hover:scale-110"
+                      aria-label="Image suivante"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-border text-xs font-medium">
+                      {activeImage + 1} / {product.images.length}
+                    </div>
+                  </>
+                )}
+
                 <div className="absolute top-5 left-5 flex flex-col gap-2">
                   {product.isBestSeller && (
                     <span className="px-3 py-1.5 bg-gradient-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant">
@@ -165,12 +200,39 @@ const ProduitDetail = () => {
                   <FavoriteButton productId={product.id} />
                 </div>
               </div>
+
+              {product.images && product.images.length > 1 && (
+                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2.5 mt-4">
+                  {product.images.map((img, idx) => (
+                    <button
+                      key={img + idx}
+                      onClick={() => setActiveImage(idx)}
+                      className={`relative aspect-square rounded-2xl overflow-hidden border-2 transition-all ${
+                        activeImage === idx
+                          ? "border-primary shadow-elegant scale-[1.02]"
+                          : "border-border hover:border-primary/40 opacity-70 hover:opacity-100"
+                      }`}
+                      aria-label={`Voir image ${idx + 1}`}
+                    >
+                      <img src={img} alt={`miniature ${idx + 1}`} loading="lazy" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">
-                {product.subcategory ?? product.category}
-              </span>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">
+                  {product.subcategory ?? product.category}
+                </span>
+                {product.inStock && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                    En stock · Livraison rapide
+                  </span>
+                )}
+              </div>
               <h1 className="font-display text-3xl md:text-5xl font-bold mt-3 mb-5 leading-tight text-balance">
                 {product.name}
               </h1>
@@ -185,7 +247,7 @@ const ProduitDetail = () => {
                   ))}
                 </div>
                 <span className="text-sm text-muted-foreground">
-                  {product.rating} · {product.reviews} avis
+                  {product.rating} · {product.reviews} avis vérifiés
                 </span>
               </div>
 
@@ -200,15 +262,18 @@ const ProduitDetail = () => {
                 )}
               </div>
 
-              <p className="text-muted-foreground leading-relaxed mb-7">{product.description}</p>
+              <p className="text-muted-foreground leading-relaxed mb-7">{product.shortDescription}</p>
 
-              <div className="space-y-2.5 mb-8">
-                {product.features.map((feature) => (
-                  <div key={feature} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <span className="text-foreground/80 text-sm">{feature}</span>
-                  </div>
-                ))}
+              <div className="flex items-center gap-3 mb-7 p-4 rounded-2xl bg-primary/5 border border-primary/20">
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Phone className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">Besoin de conseils ?</p>
+                  <a href="tel:+221769358317" className="font-display font-bold text-foreground hover:text-primary transition-colors">
+                    +221 76 935 83 17
+                  </a>
+                </div>
               </div>
 
               {product.category !== "piece" && (
@@ -272,18 +337,111 @@ const ProduitDetail = () => {
           </div>
 
           <div className="mt-20">
-            <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Spécifications</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">Détails techniques</h2>
-            <div className="bg-card rounded-3xl border border-border overflow-hidden">
-              <dl className="divide-y divide-border">
-                {product.specifications.map((spec) => (
-                  <div key={spec.label} className="grid grid-cols-2 px-6 py-4 hover:bg-muted/30 transition-colors">
-                    <dt className="font-medium text-foreground text-sm">{spec.label}</dt>
-                    <dd className="text-muted-foreground text-sm">{spec.value}</dd>
+            <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Tout savoir</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">À propos de ce produit</h2>
+
+            <Tabs defaultValue="description" className="w-full">
+              <TabsList className="h-auto p-1.5 bg-muted/60 rounded-2xl flex flex-wrap gap-1 w-full sm:w-auto sm:inline-flex">
+                <TabsTrigger
+                  value="description"
+                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Description
+                </TabsTrigger>
+                <TabsTrigger
+                  value="specifications"
+                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2"
+                >
+                  <Package className="w-4 h-4" />
+                  Spécifications
+                </TabsTrigger>
+                <TabsTrigger
+                  value="features"
+                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  Caractéristiques
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="description" className="mt-6">
+                <div className="bg-card rounded-3xl border border-border p-6 md:p-10">
+                  <div className="prose prose-neutral dark:prose-invert max-w-none">
+                    <p className="text-foreground/85 leading-relaxed text-base md:text-lg whitespace-pre-line">
+                      {product.description}
+                    </p>
                   </div>
-                ))}
-              </dl>
-            </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="specifications" className="mt-6">
+                {product.specifications.length > 0 ? (
+                  <div className="bg-card rounded-3xl border border-border overflow-hidden">
+                    <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border">
+                      <div className="divide-y divide-border">
+                        {product.specifications
+                          .filter((_, i) => i % 2 === 0)
+                          .map((spec) => (
+                            <div
+                              key={spec.label}
+                              className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-muted/30 transition-colors"
+                            >
+                              <dt className="font-medium text-muted-foreground text-sm">{spec.label}</dt>
+                              <dd className="font-display font-semibold text-foreground text-sm text-right">
+                                {spec.value}
+                              </dd>
+                            </div>
+                          ))}
+                      </div>
+                      <div className="divide-y divide-border">
+                        {product.specifications
+                          .filter((_, i) => i % 2 === 1)
+                          .map((spec) => (
+                            <div
+                              key={spec.label}
+                              className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-muted/30 transition-colors"
+                            >
+                              <dt className="font-medium text-muted-foreground text-sm">{spec.label}</dt>
+                              <dd className="font-display font-semibold text-foreground text-sm text-right">
+                                {spec.value}
+                              </dd>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-card rounded-3xl border border-border p-10 text-center text-muted-foreground">
+                    Aucune spécification disponible pour ce produit.
+                  </div>
+                )}
+              </TabsContent>
+
+              <TabsContent value="features" className="mt-6">
+                {product.features.length > 0 ? (
+                  <div className="bg-card rounded-3xl border border-border p-6 md:p-8">
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {product.features.map((feature) => (
+                        <div
+                          key={feature}
+                          className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 border border-border/50 hover:border-primary/40 hover:bg-muted/60 transition-all"
+                        >
+                          <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                            <CheckCircle2 className="w-4 h-4 text-primary" />
+                          </div>
+                          <span className="text-foreground/90 text-sm leading-relaxed pt-1">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-card rounded-3xl border border-border p-10 text-center text-muted-foreground">
+                    Aucune caractéristique disponible pour ce produit.
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
           </div>
 
           {related.length > 0 && (

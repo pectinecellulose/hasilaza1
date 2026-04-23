@@ -87,7 +87,16 @@ const ProduitDetail = () => {
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
               <div className="relative aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-[2rem] overflow-hidden flex items-center justify-center border border-border">
                 <div className="absolute inset-0 bg-gradient-radial opacity-30" />
-                <Wrench className="relative w-40 h-40 text-muted-foreground/30" strokeWidth={1} />
+                {product.images?.[0] ? (
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    loading="eager"
+                    className="relative w-full h-full object-cover"
+                  />
+                ) : (
+                  <Wrench className="relative w-40 h-40 text-muted-foreground/30" strokeWidth={1} />
+                )}
                 <div className="absolute top-5 left-5 flex flex-col gap-2">
                   {product.isBestSeller && (
                     <span className="px-3 py-1.5 bg-gradient-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant">

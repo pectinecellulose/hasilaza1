@@ -1,54 +1,65 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
+const sections = [
+  {
+    title: "Éditeur du site",
+    body: (
+      <>
+        <p><strong>Hasilaza Motor</strong> — Entreprise commerciale spécialisée dans la vente de tricycles, motos et pièces détachées.</p>
+        <p>Adresse : HLM 2, Dakar, Sénégal</p>
+        <p>Téléphone : +221 781 094 091</p>
+        <p>Email : Mortalla581@gmail.com</p>
+      </>
+    ),
+  },
+  { title: "Hébergement", body: <p>Ce site est hébergé sur l'infrastructure cloud Lovable.</p> },
+  {
+    title: "Propriété intellectuelle",
+    body: (
+      <p>
+        L'ensemble du contenu de ce site (textes, images, logos, vidéos) est la propriété exclusive de Hasilaza Motor.
+        Toute reproduction, même partielle, est interdite sans autorisation écrite préalable.
+      </p>
+    ),
+  },
+  {
+    title: "Responsabilité",
+    body: (
+      <p>
+        Hasilaza Motor met tout en œuvre pour fournir des informations exactes et à jour. Toutefois, nous ne pouvons
+        garantir l'absence d'erreurs et déclinons toute responsabilité quant aux dommages directs ou indirects
+        pouvant résulter de l'utilisation de ce site.
+      </p>
+    ),
+  },
+  {
+    title: "Droit applicable",
+    body: (
+      <p>
+        Les présentes mentions légales sont régies par le droit sénégalais. Tout litige sera soumis aux tribunaux
+        compétents de Dakar.
+      </p>
+    ),
+  },
+];
+
 const MentionsLegales = () => (
   <main className="min-h-screen bg-background">
     <Header />
-    <section className="pt-28 md:pt-36 pb-20">
-      <div className="container mx-auto px-4 max-w-3xl">
-        <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-8">Mentions légales</h1>
+    <section className="relative pt-16 md:pt-24 pb-24">
+      <div className="absolute inset-0 bg-gradient-radial opacity-40" />
+      <div className="relative container max-w-3xl">
+        <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Légal</span>
+        <h1 className="font-display text-5xl md:text-6xl font-bold mt-3 mb-12">Mentions légales</h1>
 
-        <div className="prose prose-lg max-w-none text-foreground/80 space-y-6">
-          <section>
-            <h2 className="text-xl font-bold text-foreground mb-2">Éditeur du site</h2>
-            <p>
-              <strong>Hasilaza Motor</strong> — Entreprise commerciale spécialisée dans la vente de tricycles, motos
-              et pièces détachées.
-            </p>
-            <p>Adresse : HLM 2, Dakar, Sénégal</p>
-            <p>Téléphone : +221 781 094 091</p>
-            <p>Email : Mortalla581@gmail.com</p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-foreground mb-2">Hébergement</h2>
-            <p>Ce site est hébergé sur l&apos;infrastructure cloud Lovable.</p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-foreground mb-2">Propriété intellectuelle</h2>
-            <p>
-              L&apos;ensemble du contenu de ce site (textes, images, logos, vidéos) est la propriété exclusive de
-              Hasilaza Motor. Toute reproduction, même partielle, est interdite sans autorisation écrite préalable.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-foreground mb-2">Responsabilité</h2>
-            <p>
-              Hasilaza Motor met tout en œuvre pour fournir des informations exactes et à jour. Toutefois, nous ne
-              pouvons garantir l&apos;absence d&apos;erreurs et déclinons toute responsabilité quant aux dommages
-              directs ou indirects pouvant résulter de l&apos;utilisation de ce site.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-foreground mb-2">Droit applicable</h2>
-            <p>
-              Les présentes mentions légales sont régies par le droit sénégalais. Tout litige sera soumis aux
-              tribunaux compétents de Dakar.
-            </p>
-          </section>
+        <div className="space-y-5">
+          {sections.map((s) => (
+            <div key={s.title} className="bg-card border border-border rounded-3xl p-7">
+              <h2 className="font-display text-xl font-bold mb-3">{s.title}</h2>
+              <div className="text-foreground/70 space-y-2 text-sm leading-relaxed">{s.body}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

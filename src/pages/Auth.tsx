@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Loader2, LogIn, UserPlus, ArrowLeft, Sparkles } from "lucide-react";
+import { Loader2, LogIn, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,10 +8,9 @@ import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
-  const { user, isAdmin, signIn, signUp, loading } = useAuth();
+  const { user, isAdmin, signIn, loading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -25,12 +24,10 @@ const Auth = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    const { error } = mode === "signin" ? await signIn(email, password) : await signUp(email, password);
+    const { error } = await signIn(email, password);
     setSubmitting(false);
     if (error) {
       toast({ title: "Erreur", description: error, variant: "destructive" });
-    } else if (mode === "signup") {
-      toast({ title: "Compte créé", description: "Vérifiez votre email pour confirmer (si activé)." });
     }
   };
 
@@ -58,25 +55,6 @@ const Auth = () => {
               <h1 className="font-display text-xl font-bold">Espace Admin</h1>
               <p className="text-xs text-muted-foreground uppercase tracking-widest">Hasilaza Motor</p>
             </div>
-          </div>
-
-          <div className="flex bg-muted rounded-2xl p-1 mb-6">
-            <button
-              onClick={() => setMode("signin")}
-              className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                mode === "signin" ? "bg-card text-foreground shadow-elegant" : "text-muted-foreground"
-              }`}
-            >
-              Connexion
-            </button>
-            <button
-              onClick={() => setMode("signup")}
-              className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                mode === "signup" ? "bg-card text-foreground shadow-elegant" : "text-muted-foreground"
-              }`}
-            >
-              Inscription
-            </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -113,26 +91,18 @@ const Auth = () => {
             >
               {submitting ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
-              ) : mode === "signin" ? (
+              ) : (
                 <>
                   <LogIn className="w-4 h-4 mr-2" />
                   Se connecter
-                </>
-              ) : (
-                <>
-                  <UserPlus className="w-4 h-4 mr-2" />
-                  Créer mon compte
                 </>
               )}
             </Button>
           </form>
 
-          {mode === "signup" && (
-            <p className="text-xs text-muted-foreground mt-5 text-center flex items-center justify-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-primary" />
-              Le rôle administrateur doit être assigné par un admin existant.
-            </p>
-          )}
+          <p className="text-xs text-muted-foreground mt-6 text-center">
+            Accès réservé aux administrateurs autorisés.
+          </p>
         </div>
       </div>
     </main>

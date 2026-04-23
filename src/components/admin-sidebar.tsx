@@ -21,6 +21,7 @@ const items = [
   { title: "Produits", url: "/admin/produits", icon: Package },
   { title: "Commandes", url: "/admin/commandes", icon: ShoppingCart },
   { title: "Messages", url: "/admin/messages", icon: MessageSquare },
+  { title: "Administrateurs", url: "/admin/administrateurs", icon: ShieldCheck },
 ];
 
 export function AdminSidebar() {

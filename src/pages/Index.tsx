@@ -26,6 +26,9 @@ import { formatPrice, type Product } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";
 import logo from "@/assets/logo.png";
+import categoryTricycle from "@/assets/category-tricycle.jpg";
+import categoryMoto from "@/assets/category-moto.jpg";
+import categoryPieces from "@/assets/category-pieces.jpg";
 
 const stats = [
   { value: "5+", label: "Années" },
@@ -47,21 +50,27 @@ const categories = [
     title: "Tricycles cargo",
     desc: "Robustes pour le transport de marchandises jusqu'à 800kg.",
     href: "/produits?category=tricycle",
-    accent: "from-primary to-primary-glow",
+    image: categoryTricycle,
+    count: "3 modèles",
+    tag: "Best-seller",
   },
   {
     icon: Bike,
     title: "Motos urbaines",
     desc: "Fiables et économiques, parfaites pour la ville.",
     href: "/produits?category=moto",
-    accent: "from-primary-glow to-primary",
+    image: categoryMoto,
+    count: "4 modèles",
+    tag: "Populaire",
   },
   {
     icon: Cog,
     title: "Pièces détachées",
     desc: "Stock complet pour entretien et réparation.",
     href: "/produits?category=piece",
-    accent: "from-primary to-primary-glow",
+    image: categoryPieces,
+    count: "8+ références",
+    tag: "En stock",
   },
 ];
 
@@ -288,14 +297,23 @@ const Index = () => {
       {/* CATEGORIES */}
       <section className="py-24">
         <div className="container">
-          <div className="max-w-2xl mb-14">
-            <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Catégories</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
-              Une gamme complète pour tous vos besoins.
-            </h2>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+            <div className="max-w-2xl">
+              <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Catégories</span>
+              <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+                Une gamme complète pour tous vos besoins.
+              </h2>
+            </div>
+            <Link
+              to="/produits"
+              className="hidden md:inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors group"
+            >
+              Voir tous les produits
+              <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform" />
+            </Link>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid md:grid-cols-3 gap-6">
             {categories.map((cat, i) => (
               <motion.div
                 key={cat.title}
@@ -306,26 +324,47 @@ const Index = () => {
               >
                 <Link
                   to={cat.href}
-                  className="group relative block aspect-[4/5] rounded-3xl overflow-hidden bg-secondary border border-border hover:border-primary/50 transition-all"
+                  className="group relative block aspect-[4/5] rounded-3xl overflow-hidden bg-muted border border-border hover:border-primary/40 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1"
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${cat.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <div className="absolute inset-0 bg-gradient-radial opacity-30" />
+                  {/* Image */}
+                  <img
+                    src={cat.image}
+                    alt={cat.title}
+                    loading="lazy"
+                    width={1024}
+                    height={1280}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  />
 
-                  <div className="relative h-full p-8 flex flex-col justify-between">
-                    <div>
-                      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur group-hover:bg-secondary group-hover:scale-110 transition-all duration-500">
-                        <cat.icon className="w-7 h-7 text-primary group-hover:text-primary" strokeWidth={1.5} />
-                      </div>
+                  {/* Overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-transparent to-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  {/* Top badges */}
+                  <div className="absolute top-5 left-5 right-5 flex items-start justify-between">
+                    <span className="px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-border text-[11px] font-medium uppercase tracking-wider text-foreground">
+                      {cat.tag}
+                    </span>
+                    <div className="w-12 h-12 rounded-2xl bg-background/80 backdrop-blur-md border border-border flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all duration-500">
+                      <cat.icon className="w-5 h-5 text-foreground group-hover:text-primary-foreground transition-colors" strokeWidth={1.75} />
                     </div>
-                    <div>
-                      <h3 className="font-display text-3xl font-bold text-secondary-foreground mb-3">{cat.title}</h3>
-                      <p className="text-secondary-foreground/70 mb-6 group-hover:text-primary-foreground/90 transition-colors">
-                        {cat.desc}
-                      </p>
-                      <div className="flex items-center gap-2 text-secondary-foreground font-medium">
-                        Découvrir
-                        <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
-                      </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="absolute inset-x-0 bottom-0 p-6">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                      {cat.count}
+                    </div>
+                    <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2 leading-tight">
+                      {cat.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-5 line-clamp-2">
+                      {cat.desc}
+                    </p>
+                    <div className="inline-flex items-center gap-2 text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                      Découvrir la gamme
+                      <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform duration-300" />
                     </div>
                   </div>
                 </Link>

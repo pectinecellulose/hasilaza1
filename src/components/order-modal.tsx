@@ -137,13 +137,14 @@ Merci de me confirmer la disponibilité et les modalités de livraison.`;
             className="fixed inset-0 bg-foreground/60 backdrop-blur-sm z-50"
           />
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", duration: 0.5 }}
-            className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl md:max-h-[90vh] bg-background rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col"
-          >
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="w-full max-w-2xl max-h-[90vh] bg-background rounded-3xl shadow-2xl overflow-hidden flex flex-col pointer-events-auto"
+            >
             <div className="p-6 border-b border-border flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">

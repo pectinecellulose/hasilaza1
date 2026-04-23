@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
-  CheckCircle,
+  CheckCircle2,
   Loader2,
   Minus,
   Plus,
@@ -13,6 +13,7 @@ import {
   Shield,
   Wrench,
   MessageCircle,
+  ArrowUpRight,
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -71,88 +72,91 @@ const ProduitDetail = () => {
     <main className="min-h-screen bg-background">
       <Header />
 
-      <section className="pt-28 md:pt-36 pb-16">
-        <div className="container mx-auto px-4">
+      <section className="pt-12 md:pt-16 pb-20">
+        <div className="container">
           <Link
             to="/produits"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary mb-6 transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-8 transition-colors group"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Retour au catalogue
           </Link>
 
-          <div className="grid lg:grid-cols-2 gap-10">
+          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12">
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <div className="relative aspect-square bg-muted rounded-3xl overflow-hidden flex items-center justify-center">
-                <Wrench className="w-32 h-32 text-muted-foreground/30" />
-                {product.isBestSeller && (
-                  <span className="absolute top-4 left-4 px-3 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full">
-                    Best-Seller
-                  </span>
-                )}
-                {product.isNew && (
-                  <span className="absolute top-4 left-4 px-3 py-1.5 bg-foreground text-background text-xs font-bold rounded-full">
-                    Nouveau
-                  </span>
-                )}
+              <div className="relative aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-[2rem] overflow-hidden flex items-center justify-center border border-border">
+                <div className="absolute inset-0 bg-gradient-radial opacity-30" />
+                <Wrench className="relative w-40 h-40 text-muted-foreground/30" strokeWidth={1} />
+                <div className="absolute top-5 left-5 flex flex-col gap-2">
+                  {product.isBestSeller && (
+                    <span className="px-3 py-1.5 bg-gradient-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant">
+                      Best-Seller
+                    </span>
+                  )}
+                  {product.isNew && (
+                    <span className="px-3 py-1.5 bg-secondary text-secondary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant">
+                      Nouveau
+                    </span>
+                  )}
+                </div>
               </div>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">
                 {product.subcategory ?? product.category}
               </span>
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-4">{product.name}</h1>
+              <h1 className="font-display text-3xl md:text-5xl font-bold mt-3 mb-5 leading-tight text-balance">
+                {product.name}
+              </h1>
 
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex items-center gap-0.5">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-5 h-5 ${
-                        i < Math.floor(product.rating) ? "text-primary fill-primary" : "text-muted"
-                      }`}
+                      className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-primary fill-primary" : "text-muted"}`}
                     />
                   ))}
                 </div>
                 <span className="text-sm text-muted-foreground">
-                  {product.rating} ({product.reviews} avis)
+                  {product.rating} · {product.reviews} avis
                 </span>
               </div>
 
-              <div className="flex items-baseline gap-3 mb-6">
-                <span className="text-4xl font-bold text-primary">{formatPrice(product.price)}</span>
+              <div className="flex items-baseline gap-3 mb-6 pb-6 border-b border-border">
+                <span className="font-display text-4xl md:text-5xl font-bold text-gradient">{formatPrice(product.price)}</span>
                 {product.oldPrice && (
-                  <span className="text-xl text-muted-foreground line-through">{formatPrice(product.oldPrice)}</span>
+                  <span className="text-lg text-muted-foreground line-through">{formatPrice(product.oldPrice)}</span>
                 )}
               </div>
 
-              <p className="text-muted-foreground leading-relaxed mb-8">{product.description}</p>
+              <p className="text-muted-foreground leading-relaxed mb-7">{product.description}</p>
 
-              <div className="space-y-3 mb-8">
+              <div className="space-y-2.5 mb-8">
                 {product.features.map((feature) => (
                   <div key={feature} className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <span className="text-foreground/80">{feature}</span>
+                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-foreground/80 text-sm">{feature}</span>
                   </div>
                 ))}
               </div>
 
               {product.category !== "piece" && (
                 <div className="flex items-center gap-4 mb-6">
-                  <span className="font-semibold text-foreground">Quantité :</span>
-                  <div className="flex items-center border border-border rounded-xl">
+                  <span className="text-sm font-medium text-foreground">Quantité</span>
+                  <div className="flex items-center bg-muted/50 border border-border rounded-2xl">
                     <button
                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                      className="w-10 h-10 flex items-center justify-center hover:bg-muted rounded-l-xl"
+                      className="w-11 h-11 flex items-center justify-center hover:bg-muted rounded-l-2xl active:scale-95 transition-all"
                       aria-label="Diminuer"
                     >
                       <Minus className="w-4 h-4" />
                     </button>
-                    <span className="w-12 text-center font-semibold">{quantity}</span>
+                    <span className="w-12 text-center font-display font-bold">{quantity}</span>
                     <button
                       onClick={() => setQuantity((q) => q + 1)}
-                      className="w-10 h-10 flex items-center justify-center hover:bg-muted rounded-r-xl"
+                      className="w-11 h-11 flex items-center justify-center hover:bg-muted rounded-r-2xl active:scale-95 transition-all"
                       aria-label="Augmenter"
                     >
                       <Plus className="w-4 h-4" />
@@ -161,11 +165,11 @@ const ProduitDetail = () => {
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row gap-3 mb-8">
+              <div className="flex flex-col sm:flex-row gap-3 mb-10">
                 <Button
                   size="lg"
                   onClick={() => setOrderOpen(true)}
-                  className="flex-1 h-14 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-base font-semibold"
+                  className="flex-1 h-14 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-2xl text-base font-semibold shadow-ink"
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   Commander
@@ -174,7 +178,7 @@ const ProduitDetail = () => {
                   variant="outline"
                   size="lg"
                   asChild
-                  className="flex-1 h-14 border-2 border-primary text-primary hover:bg-primary/5 rounded-xl text-base font-semibold bg-transparent"
+                  className="flex-1 h-14 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-2xl text-base font-semibold bg-transparent"
                 >
                   <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="w-5 h-5 mr-2" />
@@ -183,31 +187,30 @@ const ProduitDetail = () => {
                 </Button>
               </div>
 
-              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border">
-                <div className="text-center">
-                  <Truck className="w-6 h-6 text-primary mx-auto mb-2" />
-                  <p className="text-xs text-muted-foreground">Livraison Dakar</p>
-                </div>
-                <div className="text-center">
-                  <Shield className="w-6 h-6 text-primary mx-auto mb-2" />
-                  <p className="text-xs text-muted-foreground">Garantie 2 ans</p>
-                </div>
-                <div className="text-center">
-                  <Wrench className="w-6 h-6 text-primary mx-auto mb-2" />
-                  <p className="text-xs text-muted-foreground">SAV expert</p>
-                </div>
+              <div className="grid grid-cols-3 gap-4 p-5 bg-muted/40 rounded-2xl border border-border">
+                {[
+                  { icon: Truck, label: "Livraison Dakar" },
+                  { icon: Shield, label: "Garantie 2 ans" },
+                  { icon: Wrench, label: "SAV expert" },
+                ].map((item) => (
+                  <div key={item.label} className="text-center">
+                    <item.icon className="w-5 h-5 text-primary mx-auto mb-2" />
+                    <p className="text-[11px] text-muted-foreground font-medium">{item.label}</p>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </div>
 
-          <div className="mt-16">
-            <h2 className="text-2xl font-bold text-foreground mb-6">Spécifications techniques</h2>
-            <div className="bg-muted/30 rounded-2xl overflow-hidden">
+          <div className="mt-20">
+            <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Spécifications</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">Détails techniques</h2>
+            <div className="bg-card rounded-3xl border border-border overflow-hidden">
               <dl className="divide-y divide-border">
                 {product.specifications.map((spec) => (
-                  <div key={spec.label} className="grid grid-cols-2 px-6 py-4">
-                    <dt className="font-medium text-foreground">{spec.label}</dt>
-                    <dd className="text-muted-foreground">{spec.value}</dd>
+                  <div key={spec.label} className="grid grid-cols-2 px-6 py-4 hover:bg-muted/30 transition-colors">
+                    <dt className="font-medium text-foreground text-sm">{spec.label}</dt>
+                    <dd className="text-muted-foreground text-sm">{spec.value}</dd>
                   </div>
                 ))}
               </dl>
@@ -215,23 +218,27 @@ const ProduitDetail = () => {
           </div>
 
           {related.length > 0 && (
-            <div className="mt-20">
-              <h2 className="text-2xl font-bold text-foreground mb-8">Produits similaires</h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="mt-24">
+              <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Vous aimerez aussi</span>
+              <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">Produits similaires</h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {related.map((p) => (
                   <Link
                     key={p.id}
                     to={`/produits/${p.slug}`}
-                    className="group block bg-background rounded-2xl overflow-hidden shadow-elegant border border-border hover:shadow-glow transition-all"
+                    className="group block bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-ink transition-all duration-500"
                   >
                     <div className="relative aspect-square overflow-hidden bg-muted flex items-center justify-center">
-                      <Wrench className="w-12 h-12 text-muted-foreground/30" />
+                      <Wrench className="w-14 h-14 text-muted-foreground/30 group-hover:rotate-12 transition-transform duration-500" />
+                      <div className="absolute top-3 right-3 w-9 h-9 rounded-full bg-card/90 backdrop-blur flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                        <ArrowUpRight className="w-4 h-4" />
+                      </div>
                     </div>
                     <div className="p-4">
-                      <h3 className="font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                      <h3 className="font-display font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 mb-1">
                         {p.name}
                       </h3>
-                      <span className="text-primary font-bold mt-2 block">{formatPrice(p.price)}</span>
+                      <span className="font-display text-base font-bold">{formatPrice(p.price)}</span>
                     </div>
                   </Link>
                 ))}

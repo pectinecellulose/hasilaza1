@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Wrench, Clock, Phone, MapPin, CheckCircle, Truck, Shield } from "lucide-react";
+import { Wrench, Clock, Phone, MapPin, CheckCircle2, Truck, Shield, Zap, Sparkles } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ const services = [
   { icon: Wrench, title: "Réparation moteur", desc: "Diagnostic et réparation complète des moteurs 2 et 3 roues." },
   { icon: Truck, title: "Dépannage sur place", desc: "Intervention rapide partout dans Dakar et environs." },
   { icon: Shield, title: "Entretien préventif", desc: "Révisions périodiques pour prolonger la vie de votre véhicule." },
-  { icon: CheckCircle, title: "Pièces d'origine", desc: "Remplacement avec des pièces de qualité garanties." },
+  { icon: CheckCircle2, title: "Pièces d'origine", desc: "Remplacement avec des pièces de qualité garanties." },
 ];
 
 const steps = [
@@ -23,23 +23,26 @@ const Depannage = () => (
   <main className="min-h-screen bg-background">
     <Header />
 
-    <section className="pt-28 md:pt-36 pb-16 bg-gradient-to-br from-primary/10 via-background to-background">
-      <div className="container mx-auto px-4">
+    <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-radial opacity-60" />
+      <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl" />
+
+      <div className="relative container">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-4">
-              <Clock className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold text-primary">Service rapide 7j/7</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full mb-6">
+              <Zap className="w-3.5 h-3.5 text-primary" />
+              <span className="text-xs font-medium text-primary uppercase tracking-widest">Service rapide 6j/7</span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-              Dépannage & <span className="text-primary">Réparation</span>
+            <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 text-balance leading-[1.05]">
+              Dépannage <span className="text-gradient">express.</span>
             </h1>
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-lg text-muted-foreground mb-8 max-w-lg">
               Une panne ? Une révision ? Notre équipe technique intervient rapidement à Dakar et dans tout le Sénégal,
               pour vous remettre en route au plus vite.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground h-14 px-6">
+              <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-7 rounded-full shadow-ink">
                 <a href="tel:+221781094091" className="flex items-center gap-2">
                   <Phone className="w-5 h-5" />
                   Appeler maintenant
@@ -49,7 +52,7 @@ const Depannage = () => (
                 asChild
                 variant="outline"
                 size="lg"
-                className="h-14 px-6 border-2 hover:bg-muted bg-transparent"
+                className="h-14 px-7 border-2 rounded-full bg-background/50 backdrop-blur"
               >
                 <a
                   href="https://wa.me/221781094091?text=Bonjour, j'ai besoin d'un dépannage"
@@ -67,36 +70,35 @@ const Depannage = () => (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-background border border-border rounded-3xl p-8 shadow-elegant"
+            className="relative"
           >
-            <h3 className="font-bold text-xl mb-6">Disponibilité</h3>
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-primary" />
+            <div className="absolute -inset-4 bg-gradient-primary opacity-20 blur-3xl rounded-[3rem]" />
+            <div className="relative bg-card border border-border rounded-[2rem] p-8 shadow-ink">
+              <div className="flex items-center gap-3 mb-6 pb-5 border-b border-border">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-glow">
+                  <Sparkles className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <div>
-                  <p className="font-semibold">Lundi - Samedi</p>
-                  <p className="text-sm text-muted-foreground">9h00 - 18h00</p>
+                  <h3 className="font-display font-bold text-lg">Disponibilité</h3>
+                  <p className="text-xs text-muted-foreground">Service technique</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <Phone className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="font-semibold">Urgences</p>
-                  <p className="text-sm text-muted-foreground">+221 781 094 091</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="font-semibold">Atelier</p>
-                  <p className="text-sm text-muted-foreground">HLM 2, Dakar</p>
-                </div>
+              <div className="space-y-4">
+                {[
+                  { icon: Clock, title: "Lundi - Samedi", desc: "9h00 - 18h00" },
+                  { icon: Phone, title: "Urgences", desc: "+221 781 094 091" },
+                  { icon: MapPin, title: "Atelier", desc: "HLM 2, Dakar" },
+                ].map((item) => (
+                  <div key={item.title} className="flex items-center gap-4 p-3 rounded-2xl hover:bg-muted/50 transition-colors">
+                    <div className="w-11 h-11 bg-primary/10 rounded-xl flex items-center justify-center">
+                      <item.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-display font-semibold text-sm">{item.title}</p>
+                      <p className="text-xs text-muted-foreground">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -104,26 +106,28 @@ const Depannage = () => (
       </div>
     </section>
 
-    <section className="py-20">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Nos services</h2>
-          <p className="text-muted-foreground">Une expertise complète pour tous vos véhicules à 2 et 3 roues.</p>
+    <section className="py-24 bg-muted/30 border-y border-border">
+      <div className="container">
+        <div className="max-w-2xl mx-auto text-center mb-14">
+          <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Services</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+            Une expertise complète.
+          </h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {services.map((s, i) => (
             <motion.div
               key={s.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="bg-background border border-border rounded-2xl p-6"
+              transition={{ delay: i * 0.08 }}
+              className="group bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-elegant transition-all"
             >
-              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
-                <s.icon className="w-7 h-7 text-primary" />
+              <div className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <s.icon className="w-6 h-6 text-primary-foreground" />
               </div>
-              <h3 className="font-bold text-foreground mb-2">{s.title}</h3>
+              <h3 className="font-display font-bold text-lg mb-2">{s.title}</h3>
               <p className="text-sm text-muted-foreground">{s.desc}</p>
             </motion.div>
           ))}
@@ -131,19 +135,31 @@ const Depannage = () => (
       </div>
     </section>
 
-    <section className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Comment ça marche ?</h2>
-          <p className="text-muted-foreground">Un processus simple et transparent en 4 étapes.</p>
+    <section className="py-24">
+      <div className="container">
+        <div className="max-w-2xl mx-auto text-center mb-14">
+          <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Processus</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+            Simple et transparent.
+          </h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((s) => (
-            <div key={s.num} className="bg-background border border-border rounded-2xl p-6 relative">
-              <span className="text-5xl font-bold text-primary/20 absolute top-4 right-4">{s.num}</span>
-              <h3 className="font-bold text-foreground mb-2 mt-8">{s.title}</h3>
-              <p className="text-sm text-muted-foreground">{s.desc}</p>
-            </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {steps.map((s, i) => (
+            <motion.div
+              key={s.num}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="relative bg-card border border-border rounded-3xl p-6 hover:border-primary/40 transition-all overflow-hidden"
+            >
+              <span className="absolute top-3 right-4 font-display text-7xl font-bold text-primary/10">{s.num}</span>
+              <div className="relative">
+                <div className="w-3 h-3 rounded-full bg-gradient-primary mb-12" />
+                <h3 className="font-display font-bold text-lg mb-2">{s.title}</h3>
+                <p className="text-sm text-muted-foreground">{s.desc}</p>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

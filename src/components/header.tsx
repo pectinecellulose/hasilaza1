@@ -5,7 +5,7 @@ import { Menu, X, Phone, ChevronDown, Sparkles, User as UserIcon } from "lucide-
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { useAuth } from "@/hooks/use-auth";
+
 import logo from "@/assets/logo.png";
 
 const navLinks: { href: string; label: string; submenu?: { href: string; label: string }[] }[] = [
@@ -246,19 +246,3 @@ export function Header() {
   );
 }
 
-function AccountButton() {
-  const { user } = useAuth();
-  return (
-    <Button
-      asChild
-      variant="ghost"
-      size="sm"
-      className="rounded-full h-10 px-4 text-foreground/70 hover:text-foreground"
-    >
-      <Link to={user ? "/compte" : "/auth"} className="flex items-center gap-2">
-        <UserIcon className="w-4 h-4" />
-        <span className="text-sm font-medium">{user ? "Compte" : "Connexion"}</span>
-      </Link>
-    </Button>
-  );
-}

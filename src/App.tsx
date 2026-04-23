@@ -23,6 +23,10 @@ import AdminProductForm from "./pages/admin/AdminProductForm.tsx";
 import AdminOrders from "./pages/admin/AdminOrders.tsx";
 import AdminMessages from "./pages/admin/AdminMessages.tsx";
 import AdminUsers from "./pages/admin/AdminUsers.tsx";
+import AdminInvoices from "./pages/admin/AdminInvoices.tsx";
+import AdminStatistics from "./pages/admin/AdminStatistics.tsx";
+import AdminClients from "./pages/admin/AdminClients.tsx";
+import AdminSettingsPage from "./pages/admin/AdminSettings.tsx";
 import ClientLayout from "./pages/client/ClientLayout.tsx";
 import ClientOrders from "./pages/client/ClientOrders.tsx";
 import ClientFavorites from "./pages/client/ClientFavorites.tsx";
@@ -79,8 +83,12 @@ const App = () => (
                 <Route path="produits/nouveau" element={<AdminProductForm />} />
                 <Route path="produits/:id" element={<AdminProductForm />} />
                 <Route path="commandes" element={<AdminOrders />} />
+                <Route path="factures" element={<AdminInvoices />} />
+                <Route path="statistiques" element={<AdminStatistics />} />
+                <Route path="clients" element={<AdminClients />} />
                 <Route path="messages" element={<AdminMessages />} />
                 <Route path="administrateurs" element={<AdminUsers />} />
+                <Route path="parametres" element={<AdminSettingsPage />} />
               </Route>
 
               <Route path="*" element={<NotFound />} />

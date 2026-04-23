@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
+import { SEO } from "@/components/seo";
 
 const Auth = () => {
   const { user, isAdmin, signIn, loading } = useAuth();
@@ -33,6 +34,7 @@ const Auth = () => {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden px-4 py-12">
+      <SEO title="Connexion | Hasilaza Motor" description="Espace de connexion réservé." canonical="/auth" noindex />
       <div className="absolute inset-0 bg-gradient-radial opacity-60" />
       <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-primary/15 rounded-full blur-3xl" />
       <div className="absolute -bottom-20 -left-20 w-[500px] h-[500px] bg-primary-glow/10 rounded-full blur-3xl" />

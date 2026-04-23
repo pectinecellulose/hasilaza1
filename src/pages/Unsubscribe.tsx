@@ -4,6 +4,7 @@ import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { SEO } from "@/components/seo";
 import { supabase } from "@/integrations/supabase/client";
 
 type State = "loading" | "valid" | "already" | "invalid" | "submitting" | "success" | "error";

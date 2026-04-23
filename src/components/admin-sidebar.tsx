@@ -1,4 +1,16 @@
-import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, Home, ShieldCheck } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  FileText,
+  BarChart3,
+  Users,
+  Settings,
+  MessageSquare,
+  ShieldCheck,
+  LogOut,
+  Home,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -15,13 +27,21 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/use-auth";
+import logo from "@/assets/logo.png";
 
-const items = [
+const mainItems = [
   { title: "Tableau de bord", url: "/admin", icon: LayoutDashboard, end: true },
   { title: "Produits", url: "/admin/produits", icon: Package },
   { title: "Commandes", url: "/admin/commandes", icon: ShoppingCart },
+  { title: "Factures", url: "/admin/factures", icon: FileText },
+  { title: "Statistiques", url: "/admin/statistiques", icon: BarChart3 },
+  { title: "Clients", url: "/admin/clients", icon: Users },
+];
+
+const systemItems = [
   { title: "Messages", url: "/admin/messages", icon: MessageSquare },
   { title: "Administrateurs", url: "/admin/administrateurs", icon: ShieldCheck },
+  { title: "Paramètres", url: "/admin/parametres", icon: Settings },
 ];
 
 export function AdminSidebar() {
@@ -30,44 +50,75 @@ export function AdminSidebar() {
   const { signOut, user } = useAuth();
   const navigate = useNavigate();
 
-
   const handleSignOut = async () => {
     await signOut();
     navigate("/");
   };
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex items-center gap-2 px-2 py-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center text-primary-foreground font-black shrink-0">
-            H
+        <div className="flex items-center gap-3 px-2 py-3">
+          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-glow shrink-0 p-1">
+            <img src={logo} alt="Hasilaza Motor" className="w-full h-full object-contain" />
           </div>
           {!collapsed && (
             <div className="overflow-hidden">
-              <p className="font-bold text-sm leading-tight truncate">Hasilaza Admin</p>
-              <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+              <p className="font-display font-bold text-sm leading-tight truncate text-sidebar-foreground">
+                Hasilaza Admin
+              </p>
+              <p className="text-[11px] text-sidebar-foreground/60 truncate">{user?.email}</p>
             </div>
           )}
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="px-2 py-4">
         <SidebarGroup>
-          <SidebarGroupLabel>Gestion</SidebarGroupLabel>
+          {!collapsed && (
+            <SidebarGroupLabel className="text-[10px] uppercase tracking-[0.2em] text-sidebar-foreground/40 px-3 mb-2">
+              Gestion
+            </SidebarGroupLabel>
+          )}
           <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
+            <SidebarMenu className="gap-0.5">
+              {mainItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="h-10 rounded-xl">
                     <NavLink
                       to={item.url}
                       end={item.end}
-                      className="hover:bg-sidebar-accent"
-                      activeClassName="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                      className="text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
+                      activeClassName="bg-gradient-primary text-primary-foreground hover:bg-gradient-primary hover:text-primary-foreground font-semibold shadow-elegant"
                     >
-                      <item.icon className="mr-2 h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span className="text-sm">{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup className="mt-6">
+          {!collapsed && (
+            <SidebarGroupLabel className="text-[10px] uppercase tracking-[0.2em] text-sidebar-foreground/40 px-3 mb-2">
+              Système
+            </SidebarGroupLabel>
+          )}
+          <SidebarGroupContent>
+            <SidebarMenu className="gap-0.5">
+              {systemItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild className="h-10 rounded-xl">
+                    <NavLink
+                      to={item.url}
+                      className="text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
+                      activeClassName="bg-gradient-primary text-primary-foreground hover:bg-gradient-primary hover:text-primary-foreground font-semibold shadow-elegant"
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span className="text-sm">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -77,20 +128,27 @@ export function AdminSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border">
-        <SidebarMenu>
+      <SidebarFooter className="border-t border-sidebar-border p-2">
+        <SidebarMenu className="gap-0.5">
           <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <NavLink to="/" className="hover:bg-sidebar-accent" activeClassName="">
-                <Home className="mr-2 h-4 w-4" />
-                {!collapsed && <span>Voir le site</span>}
+            <SidebarMenuButton asChild className="h-10 rounded-xl">
+              <NavLink
+                to="/"
+                className="text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                activeClassName=""
+              >
+                <Home className="h-4 w-4" />
+                {!collapsed && <span className="text-sm">Voir le site</span>}
               </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={handleSignOut} className="hover:bg-sidebar-accent">
-              <LogOut className="mr-2 h-4 w-4" />
-              {!collapsed && <span>Déconnexion</span>}
+            <SidebarMenuButton
+              onClick={handleSignOut}
+              className="h-10 rounded-xl text-destructive hover:bg-destructive/10 hover:text-destructive"
+            >
+              <LogOut className="h-4 w-4" />
+              {!collapsed && <span className="text-sm">Déconnexion</span>}
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

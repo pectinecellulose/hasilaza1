@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Sparkles, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { useAuth } from "@/hooks/use-auth";
 
 const navLinks: { href: string; label: string; submenu?: { href: string; label: string }[] }[] = [
   { href: "/", label: "Accueil" },
@@ -137,6 +138,7 @@ export function Header() {
 
             <div className="hidden lg:flex items-center gap-2">
               <ThemeToggle />
+              <AccountButton />
               <Button asChild size="sm" className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow rounded-full h-10 px-5">
                 <a
                   href="https://wa.me/221769358317?text=Bonjour, je suis intéressé par vos produits"
@@ -209,6 +211,13 @@ export function Header() {
                 </nav>
 
                 <div className="flex flex-col gap-2 mt-5 pt-5 border-t border-border">
+                  <Link
+                    to="/compte"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground hover:bg-muted transition-colors"
+                  >
+                    <UserIcon className="w-5 h-5 text-primary" />
+                    <span className="font-medium">Mon compte</span>
+                  </Link>
                   <a
                     href="tel:+221769358317"
                     className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground"
@@ -234,5 +243,22 @@ export function Header() {
         </AnimatePresence>
       </motion.header>
     </>
+  );
+}
+
+function AccountButton() {
+  const { user } = useAuth();
+  return (
+    <Button
+      asChild
+      variant="ghost"
+      size="sm"
+      className="rounded-full h-10 px-4 text-foreground/70 hover:text-foreground"
+    >
+      <Link to={user ? "/compte" : "/auth"} className="flex items-center gap-2">
+        <UserIcon className="w-4 h-4" />
+        <span className="text-sm font-medium">{user ? "Compte" : "Connexion"}</span>
+      </Link>
+    </Button>
   );
 }

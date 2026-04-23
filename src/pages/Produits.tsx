@@ -212,9 +212,18 @@ const Produits = () => {
                             className="group block bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-ink transition-all duration-500"
                           >
                             <div className="relative aspect-square overflow-hidden bg-muted">
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <Wrench className="w-20 h-20 text-muted-foreground/20 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
-                              </div>
+                              {product.images?.[0] ? (
+                                <img
+                                  src={product.images[0]}
+                                  alt={product.name}
+                                  loading="lazy"
+                                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                              ) : (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <Wrench className="w-20 h-20 text-muted-foreground/20 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
+                                </div>
+                              )}
                               <div className="absolute top-3 left-3 flex flex-col gap-1.5">
                                 {product.isBestSeller && (
                                   <span className="px-2.5 py-1 bg-gradient-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant">
@@ -246,7 +255,11 @@ const Produits = () => {
                               <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{product.shortDescription}</p>
                               <div className="flex items-end justify-between pt-4 border-t border-border">
                                 <div>
-                                  <span className="font-display text-xl font-bold">{formatPrice(product.price)}</span>
+                                  {product.price > 0 ? (
+                                    <span className="font-display text-xl font-bold">{formatPrice(product.price)}</span>
+                                  ) : (
+                                    <span className="font-display text-sm font-bold text-primary">Sur demande</span>
+                                  )}
                                   {product.oldPrice && (
                                     <span className="text-xs text-muted-foreground line-through ml-2">
                                       {formatPrice(product.oldPrice)}

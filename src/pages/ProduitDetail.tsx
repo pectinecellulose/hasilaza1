@@ -64,7 +64,7 @@ const ProduitDetail = () => {
 
   if (!product) return <NotFound />;
 
-  const whatsappLink = `https://wa.me/221781094091?text=${encodeURIComponent(
+  const whatsappLink = `https://wa.me/221769358317?text=${encodeURIComponent(
     `Bonjour, je suis intéressé par : ${product.name}`,
   )}`;
 

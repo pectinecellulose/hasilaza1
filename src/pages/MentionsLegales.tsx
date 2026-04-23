@@ -8,8 +8,8 @@ const sections = [
       <>
         <p><strong>Hasilaza Motor</strong> — Entreprise commerciale spécialisée dans la vente de tricycles, motos et pièces détachées.</p>
         <p>Adresse : HLM 2, Dakar, Sénégal</p>
-        <p>Téléphone : +221 781 094 091</p>
-        <p>Email : Mortalla581@gmail.com</p>
+        <p>Téléphone : +221 76 935 83 17</p>
+        <p>Email : hasilazasenegal@gmail.com</p>
       </>
     ),
   },

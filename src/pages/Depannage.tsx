@@ -43,7 +43,7 @@ const Depannage = () => (
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-7 rounded-full shadow-ink">
-                <a href="tel:+221781094091" className="flex items-center gap-2">
+                <a href="tel:+221769358317" className="flex items-center gap-2">
                   <Phone className="w-5 h-5" />
                   Appeler maintenant
                 </a>
@@ -55,7 +55,7 @@ const Depannage = () => (
                 className="h-14 px-7 border-2 rounded-full bg-background/50 backdrop-blur"
               >
                 <a
-                  href="https://wa.me/221781094091?text=Bonjour, j'ai besoin d'un dépannage"
+                  href="https://wa.me/221769358317?text=Bonjour, j'ai besoin d'un dépannage"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2"
@@ -86,7 +86,7 @@ const Depannage = () => (
               <div className="space-y-4">
                 {[
                   { icon: Clock, title: "Lundi - Samedi", desc: "9h00 - 18h00" },
-                  { icon: Phone, title: "Urgences", desc: "+221 781 094 091" },
+                  { icon: Phone, title: "Urgences", desc: "+221 76 935 83 17" },
                   { icon: MapPin, title: "Atelier", desc: "HLM 2, Dakar" },
                 ].map((item) => (
                   <div key={item.title} className="flex items-center gap-4 p-3 rounded-2xl hover:bg-muted/50 transition-colors">

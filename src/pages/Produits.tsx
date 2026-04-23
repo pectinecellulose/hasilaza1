@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SEO } from "@/components/seo";
 import { categories, subcategoriesMap, formatPrice, type Product } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";

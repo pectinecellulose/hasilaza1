@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Loader2, Save } from "lucide-react";
+import { ArrowLeft, Loader2, Save, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ImageUpload } from "@/components/image-upload";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -25,6 +26,8 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+interface Spec { label: string; value: string }
+
 const emptyForm = {
   slug: "",
   name: "",
@@ -34,9 +37,6 @@ const emptyForm = {
   old_price: "",
   description: "",
   short_description: "",
-  specifications: "[]",
-  features: "[]",
-  images: "[]",
   in_stock: true,
   is_best_seller: false,
   is_new: false,
@@ -50,6 +50,9 @@ const AdminProductForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [form, setForm] = useState(emptyForm);
+  const [images, setImages] = useState<string[]>([]);
+  const [features, setFeatures] = useState<string[]>([]);
+  const [specs, setSpecs] = useState<Spec[]>([]);
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
 
@@ -71,15 +74,15 @@ const AdminProductForm = () => {
         old_price: data.old_price != null ? String(data.old_price) : "",
         description: data.description,
         short_description: data.short_description,
-        specifications: JSON.stringify(data.specifications, null, 2),
-        features: JSON.stringify(data.features, null, 2),
-        images: JSON.stringify(data.images, null, 2),
         in_stock: data.in_stock,
         is_best_seller: data.is_best_seller,
         is_new: data.is_new,
         rating: String(data.rating),
         reviews: String(data.reviews),
       });
+      setImages(Array.isArray(data.images) ? (data.images as unknown as string[]) : []);
+      setFeatures(Array.isArray(data.features) ? (data.features as unknown as string[]) : []);
+      setSpecs(Array.isArray(data.specifications) ? (data.specifications as unknown as Spec[]) : []);
       setLoading(false);
     })();
   }, [id, isNew, navigate, toast]);
@@ -87,17 +90,6 @@ const AdminProductForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSaving(true);
-
-    let specs: unknown[], feats: unknown[], imgs: unknown[];
-    try {
-      specs = JSON.parse(form.specifications || "[]");
-      feats = JSON.parse(form.features || "[]");
-      imgs = JSON.parse(form.images || "[]");
-    } catch {
-      toast({ title: "JSON invalide", description: "Vérifiez les champs spécifications, fonctionnalités et images.", variant: "destructive" });
-      setSaving(false);
-      return;
-    }
 
     const payload = {
       slug: form.slug || slugify(form.name),
@@ -108,9 +100,9 @@ const AdminProductForm = () => {
       old_price: form.old_price ? Number(form.old_price) : null,
       description: form.description,
       short_description: form.short_description,
-      specifications: specs as never,
-      features: feats as never,
-      images: imgs as never,
+      specifications: specs.filter((s) => s.label && s.value) as never,
+      features: features.filter((f) => f.trim()) as never,
+      images: images as never,
       in_stock: form.in_stock,
       is_best_seller: form.is_best_seller,
       is_new: form.is_new,
@@ -220,24 +212,61 @@ const AdminProductForm = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Données structurées (JSON)</CardTitle>
+            <CardTitle>Photos du produit</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="specs">Spécifications</Label>
-              <Textarea id="specs" rows={6} className="font-mono text-xs" value={form.specifications} onChange={(e) => setForm({ ...form, specifications: e.target.value })} />
-              <p className="text-xs text-muted-foreground">Format : [{"{"}\"label\":\"...\",\"value\":\"...\"{"}"}]</p>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="feats">Fonctionnalités</Label>
-              <Textarea id="feats" rows={5} className="font-mono text-xs" value={form.features} onChange={(e) => setForm({ ...form, features: e.target.value })} />
-              <p className="text-xs text-muted-foreground">Format : [\"...\", \"...\"]</p>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="imgs">Images (URL)</Label>
-              <Textarea id="imgs" rows={3} className="font-mono text-xs" value={form.images} onChange={(e) => setForm({ ...form, images: e.target.value })} />
-              <p className="text-xs text-muted-foreground">Format : [\"/images/photo.jpg\"]</p>
-            </div>
+          <CardContent>
+            <ImageUpload value={images} onChange={setImages} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Points forts</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {features.map((f, i) => (
+              <div key={i} className="flex gap-2">
+                <Input
+                  value={f}
+                  onChange={(e) => setFeatures(features.map((x, idx) => (idx === i ? e.target.value : x)))}
+                  placeholder="Ex: Moteur 150cc 4 temps"
+                />
+                <Button type="button" variant="ghost" size="icon" onClick={() => setFeatures(features.filter((_, idx) => idx !== i))}>
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+            <Button type="button" variant="outline" size="sm" onClick={() => setFeatures([...features, ""])}>
+              <Plus className="w-4 h-4 mr-2" /> Ajouter un point fort
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Spécifications techniques</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {specs.map((s, i) => (
+              <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-2">
+                <Input
+                  value={s.label}
+                  onChange={(e) => setSpecs(specs.map((x, idx) => (idx === i ? { ...x, label: e.target.value } : x)))}
+                  placeholder="Caractéristique"
+                />
+                <Input
+                  value={s.value}
+                  onChange={(e) => setSpecs(specs.map((x, idx) => (idx === i ? { ...x, value: e.target.value } : x)))}
+                  placeholder="Valeur"
+                />
+                <Button type="button" variant="ghost" size="icon" onClick={() => setSpecs(specs.filter((_, idx) => idx !== i))}>
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+            <Button type="button" variant="outline" size="sm" onClick={() => setSpecs([...specs, { label: "", value: "" }])}>
+              <Plus className="w-4 h-4 mr-2" /> Ajouter une spécification
+            </Button>
           </CardContent>
         </Card>
 

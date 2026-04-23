@@ -38,7 +38,7 @@ const sections = [
     body: (
       <p>
         Conformément à la législation en vigueur, vous disposez d'un droit d'accès, de rectification, d'opposition et
-        de suppression de vos données. Pour exercer ces droits, contactez-nous à Mortalla581@gmail.com.
+        de suppression de vos données. Pour exercer ces droits, contactez-nous à hasilazasenegal@gmail.com.
       </p>
     ),
   },

@@ -12,8 +12,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const contactInfos = [
-  { icon: Phone, label: "Téléphone", value: "+221 781 094 091", href: "tel:+221781094091" },
-  { icon: Mail, label: "Email", value: "Mortalla581@gmail.com", href: "mailto:Mortalla581@gmail.com" },
+  { icon: Phone, label: "Téléphone", value: "+221 76 935 83 17", href: "tel:+221769358317" },
+  { icon: Mail, label: "Email", value: "hasilazasenegal@gmail.com", href: "mailto:hasilazasenegal@gmail.com" },
   { icon: MapPin, label: "Adresse", value: "HLM 2, Dakar, Sénégal" },
   { icon: Clock, label: "Horaires", value: "Lundi au Samedi · 9h - 18h" },
 ];
@@ -98,7 +98,7 @@ const Contact = () => {
               })}
 
               <a
-                href="https://wa.me/221781094091?text=Bonjour, j'ai une question"
+                href="https://wa.me/221769358317?text=Bonjour, j'ai une question"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 p-5 bg-gradient-primary text-primary-foreground rounded-3xl font-semibold hover:opacity-90 transition-all shadow-glow"

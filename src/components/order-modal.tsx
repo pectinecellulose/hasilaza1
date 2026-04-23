@@ -90,7 +90,7 @@ ${formData.message ? `Message : ${formData.message}` : ""}
 
 Merci de me confirmer la disponibilité et les modalités de livraison.`;
 
-    window.open(`https://wa.me/221781094091?text=${encodeURIComponent(message)}`, "_blank");
+    window.open(`https://wa.me/221769358317?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   return (

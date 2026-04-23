@@ -49,9 +49,9 @@ export function Header() {
             <Sparkles className="w-3 h-3 text-primary" />
             <span>Livraison gratuite sur Dakar · Garantie 2 ans incluse</span>
           </div>
-          <a href="tel:+221781094091" className="flex items-center gap-1.5 hover:text-primary transition-colors">
+          <a href="tel:+221769358317" className="flex items-center gap-1.5 hover:text-primary transition-colors">
             <Phone className="w-3 h-3" />
-            +221 781 094 091
+            +221 76 935 83 17
           </a>
         </div>
       </div>
@@ -139,7 +139,7 @@ export function Header() {
               <ThemeToggle />
               <Button asChild size="sm" className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow rounded-full h-10 px-5">
                 <a
-                  href="https://wa.me/221781094091?text=Bonjour, je suis intéressé par vos produits"
+                  href="https://wa.me/221769358317?text=Bonjour, je suis intéressé par vos produits"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2"
@@ -210,15 +210,15 @@ export function Header() {
 
                 <div className="flex flex-col gap-2 mt-5 pt-5 border-t border-border">
                   <a
-                    href="tel:+221781094091"
+                    href="tel:+221769358317"
                     className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground"
                   >
                     <Phone className="w-5 h-5 text-primary" />
-                    <span className="font-medium">+221 781 094 091</span>
+                    <span className="font-medium">+221 76 935 83 17</span>
                   </a>
                   <Button asChild className="bg-gradient-primary text-primary-foreground hover:opacity-90 w-full h-12 rounded-xl">
                     <a
-                      href="https://wa.me/221781094091?text=Bonjour, je suis intéressé par vos produits"
+                      href="https://wa.me/221769358317?text=Bonjour, je suis intéressé par vos produits"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2"

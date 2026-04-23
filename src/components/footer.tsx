@@ -52,14 +52,14 @@ export function Footer() {
             </div>
             <div className="flex flex-col sm:flex-row md:justify-end items-stretch md:items-center gap-3">
               <a
-                href="tel:+221781094091"
+                href="tel:+221769358317"
                 className="flex items-center justify-center gap-2 px-6 h-13 py-4 bg-secondary text-secondary-foreground rounded-2xl font-semibold hover:bg-secondary/90 transition-all hover:scale-105"
               >
                 <Phone className="w-5 h-5" />
                 Appeler
               </a>
               <a
-                href="https://wa.me/221781094091?text=Bonjour, je souhaite passer commande"
+                href="https://wa.me/221769358317?text=Bonjour, je souhaite passer commande"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-6 h-13 py-4 bg-background text-foreground rounded-2xl font-semibold hover:bg-background/90 transition-all hover:scale-105"
@@ -161,24 +161,24 @@ export function Footer() {
             <h4 className="font-display font-semibold mb-5 text-sm uppercase tracking-widest text-secondary-foreground/50">Contact</h4>
             <ul className="space-y-3">
               <li>
-                <a href="tel:+221781094091" className="flex items-center gap-3 group">
+                <a href="tel:+221769358317" className="flex items-center gap-3 group">
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all">
                     <Phone className="w-4 h-4 group-hover:text-primary-foreground" />
                   </div>
                   <div>
                     <p className="text-xs text-secondary-foreground/50">Téléphone</p>
-                    <p className="text-sm font-medium">+221 781 094 091</p>
+                    <p className="text-sm font-medium">+221 76 935 83 17</p>
                   </div>
                 </a>
               </li>
               <li>
-                <a href="mailto:Mortalla581@gmail.com" className="flex items-center gap-3 group">
+                <a href="mailto:hasilazasenegal@gmail.com" className="flex items-center gap-3 group">
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all">
                     <Mail className="w-4 h-4 group-hover:text-primary-foreground" />
                   </div>
                   <div>
                     <p className="text-xs text-secondary-foreground/50">Email</p>
-                    <p className="text-sm font-medium">Mortalla581@gmail.com</p>
+                    <p className="text-sm font-medium">hasilazasenegal@gmail.com</p>
                   </div>
                 </a>
               </li>

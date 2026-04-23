@@ -18,12 +18,14 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { Partners } from "@/components/partners";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { SEO } from "@/components/seo";
 import { formatPrice, type Product } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";
+import logo from "@/assets/logo.png";
 
 const stats = [
   { value: "5+", label: "Années" },
@@ -249,8 +251,10 @@ const Index = () => {
                       >
                         <Cog className="w-72 h-72 text-primary/10" />
                       </motion.div>
-                      <div className="relative">
-                        <Truck className="w-24 h-24 text-primary mx-auto mb-6" strokeWidth={1.5} />
+                      <div className="relative flex flex-col items-center">
+                        <div className="w-40 h-40 md:w-48 md:h-48 rounded-3xl bg-white/95 flex items-center justify-center shadow-glow p-5 mb-6">
+                          <img src={logo} alt="Logo Hasilaza Motor" className="w-full h-full object-contain" />
+                        </div>
                         <p className="font-display text-3xl font-bold text-secondary-foreground mb-2">Hasilaza</p>
                         <p className="text-sm text-secondary-foreground/60 uppercase tracking-[0.3em]">Motor</p>
                       </div>
@@ -482,6 +486,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* PARTNERS */}
+      <Partners />
 
       {/* CTA */}
       <section className="py-24">

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { type Product, formatPrice } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 
 interface OrderModalProps {
   product: Product;
@@ -18,6 +19,7 @@ interface OrderModalProps {
 type OrderStatus = "idle" | "loading" | "success" | "error";
 
 export function OrderModal({ product, quantity, isOpen, onClose }: OrderModalProps) {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -42,6 +44,7 @@ export function OrderModal({ product, quantity, isOpen, onClose }: OrderModalPro
 
     try {
       const { error } = await supabase.from("orders").insert({
+        user_id: user?.id ?? null,
         product_id: product.id,
         product_name: product.name,
         product_slug: product.slug,
@@ -50,7 +53,7 @@ export function OrderModal({ product, quantity, isOpen, onClose }: OrderModalPro
         total_price: product.category === "piece" ? null : totalPrice,
         customer_name: formData.fullName,
         customer_phone: formData.phone,
-        customer_email: formData.email || null,
+        customer_email: formData.email || user?.email || null,
         customer_address: formData.address,
         customer_city: formData.city,
         message: formData.message || null,

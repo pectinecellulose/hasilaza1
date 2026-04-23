@@ -47,6 +47,35 @@ export type Database = {
         }
         Relationships: []
       }
+      favorites: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           created_at: string
@@ -65,6 +94,7 @@ export type Database = {
           total_price: number | null
           unit_price: number | null
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -83,6 +113,7 @@ export type Database = {
           total_price?: number | null
           unit_price?: number | null
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -101,6 +132,7 @@ export type Database = {
           total_price?: number | null
           unit_price?: number | null
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -178,6 +210,90 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          address: string | null
+          city: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      repair_requests: {
+        Row: {
+          admin_notes: string | null
+          city: string
+          created_at: string
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string
+          id: string
+          preferred_date: string | null
+          problem_description: string
+          status: Database["public"]["Enums"]["repair_status"]
+          updated_at: string
+          user_id: string | null
+          vehicle_brand: string | null
+          vehicle_type: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          city: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name: string
+          customer_phone: string
+          id?: string
+          preferred_date?: string | null
+          problem_description: string
+          status?: Database["public"]["Enums"]["repair_status"]
+          updated_at?: string
+          user_id?: string | null
+          vehicle_brand?: string | null
+          vehicle_type: string
+        }
+        Update: {
+          admin_notes?: string | null
+          city?: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string
+          customer_phone?: string
+          id?: string
+          preferred_date?: string | null
+          problem_description?: string
+          status?: Database["public"]["Enums"]["repair_status"]
+          updated_at?: string
+          user_id?: string | null
+          vehicle_brand?: string | null
+          vehicle_type?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -222,6 +338,12 @@ export type Database = {
         | "delivered"
         | "cancelled"
       product_category: "tricycle" | "moto" | "piece"
+      repair_status:
+        | "pending"
+        | "contacted"
+        | "scheduled"
+        | "completed"
+        | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -359,6 +481,13 @@ export const Constants = {
         "cancelled",
       ],
       product_category: ["tricycle", "moto", "piece"],
+      repair_status: [
+        "pending",
+        "contacted",
+        "scheduled",
+        "completed",
+        "cancelled",
+      ],
     },
   },
 } as const

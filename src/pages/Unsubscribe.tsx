@@ -60,6 +60,7 @@ const Unsubscribe = () => {
 
   return (
     <main className="min-h-screen bg-background">
+      <SEO title="Désabonnement | Hasilaza Motor" description="Gestion du désabonnement aux emails." canonical="/unsubscribe" noindex />
       <Header />
       <section className="container max-w-xl py-24">
         <div className="bg-card border border-border rounded-3xl p-8 text-center shadow-elegant">

@@ -143,20 +143,47 @@ const ProduitDetail = () => {
             Retour au catalogue
           </Link>
 
-          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12">
+          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-12">
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <div className="relative aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-[2rem] overflow-hidden flex items-center justify-center border border-border">
+              <div className="relative aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-[2rem] overflow-hidden flex items-center justify-center border border-border group">
                 <div className="absolute inset-0 bg-gradient-radial opacity-30" />
-                {product.images?.[0] ? (
+                {product.images && product.images.length > 0 ? (
                   <img
-                    src={product.images[0]}
-                    alt={product.name}
+                    src={product.images[activeImage] ?? product.images[0]}
+                    alt={`${product.name} - vue ${activeImage + 1}`}
                     loading="eager"
-                    className="relative w-full h-full object-cover"
+                    className="relative w-full h-full object-cover transition-opacity duration-300"
                   />
                 ) : (
                   <Wrench className="relative w-40 h-40 text-muted-foreground/30" strokeWidth={1} />
                 )}
+
+                {product.images && product.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={() =>
+                        setActiveImage((i) => (i === 0 ? product.images.length - 1 : i - 1))
+                      }
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-background/80 backdrop-blur-md border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-background hover:scale-110"
+                      aria-label="Image précédente"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() =>
+                        setActiveImage((i) => (i === product.images.length - 1 ? 0 : i + 1))
+                      }
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-background/80 backdrop-blur-md border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-background hover:scale-110"
+                      aria-label="Image suivante"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-border text-xs font-medium">
+                      {activeImage + 1} / {product.images.length}
+                    </div>
+                  </>
+                )}
+
                 <div className="absolute top-5 left-5 flex flex-col gap-2">
                   {product.isBestSeller && (
                     <span className="px-3 py-1.5 bg-gradient-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant">
@@ -173,12 +200,39 @@ const ProduitDetail = () => {
                   <FavoriteButton productId={product.id} />
                 </div>
               </div>
+
+              {product.images && product.images.length > 1 && (
+                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2.5 mt-4">
+                  {product.images.map((img, idx) => (
+                    <button
+                      key={img + idx}
+                      onClick={() => setActiveImage(idx)}
+                      className={`relative aspect-square rounded-2xl overflow-hidden border-2 transition-all ${
+                        activeImage === idx
+                          ? "border-primary shadow-elegant scale-[1.02]"
+                          : "border-border hover:border-primary/40 opacity-70 hover:opacity-100"
+                      }`}
+                      aria-label={`Voir image ${idx + 1}`}
+                    >
+                      <img src={img} alt={`miniature ${idx + 1}`} loading="lazy" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">
-                {product.subcategory ?? product.category}
-              </span>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">
+                  {product.subcategory ?? product.category}
+                </span>
+                {product.inStock && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    En stock · Livraison rapide
+                  </span>
+                )}
+              </div>
               <h1 className="font-display text-3xl md:text-5xl font-bold mt-3 mb-5 leading-tight text-balance">
                 {product.name}
               </h1>
@@ -193,7 +247,7 @@ const ProduitDetail = () => {
                   ))}
                 </div>
                 <span className="text-sm text-muted-foreground">
-                  {product.rating} · {product.reviews} avis
+                  {product.rating} · {product.reviews} avis vérifiés
                 </span>
               </div>
 
@@ -208,15 +262,18 @@ const ProduitDetail = () => {
                 )}
               </div>
 
-              <p className="text-muted-foreground leading-relaxed mb-7">{product.description}</p>
+              <p className="text-muted-foreground leading-relaxed mb-7">{product.shortDescription}</p>
 
-              <div className="space-y-2.5 mb-8">
-                {product.features.map((feature) => (
-                  <div key={feature} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <span className="text-foreground/80 text-sm">{feature}</span>
-                  </div>
-                ))}
+              <div className="flex items-center gap-3 mb-7 p-4 rounded-2xl bg-primary/5 border border-primary/20">
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Phone className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">Besoin de conseils ?</p>
+                  <a href="tel:+221769358317" className="font-display font-bold text-foreground hover:text-primary transition-colors">
+                    +221 76 935 83 17
+                  </a>
+                </div>
               </div>
 
               {product.category !== "piece" && (

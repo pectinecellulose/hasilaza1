@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Clock, Send, Loader2, CheckCircle2, Sparkles } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -66,6 +67,11 @@ const Contact = () => {
 
   return (
     <main className="min-h-screen bg-background">
+      <SEO
+        title="Contact Hasilaza Motor - Tricycles & Motos à Dakar"
+        description="Contactez Hasilaza Motor : devis, conseils, SAV. WhatsApp +221 76 935 83 17. Atelier à Dakar, livraison partout au Sénégal."
+        canonical="/contact"
+      />
       <Header />
 
       <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 overflow-hidden">

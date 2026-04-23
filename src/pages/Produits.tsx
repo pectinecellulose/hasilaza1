@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SEO } from "@/components/seo";
 import { categories, subcategoriesMap, formatPrice, type Product } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";
@@ -73,8 +74,42 @@ const Produits = () => {
     setSearchParams(searchParams);
   };
 
+  const catLabels: Record<string, string> = {
+    all: "Tous nos produits",
+    tricycle: "Tricycles cargo",
+    moto: "Motos urbaines",
+    piece: "Pièces détachées",
+  };
+  const seoTitle =
+    activeCategory === "all"
+      ? "Catalogue Tricycles, Motos & Pièces - Hasilaza Motor Sénégal"
+      : `${catLabels[activeCategory]} au Sénégal | Hasilaza Motor`;
+  const seoDesc =
+    activeCategory === "tricycle"
+      ? "Tricycles cargo 200CC, 250CC, 300CC 5 roues. Charges jusqu'à 800 kg. Livraison Dakar gratuite, garantie 2 ans."
+      : activeCategory === "moto"
+        ? "Motos 150CC fiables et économiques. Idéales pour la ville. Garantie 2 ans, SAV expert au Sénégal."
+        : activeCategory === "piece"
+          ? "Pièces détachées d'origine pour tricycles et motos. Stock complet, livraison rapide partout au Sénégal."
+          : "Découvrez le catalogue complet Hasilaza Motor : tricycles cargo, motos et pièces détachées au meilleur prix.";
+
   return (
     <main className="min-h-screen bg-background">
+      <SEO
+        title={seoTitle}
+        description={seoDesc}
+        canonical={activeCategory === "all" ? "/produits" : `/produits?category=${activeCategory}`}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: filtered.slice(0, 20).map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `https://hasilaza.com/produits/${p.slug}`,
+            name: p.name,
+          })),
+        }}
+      />
       <Header />
 
       <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 overflow-hidden">

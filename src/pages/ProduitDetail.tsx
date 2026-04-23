@@ -19,6 +19,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { OrderModal } from "@/components/order-modal";
+import { SEO } from "@/components/seo";
 import { formatPrice, type Product } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";
@@ -69,8 +70,59 @@ const ProduitDetail = () => {
     `Bonjour, je suis intéressé par : ${product.name}`,
   )}`;
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.shortDescription,
+    image: product.images && product.images.length > 0 ? product.images : undefined,
+    sku: product.id,
+    category: product.category,
+    brand: { "@type": "Brand", name: "Hasilaza Motor" },
+    aggregateRating: product.rating
+      ? {
+          "@type": "AggregateRating",
+          ratingValue: product.rating,
+          reviewCount: Math.max(product.reviews ?? 1, 1),
+        }
+      : undefined,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "XOF",
+      price: product.price > 0 ? product.price : undefined,
+      availability: product.inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      url: `https://hasilaza.com/produits/${product.slug}`,
+      seller: { "@type": "Organization", name: "Hasilaza Motor" },
+    },
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://hasilaza.com/" },
+      { "@type": "ListItem", position: 2, name: "Produits", item: "https://hasilaza.com/produits" },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.name,
+        item: `https://hasilaza.com/produits/${product.slug}`,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-background">
+      <SEO
+        title={`${product.name} - ${formatPrice(product.price)} | Hasilaza Motor Sénégal`}
+        description={`${product.shortDescription} Livraison Dakar gratuite, garantie 2 ans. Commandez maintenant.`}
+        canonical={`/produits/${product.slug}`}
+        type="product"
+        image={product.images?.[0]}
+        jsonLd={[productJsonLd, breadcrumbJsonLd]}
+      />
       <Header />
 
       <section className="pt-12 md:pt-16 pb-20">

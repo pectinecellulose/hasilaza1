@@ -20,6 +20,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { SEO } from "@/components/seo";
 import { formatPrice, type Product } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";
@@ -96,6 +97,26 @@ const Index = () => {
 
   return (
     <main className="min-h-screen bg-background">
+      <SEO
+        title="Hasilaza Motor - Tricycles & Motos au Sénégal | Cargo 200/250/300CC"
+        description="N°1 des tricycles cargo (200, 250, 300CC) et motos 150CC au Sénégal. Livraison Dakar gratuite, garantie 2 ans, SAV expert. Devis WhatsApp immédiat."
+        canonical="/"
+        keywords="tricycle Sénégal, tricycle cargo Dakar, moto 150cc, tricycle 250cc, tricycle 300cc, Hasilaza Motor, vente moto Dakar"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Hasilaza Motor",
+          url: "https://hasilaza.com",
+          logo: "https://hasilaza.com/og-image.jpg",
+          contactPoint: {
+            "@type": "ContactPoint",
+            telephone: "+221769358317",
+            contactType: "sales",
+            areaServed: "SN",
+            availableLanguage: ["fr"],
+          },
+        }}
+      />
       <Header />
 
       {/* HERO */}

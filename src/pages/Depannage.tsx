@@ -3,6 +3,7 @@ import { Wrench, Clock, Phone, MapPin, CheckCircle2, Truck, Shield, Zap, Sparkle
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/seo";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { RepairRequestForm } from "@/components/repair-request-form";
 
@@ -22,6 +23,18 @@ const steps = [
 
 const Depannage = () => (
   <main className="min-h-screen bg-background">
+    <SEO
+      title="Dépannage Moto & Tricycle à Dakar - SAV Hasilaza Motor"
+      description="Service de dépannage rapide pour tricycles et motos au Sénégal. Diagnostic, réparation, pièces d'origine. Intervention sur place à Dakar."
+      canonical="/depannage"
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        serviceType: "Réparation et dépannage moto et tricycle",
+        provider: { "@type": "Organization", name: "Hasilaza Motor" },
+        areaServed: { "@type": "Country", name: "Sénégal" },
+      }}
+    />
     <Header />
 
     <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">

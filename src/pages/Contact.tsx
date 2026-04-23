@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock, Send, Loader2, CheckCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Send, Loader2, CheckCircle2, Sparkles } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ const contactInfos = [
   { icon: Phone, label: "Téléphone", value: "+221 781 094 091", href: "tel:+221781094091" },
   { icon: Mail, label: "Email", value: "Mortalla581@gmail.com", href: "mailto:Mortalla581@gmail.com" },
   { icon: MapPin, label: "Adresse", value: "HLM 2, Dakar, Sénégal" },
-  { icon: Clock, label: "Horaires", value: "Lun-Sam : 9h - 18h" },
+  { icon: Clock, label: "Horaires", value: "Lundi au Samedi · 9h - 18h" },
 ];
 
 const Contact = () => {
@@ -49,46 +49,48 @@ const Contact = () => {
     <main className="min-h-screen bg-background">
       <Header />
 
-      <section className="pt-28 md:pt-36 pb-16 bg-muted/30">
-        <div className="container mx-auto px-4">
+      <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-radial opacity-60" />
+        <div className="relative container">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-4">
-              <span className="text-sm font-semibold text-primary">Contact</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full mb-6">
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span className="text-xs font-medium text-primary uppercase tracking-widest">Contact</span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-              Parlons de votre <span className="text-primary">projet</span>
+            <h1 className="font-display text-5xl md:text-7xl font-bold mb-5 text-balance leading-[1.05]">
+              Parlons de votre <span className="text-gradient">projet.</span>
             </h1>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground max-w-xl">
               Une question, une commande spéciale ou un devis ? Notre équipe vous répond rapidement.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-[1fr_1.4fr] gap-10">
-            <div className="space-y-6">
+      <section className="pb-24">
+        <div className="container">
+          <div className="grid lg:grid-cols-[1fr_1.5fr] gap-8">
+            <div className="space-y-3">
               {contactInfos.map((info, i) => {
-                const Wrapper: any = info.href ? "a" : "div";
+                const Wrapper = (info.href ? "a" : "div") as keyof JSX.IntrinsicElements;
                 return (
                   <motion.div
                     key={info.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.08 }}
+                    transition={{ delay: i * 0.06 }}
                   >
                     <Wrapper
-                      href={info.href}
-                      className="flex items-start gap-4 p-5 bg-muted/30 rounded-2xl hover:bg-muted/60 transition-colors"
+                      {...(info.href ? { href: info.href } : {})}
+                      className="flex items-start gap-4 p-5 bg-card rounded-3xl border border-border hover:border-primary/40 transition-all group"
                     >
-                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                        <info.icon className="w-6 h-6 text-primary" />
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center shrink-0 shadow-elegant group-hover:scale-110 transition-transform">
+                        <info.icon className="w-5 h-5 text-primary-foreground" />
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">{info.label}</p>
-                        <p className="font-semibold text-foreground">{info.value}</p>
+                        <p className="text-xs uppercase tracking-widest text-muted-foreground">{info.label}</p>
+                        <p className="font-display font-semibold text-foreground mt-0.5">{info.value}</p>
                       </div>
                     </Wrapper>
                   </motion.div>
@@ -99,15 +101,16 @@ const Contact = () => {
                 href="https://wa.me/221781094091?text=Bonjour, j'ai une question"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 p-5 bg-primary text-primary-foreground rounded-2xl font-semibold hover:bg-primary/90 transition-colors"
+                className="flex items-center justify-center gap-3 p-5 bg-gradient-primary text-primary-foreground rounded-3xl font-semibold hover:opacity-90 transition-all shadow-glow"
               >
                 <WhatsAppIcon className="w-6 h-6" />
                 Discuter sur WhatsApp
               </a>
             </div>
 
-            <div className="bg-background border border-border rounded-3xl p-8 shadow-elegant">
-              <h2 className="text-2xl font-bold text-foreground mb-6">Envoyez-nous un message</h2>
+            <div className="bg-card border border-border rounded-[2rem] p-8 md:p-10">
+              <h2 className="font-display text-2xl md:text-3xl font-bold mb-2">Envoyez-nous un message</h2>
+              <p className="text-sm text-muted-foreground mb-7">Réponse garantie sous 24h ouvrées.</p>
 
               {status === "success" ? (
                 <motion.div
@@ -115,10 +118,10 @@ const Contact = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center text-center py-12"
                 >
-                  <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <CheckCircle className="w-10 h-10 text-primary" />
+                  <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mb-5 shadow-glow">
+                    <CheckCircle2 className="w-10 h-10 text-primary-foreground" />
                   </div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">Message envoyé !</h3>
+                  <h3 className="font-display text-2xl font-bold mb-2">Message envoyé !</h3>
                   <p className="text-muted-foreground">Nous vous répondrons dans les plus brefs délais.</p>
                 </motion.div>
               ) : (
@@ -131,7 +134,7 @@ const Contact = () => {
                         value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
                         required
-                        className="h-12 rounded-xl"
+                        className="h-12 rounded-xl border-2 bg-background"
                       />
                     </div>
                     <div className="space-y-2">
@@ -142,7 +145,7 @@ const Contact = () => {
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         required
-                        className="h-12 rounded-xl"
+                        className="h-12 rounded-xl border-2 bg-background"
                       />
                     </div>
                   </div>
@@ -155,7 +158,7 @@ const Contact = () => {
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       required
-                      className="h-12 rounded-xl"
+                      className="h-12 rounded-xl border-2 bg-background"
                     />
                   </div>
 
@@ -166,7 +169,7 @@ const Contact = () => {
                       value={form.subject}
                       onChange={(e) => setForm({ ...form, subject: e.target.value })}
                       required
-                      className="h-12 rounded-xl"
+                      className="h-12 rounded-xl border-2 bg-background"
                     />
                   </div>
 
@@ -178,14 +181,14 @@ const Contact = () => {
                       value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
                       required
-                      className="rounded-xl resize-none"
+                      className="rounded-xl resize-none border-2 bg-background"
                     />
                   </div>
 
                   <Button
                     type="submit"
                     disabled={status === "loading"}
-                    className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-base font-semibold"
+                    className="w-full h-14 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-2xl text-base font-semibold shadow-ink"
                   >
                     {status === "loading" ? (
                       <>

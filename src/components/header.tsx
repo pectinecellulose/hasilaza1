@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, ShoppingBag, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
@@ -41,196 +41,198 @@ export function Header() {
   const isActive = (href: string) => location.pathname === href.split("?")[0];
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border" : "bg-transparent"
-      }`}
-    >
-      {/* Top Bar */}
-      <div
-        className={`hidden md:block bg-primary text-primary-foreground text-sm transition-all duration-300 ${
-          isScrolled ? "h-0 overflow-hidden" : "h-10"
-        }`}
-      >
-        <div className="container mx-auto px-4 h-full flex items-center justify-between">
-          <span>Livraison gratuite sur Dakar pour toute commande</span>
-          <a href="tel:+221781094091" className="flex items-center gap-1 hover:underline">
+    <>
+      {/* Announcement bar */}
+      <div className="hidden md:block bg-secondary text-secondary-foreground text-xs">
+        <div className="container flex items-center justify-between h-9">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-3 h-3 text-primary" />
+            <span>Livraison gratuite sur Dakar · Garantie 2 ans incluse</span>
+          </div>
+          <a href="tel:+221781094091" className="flex items-center gap-1.5 hover:text-primary transition-colors">
             <Phone className="w-3 h-3" />
             +221 781 094 091
           </a>
         </div>
       </div>
 
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-14 md:h-20">
-          <Link to="/" className="flex items-center gap-2 md:gap-3 group">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-9 h-9 md:w-11 md:h-11 rounded-xl overflow-hidden shadow-lg bg-gradient-primary flex items-center justify-center text-primary-foreground font-black text-lg"
-            >
-              H
-            </motion.div>
-            <div className="flex flex-col">
-              <span className="font-bold text-base md:text-lg leading-tight text-foreground">Hasilaza Motor</span>
-              <span className="text-[10px] md:text-xs text-muted-foreground hidden sm:block">Leader au Sénégal</span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <div
-                key={link.href}
-                className="relative"
-                onMouseEnter={() => link.submenu && setActiveSubmenu(link.label)}
-                onMouseLeave={() => setActiveSubmenu(null)}
-              >
-                <Link
-                  to={link.href}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-1 ${
-                    isActive(link.href)
-                      ? "text-primary bg-primary/10"
-                      : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                  }`}
-                >
-                  {link.label}
-                  {link.submenu && <ChevronDown className="w-4 h-4" />}
-                </Link>
-
-                <AnimatePresence>
-                  {link.submenu && activeSubmenu === link.label && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 pt-2"
-                    >
-                      <div className="bg-background rounded-xl shadow-xl border border-border p-2 min-w-[200px]">
-                        {link.submenu.map((sublink) => (
-                          <Link
-                            key={sublink.href}
-                            to={sublink.href}
-                            className="block px-4 py-2 rounded-lg text-foreground/80 hover:text-primary hover:bg-primary/5 transition-colors"
-                          >
-                            {sublink.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-background/80 backdrop-blur-xl backdrop-saturate-150 border-b border-border/60 shadow-elegant"
+            : "bg-background/60 backdrop-blur-md border-b border-border/30"
+        }`}
+      >
+        <div className="container">
+          <div className="flex items-center justify-between h-16 md:h-18">
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-primary rounded-xl blur-md opacity-60 group-hover:opacity-100 transition-opacity" />
+                <div className="relative w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-primary-foreground font-display font-bold text-lg shadow-elegant">
+                  H
+                </div>
               </div>
-            ))}
-          </nav>
+              <div className="flex flex-col leading-none">
+                <span className="font-display font-bold text-base md:text-lg text-foreground">Hasilaza</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Motor</span>
+              </div>
+            </Link>
 
-          {/* CTA Buttons */}
-          <div className="hidden lg:flex items-center gap-3">
-            <ThemeToggle />
-            <Button variant="outline" size="sm" asChild className="border-primary/30 hover:border-primary hover:bg-primary/5 bg-transparent">
-              <Link to="/produits" className="flex items-center gap-2">
-                <ShoppingBag className="w-4 h-4" />
-                Catalogue
-              </Link>
-            </Button>
-            <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-elegant">
-              <a
-                href="https://wa.me/221781094091?text=Bonjour, je suis intéressé par vos produits"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
+            <nav className="hidden lg:flex items-center gap-1 bg-muted/40 rounded-full p-1.5 border border-border/50">
+              {navLinks.map((link) => (
+                <div
+                  key={link.href}
+                  className="relative"
+                  onMouseEnter={() => link.submenu && setActiveSubmenu(link.label)}
+                  onMouseLeave={() => setActiveSubmenu(null)}
+                >
+                  <Link
+                    to={link.href}
+                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-1 ${
+                      isActive(link.href)
+                        ? "text-primary-foreground"
+                        : "text-foreground/70 hover:text-foreground"
+                    }`}
+                  >
+                    {isActive(link.href) && (
+                      <motion.span
+                        layoutId="navActive"
+                        className="absolute inset-0 bg-gradient-primary rounded-full shadow-elegant"
+                        transition={{ type: "spring", duration: 0.5 }}
+                      />
+                    )}
+                    <span className="relative z-10">{link.label}</span>
+                    {link.submenu && <ChevronDown className="relative z-10 w-3.5 h-3.5" />}
+                  </Link>
+
+                  <AnimatePresence>
+                    {link.submenu && activeSubmenu === link.label && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.18 }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-56"
+                      >
+                        <div className="bg-card rounded-2xl shadow-ink border border-border p-2">
+                          {link.submenu.map((sublink) => (
+                            <Link
+                              key={sublink.href}
+                              to={sublink.href}
+                              className="block px-4 py-2.5 rounded-xl text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-colors"
+                            >
+                              {sublink.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </nav>
+
+            <div className="hidden lg:flex items-center gap-2">
+              <ThemeToggle />
+              <Button asChild size="sm" className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow rounded-full h-10 px-5">
+                <a
+                  href="https://wa.me/221781094091?text=Bonjour, je suis intéressé par vos produits"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                >
+                  <WhatsAppIcon className="w-4 h-4" />
+                  WhatsApp
+                </a>
+              </Button>
+            </div>
+
+            <div className="lg:hidden flex items-center gap-1">
+              <ThemeToggle />
+              <button
+                className="p-2 rounded-xl hover:bg-muted active:scale-95 transition-all"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
               >
-                <WhatsAppIcon className="w-4 h-4" />
-                WhatsApp
-              </a>
-            </Button>
-          </div>
-
-          {/* Mobile */}
-          <div className="lg:hidden flex items-center gap-2">
-            <ThemeToggle />
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              className="p-2 rounded-lg hover:bg-muted"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X className="w-6 h-6 text-foreground" /> : <Menu className="w-6 h-6 text-foreground" />}
-            </motion.button>
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden bg-background border-t border-border overflow-hidden"
-          >
-            <div className="container mx-auto px-4 py-6">
-              <nav className="flex flex-col gap-2">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.08 }}
-                  >
-                    <Link
-                      to={link.href}
-                      className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
-                        isActive(link.href)
-                          ? "text-primary bg-primary/10"
-                          : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                      }`}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="lg:hidden bg-background/95 backdrop-blur-xl border-t border-border overflow-hidden"
+            >
+              <div className="container py-5">
+                <nav className="flex flex-col gap-1">
+                  {navLinks.map((link, index) => (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
                     >
-                      {link.label}
-                    </Link>
-                    {link.submenu && (
-                      <div className="ml-4 mt-1 space-y-1">
-                        {link.submenu.map((sublink) => (
-                          <Link
-                            key={sublink.href}
-                            to={sublink.href}
-                            className="block px-4 py-2 text-sm text-foreground/60 hover:text-primary transition-colors"
-                          >
-                            {sublink.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </nav>
+                      <Link
+                        to={link.href}
+                        className={`block px-4 py-3 rounded-xl font-medium transition-colors ${
+                          isActive(link.href)
+                            ? "bg-gradient-primary text-primary-foreground shadow-elegant"
+                            : "text-foreground/80 hover:bg-muted"
+                        }`}
+                      >
+                        {link.label}
+                      </Link>
+                      {link.submenu && (
+                        <div className="ml-4 mt-1 space-y-0.5 border-l-2 border-border pl-3">
+                          {link.submenu.map((sublink) => (
+                            <Link
+                              key={sublink.href}
+                              to={sublink.href}
+                              className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                            >
+                              {sublink.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </motion.div>
+                  ))}
+                </nav>
 
-              <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-border">
-                <a href="tel:+221781094091" className="flex items-center gap-3 text-primary font-semibold px-4 py-2">
-                  <Phone className="w-5 h-5" />
-                  +221 781 094 091
-                </a>
-                <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground w-full">
+                <div className="flex flex-col gap-2 mt-5 pt-5 border-t border-border">
                   <a
-                    href="https://wa.me/221781094091?text=Bonjour, je suis intéressé par vos produits"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2"
+                    href="tel:+221781094091"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground"
                   >
-                    <WhatsAppIcon className="w-5 h-5" />
-                    Discuter sur WhatsApp
+                    <Phone className="w-5 h-5 text-primary" />
+                    <span className="font-medium">+221 781 094 091</span>
                   </a>
-                </Button>
+                  <Button asChild className="bg-gradient-primary text-primary-foreground hover:opacity-90 w-full h-12 rounded-xl">
+                    <a
+                      href="https://wa.me/221781094091?text=Bonjour, je suis intéressé par vos produits"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2"
+                    >
+                      <WhatsAppIcon className="w-5 h-5" />
+                      Discuter sur WhatsApp
+                    </a>
+                  </Button>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
+    </>
   );
 }

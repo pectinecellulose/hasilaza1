@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
+import { sendTransactionalEmail, notifyAdmins } from "@/lib/notify-emails";
 
 export function RepairRequestForm() {
   const { user } = useAuth();
@@ -28,7 +29,9 @@ export function RepairRequestForm() {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    const repairId = crypto.randomUUID();
     const { error } = await supabase.from("repair_requests").insert({
+      id: repairId,
       user_id: user?.id ?? null,
       customer_name: form.customer_name,
       customer_phone: form.customer_phone,
@@ -39,11 +42,33 @@ export function RepairRequestForm() {
       city: form.city,
       preferred_date: form.preferred_date || null,
     });
-    setLoading(false);
     if (error) {
+      setLoading(false);
       toast({ title: "Erreur", description: error.message, variant: "destructive" });
       return;
     }
+
+    const emailData = {
+      customerName: form.customer_name,
+      customerPhone: form.customer_phone,
+      customerEmail: form.customer_email || undefined,
+      vehicleType: form.vehicle_type,
+      vehicleBrand: form.vehicle_brand || undefined,
+      city: form.city,
+      preferredDate: form.preferred_date || undefined,
+      problemDescription: form.problem_description,
+    };
+    if (form.customer_email) {
+      await sendTransactionalEmail({
+        templateName: "repair-confirmation",
+        recipientEmail: form.customer_email,
+        idempotencyKey: `repair-confirm-${repairId}`,
+        templateData: { name: form.customer_name, vehicleType: form.vehicle_type },
+      });
+    }
+    await notifyAdmins("repair-admin", `repair-admin-${repairId}`, emailData);
+
+    setLoading(false);
     setDone(true);
   };
 

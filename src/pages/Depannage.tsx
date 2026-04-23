@@ -3,6 +3,7 @@ import { Wrench, Clock, Phone, MapPin, CheckCircle2, Truck, Shield, Zap, Sparkle
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/seo";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { RepairRequestForm } from "@/components/repair-request-form";
 

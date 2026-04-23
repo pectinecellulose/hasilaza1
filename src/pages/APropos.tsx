@@ -4,6 +4,7 @@ import { Target, Users, Award, Heart, ArrowUpRight, Sparkles } from "lucide-reac
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/seo";
 
 const values = [
   { icon: Target, title: "Qualité", desc: "Sélection rigoureuse pour garantir une qualité irréprochable." },

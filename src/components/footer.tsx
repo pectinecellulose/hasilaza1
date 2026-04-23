@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Phone, Mail, Clock, MapPin, Facebook, ArrowUp, ArrowUpRight } from "lucide-react";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import logo from "@/assets/logo.png";
 
 const productLinks = [
   { href: "/produits?category=tricycle", label: "Tricycles" },
@@ -75,8 +76,8 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4">
             <Link to="/" className="flex items-center gap-3 mb-5">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center text-primary-foreground font-display font-bold text-xl shadow-glow">
-                H
+              <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-glow overflow-hidden p-1.5">
+                <img src={logo} alt="Logo Hasilaza Motor" className="w-full h-full object-contain" />
               </div>
               <div>
                 <span className="font-display font-bold text-xl block">Hasilaza Motor</span>

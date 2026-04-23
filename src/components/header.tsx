@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useAuth } from "@/hooks/use-auth";
+import logo from "@/assets/logo.png";
 
 const navLinks: { href: string; label: string; submenu?: { href: string; label: string }[] }[] = [
   { href: "/", label: "Accueil" },
@@ -71,9 +72,9 @@ export function Header() {
           <div className="flex items-center justify-between h-16 md:h-18">
             <Link to="/" className="flex items-center gap-2.5 group">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-primary rounded-xl blur-md opacity-60 group-hover:opacity-100 transition-opacity" />
-                <div className="relative w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-primary-foreground font-display font-bold text-lg shadow-elegant">
-                  H
+                <div className="absolute inset-0 bg-gradient-primary rounded-xl blur-md opacity-30 group-hover:opacity-60 transition-opacity" />
+                <div className="relative w-11 h-11 rounded-xl bg-background border border-border flex items-center justify-center shadow-elegant overflow-hidden p-1">
+                  <img src={logo} alt="Logo Hasilaza Motor" className="w-full h-full object-contain" />
                 </div>
               </div>
               <div className="flex flex-col leading-none">

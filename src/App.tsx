@@ -22,6 +22,7 @@ import AdminProducts from "./pages/admin/AdminProducts.tsx";
 import AdminProductForm from "./pages/admin/AdminProductForm.tsx";
 import AdminOrders from "./pages/admin/AdminOrders.tsx";
 import AdminMessages from "./pages/admin/AdminMessages.tsx";
+import AdminUsers from "./pages/admin/AdminUsers.tsx";
 import ClientLayout from "./pages/client/ClientLayout.tsx";
 import ClientOrders from "./pages/client/ClientOrders.tsx";
 import ClientFavorites from "./pages/client/ClientFavorites.tsx";
@@ -79,6 +80,7 @@ const App = () => (
                 <Route path="produits/:id" element={<AdminProductForm />} />
                 <Route path="commandes" element={<AdminOrders />} />
                 <Route path="messages" element={<AdminMessages />} />
+                <Route path="administrateurs" element={<AdminUsers />} />
               </Route>
 
               <Route path="*" element={<NotFound />} />

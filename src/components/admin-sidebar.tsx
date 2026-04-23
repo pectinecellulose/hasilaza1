@@ -1,4 +1,4 @@
-import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, Home } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, Home, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -21,6 +21,7 @@ const items = [
   { title: "Produits", url: "/admin/produits", icon: Package },
   { title: "Commandes", url: "/admin/commandes", icon: ShoppingCart },
   { title: "Messages", url: "/admin/messages", icon: MessageSquare },
+  { title: "Administrateurs", url: "/admin/administrateurs", icon: ShieldCheck },
 ];
 
 export function AdminSidebar() {

@@ -22,6 +22,11 @@ const milestones = [
 
 const APropos = () => (
   <main className="min-h-screen bg-background">
+    <SEO
+      title="À propos - Hasilaza Motor, Leader des Tricycles au Sénégal"
+      description="Hasilaza Motor : 5+ ans d'expertise, 5000+ clients, leader des tricycles cargo et motos au Sénégal. Notre histoire, nos valeurs."
+      canonical="/a-propos"
+    />
     <Header />
 
     <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">

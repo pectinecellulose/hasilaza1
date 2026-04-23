@@ -297,8 +297,19 @@ const ProduitDetail = () => {
                     to={`/produits/${p.slug}`}
                     className="group block bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-ink transition-all duration-500"
                   >
-                    <div className="relative aspect-square overflow-hidden bg-muted flex items-center justify-center">
-                      <Wrench className="w-14 h-14 text-muted-foreground/30 group-hover:rotate-12 transition-transform duration-500" />
+                    <div className="relative aspect-square overflow-hidden bg-muted">
+                      {p.images?.[0] ? (
+                        <img
+                          src={p.images[0]}
+                          alt={p.name}
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Wrench className="w-14 h-14 text-muted-foreground/30 group-hover:rotate-12 transition-transform duration-500" />
+                        </div>
+                      )}
                       <div className="absolute top-3 right-3 w-9 h-9 rounded-full bg-card/90 backdrop-blur flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
                         <ArrowUpRight className="w-4 h-4" />
                       </div>

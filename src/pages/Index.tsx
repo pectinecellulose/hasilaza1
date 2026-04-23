@@ -405,9 +405,18 @@ const Index = () => {
                   className="group block bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-ink transition-all duration-500"
                 >
                   <div className="relative aspect-square overflow-hidden bg-muted">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Wrench className="w-20 h-20 text-muted-foreground/20 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
-                    </div>
+                    {product.images?.[0] ? (
+                      <img
+                        src={product.images[0]}
+                        alt={product.name}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Wrench className="w-20 h-20 text-muted-foreground/20 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-secondary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     {product.isBestSeller && (
                       <span className="absolute top-3 left-3 px-3 py-1 bg-gradient-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant">

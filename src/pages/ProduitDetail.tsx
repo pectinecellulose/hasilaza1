@@ -22,6 +22,7 @@ import { OrderModal } from "@/components/order-modal";
 import { formatPrice, type Product } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { mapDbProduct, type DbProductRow } from "@/lib/products-mapper";
+import { FavoriteButton } from "@/components/favorite-button";
 import NotFound from "@/pages/NotFound";
 
 const ProduitDetail = () => {
@@ -98,6 +99,9 @@ const ProduitDetail = () => {
                       Nouveau
                     </span>
                   )}
+                </div>
+                <div className="absolute top-5 right-5">
+                  <FavoriteButton productId={product.id} />
                 </div>
               </div>
             </motion.div>

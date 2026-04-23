@@ -4,6 +4,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { RepairRequestForm } from "@/components/repair-request-form";
 
 const services = [
   { icon: Wrench, title: "Réparation moteur", desc: "Diagnostic et réparation complète des moteurs 2 et 3 roues." },
@@ -161,6 +162,23 @@ const Depannage = () => (
               </div>
             </motion.div>
           ))}
+        </div>
+      </div>
+    </section>
+
+    <section className="py-24 bg-muted/30 border-t border-border">
+      <div className="container max-w-3xl">
+        <div className="text-center mb-10">
+          <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Demande en ligne</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+            Demandez une intervention.
+          </h2>
+          <p className="text-muted-foreground mt-3">
+            Remplissez le formulaire, notre équipe vous rappelle sous 24h.
+          </p>
+        </div>
+        <div className="bg-card border border-border rounded-3xl p-6 md:p-8 shadow-elegant">
+          <RepairRequestForm />
         </div>
       </div>
     </section>

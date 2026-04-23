@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { type Product, formatPrice } from "@/lib/products-data";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { sendTransactionalEmail, notifyAdmins } from "@/lib/notify-emails";
 
 interface OrderModalProps {
   product: Product;
@@ -43,7 +44,10 @@ export function OrderModal({ product, quantity, isOpen, onClose }: OrderModalPro
     setErrorMessage("");
 
     try {
+      const orderId = crypto.randomUUID();
+      const customerEmail = formData.email || user?.email || null;
       const { error } = await supabase.from("orders").insert({
+        id: orderId,
         user_id: user?.id ?? null,
         product_id: product.id,
         product_name: product.name,
@@ -53,12 +57,37 @@ export function OrderModal({ product, quantity, isOpen, onClose }: OrderModalPro
         total_price: product.category === "piece" ? null : totalPrice,
         customer_name: formData.fullName,
         customer_phone: formData.phone,
-        customer_email: formData.email || user?.email || null,
+        customer_email: customerEmail,
         customer_address: formData.address,
         customer_city: formData.city,
         message: formData.message || null,
       });
       if (error) throw error;
+
+      const totalPriceLabel =
+        product.category === "piece" ? "À confirmer" : formatPrice(totalPrice);
+      const emailData = {
+        customerName: formData.fullName,
+        customerPhone: formData.phone,
+        customerEmail: customerEmail ?? undefined,
+        productName: product.name,
+        quantity,
+        totalPrice: totalPriceLabel,
+        address: formData.address,
+        city: formData.city,
+        message: formData.message || undefined,
+      };
+
+      if (customerEmail) {
+        await sendTransactionalEmail({
+          templateName: "order-confirmation",
+          recipientEmail: customerEmail,
+          idempotencyKey: `order-confirm-${orderId}`,
+          templateData: emailData,
+        });
+      }
+      await notifyAdmins("order-admin", `order-admin-${orderId}`, emailData);
+
       setStatus("success");
       setTimeout(() => {
         setFormData({ fullName: "", phone: "", email: "", address: "", city: "", message: "" });

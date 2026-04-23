@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { sendTransactionalEmail, notifyAdmins } from "@/lib/notify-emails";
 
 const contactInfos = [
   { icon: Phone, label: "Téléphone", value: "+221 76 935 83 17", href: "tel:+221769358317" },
@@ -26,7 +27,9 @@ const Contact = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus("loading");
+    const messageId = crypto.randomUUID();
     const { error } = await supabase.from("contact_messages").insert({
+      id: messageId,
       name: form.name,
       email: form.email,
       phone: form.phone || null,
@@ -38,6 +41,22 @@ const Contact = () => {
       toast({ title: "Erreur", description: error.message, variant: "destructive" });
       return;
     }
+
+    const emailData = {
+      name: form.name,
+      email: form.email,
+      phone: form.phone || undefined,
+      subject: form.subject,
+      message: form.message,
+    };
+    await sendTransactionalEmail({
+      templateName: "contact-confirmation",
+      recipientEmail: form.email,
+      idempotencyKey: `contact-confirm-${messageId}`,
+      templateData: { name: form.name, subject: form.subject },
+    });
+    await notifyAdmins("contact-admin", `contact-admin-${messageId}`, emailData);
+
     setStatus("success");
     setTimeout(() => {
       setForm({ name: "", email: "", phone: "", subject: "", message: "" });

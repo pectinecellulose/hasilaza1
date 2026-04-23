@@ -302,7 +302,8 @@ Merci de me confirmer la disponibilité et les modalités de livraison.`;
                 </>
               )}
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>

@@ -138,7 +138,11 @@ const ProduitDetail = () => {
               </div>
 
               <div className="flex items-baseline gap-3 mb-6 pb-6 border-b border-border">
-                <span className="font-display text-4xl md:text-5xl font-bold text-gradient">{formatPrice(product.price)}</span>
+                {product.price > 0 ? (
+                  <span className="font-display text-4xl md:text-5xl font-bold text-gradient">{formatPrice(product.price)}</span>
+                ) : (
+                  <span className="font-display text-3xl md:text-4xl font-bold text-gradient">Sur demande</span>
+                )}
                 {product.oldPrice && (
                   <span className="text-lg text-muted-foreground line-through">{formatPrice(product.oldPrice)}</span>
                 )}

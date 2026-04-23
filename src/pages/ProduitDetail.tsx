@@ -39,9 +39,11 @@ const ProduitDetail = () => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [orderOpen, setOrderOpen] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
     if (!slug) return;
+    setActiveImage(0);
     (async () => {
       setLoading(true);
       const { data } = await supabase.from("products").select("*").eq("slug", slug).maybeSingle();

@@ -139,7 +139,6 @@ export function Header() {
 
             <div className="hidden lg:flex items-center gap-2">
               <ThemeToggle />
-              <AccountButton />
               <Button asChild size="sm" className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow rounded-full h-10 px-5">
                 <a
                   href="https://wa.me/221769358317?text=Bonjour, je suis intéressé par vos produits"

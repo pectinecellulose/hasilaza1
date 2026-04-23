@@ -80,6 +80,7 @@ const App = () => (
                 <Route path="produits/:id" element={<AdminProductForm />} />
                 <Route path="commandes" element={<AdminOrders />} />
                 <Route path="messages" element={<AdminMessages />} />
+                <Route path="administrateurs" element={<AdminUsers />} />
               </Route>
 
               <Route path="*" element={<NotFound />} />

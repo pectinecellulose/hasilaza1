@@ -80,9 +80,9 @@ const AdminProductForm = () => {
         rating: String(data.rating),
         reviews: String(data.reviews),
       });
-      setImages(Array.isArray(data.images) ? (data.images as string[]) : []);
-      setFeatures(Array.isArray(data.features) ? (data.features as string[]) : []);
-      setSpecs(Array.isArray(data.specifications) ? (data.specifications as Spec[]) : []);
+      setImages(Array.isArray(data.images) ? (data.images as unknown as string[]) : []);
+      setFeatures(Array.isArray(data.features) ? (data.features as unknown as string[]) : []);
+      setSpecs(Array.isArray(data.specifications) ? (data.specifications as unknown as Spec[]) : []);
       setLoading(false);
     })();
   }, [id, isNew, navigate, toast]);

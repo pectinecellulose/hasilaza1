@@ -21,6 +21,11 @@ import AdminProducts from "./pages/admin/AdminProducts.tsx";
 import AdminProductForm from "./pages/admin/AdminProductForm.tsx";
 import AdminOrders from "./pages/admin/AdminOrders.tsx";
 import AdminMessages from "./pages/admin/AdminMessages.tsx";
+import ClientLayout from "./pages/client/ClientLayout.tsx";
+import ClientOrders from "./pages/client/ClientOrders.tsx";
+import ClientFavorites from "./pages/client/ClientFavorites.tsx";
+import ClientRepairs from "./pages/client/ClientRepairs.tsx";
+import ClientProfile from "./pages/client/ClientProfile.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -43,6 +48,20 @@ const App = () => (
               <Route path="/mentions-legales" element={<MentionsLegales />} />
               <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
               <Route path="/auth" element={<Auth />} />
+
+              <Route
+                path="/compte"
+                element={
+                  <ProtectedRoute>
+                    <ClientLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<ClientOrders />} />
+                <Route path="favoris" element={<ClientFavorites />} />
+                <Route path="depannage" element={<ClientRepairs />} />
+                <Route path="profil" element={<ClientProfile />} />
+              </Route>
 
               <Route
                 path="/admin"

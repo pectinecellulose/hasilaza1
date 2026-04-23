@@ -1,7 +1,10 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /admin/
 Disallow: /compte
+Disallow: /compte/
 Disallow: /auth
+Disallow: /unsubscribe
 
 Sitemap: https://hasilaza.com/sitemap.xml

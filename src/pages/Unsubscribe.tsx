@@ -4,6 +4,7 @@ import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { SEO } from "@/components/seo";
 import { supabase } from "@/integrations/supabase/client";
 
 type State = "loading" | "valid" | "already" | "invalid" | "submitting" | "success" | "error";
@@ -59,6 +60,7 @@ const Unsubscribe = () => {
 
   return (
     <main className="min-h-screen bg-background">
+      <SEO title="Désabonnement | Hasilaza Motor" description="Gestion du désabonnement aux emails." canonical="/unsubscribe" noindex />
       <Header />
       <section className="container max-w-xl py-24">
         <div className="bg-card border border-border rounded-3xl p-8 text-center shadow-elegant">

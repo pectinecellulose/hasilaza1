@@ -112,19 +112,25 @@ const Produits = () => {
       />
       <Header />
 
-      <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 overflow-hidden">
+      <section className="relative pt-12 pb-10 md:pt-24 md:pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial opacity-60" />
-        <div className="relative container">
+        <div className="absolute top-1/2 -right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-blob" />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="relative container"
+        >
           <div className="max-w-3xl">
             <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Catalogue</span>
-            <h1 className="font-display text-5xl md:text-7xl font-bold mt-3 mb-5 text-balance">
-              Tous nos <span className="text-gradient">produits</span>
+            <h1 className="font-display text-[2.5rem] sm:text-5xl md:text-7xl font-bold mt-3 mb-4 md:mb-5 text-balance leading-[1.05]">
+              Tous nos <span className="text-gradient-animated">produits</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-xl">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-xl">
               Explorez notre sélection de tricycles cargo, motos urbaines et pièces détachées de qualité.
             </p>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <section className="pb-24">

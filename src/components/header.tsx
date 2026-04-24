@@ -19,6 +19,7 @@ const navLinks: { href: string; label: string; submenu?: { href: string; label: 
       { href: "/produits?category=piece", label: "Pièces détachées" },
     ],
   },
+  { href: "/blog", label: "Blog" },
   { href: "/depannage", label: "Dépannage" },
   { href: "/a-propos", label: "À Propos" },
   { href: "/contact", label: "Contact" },

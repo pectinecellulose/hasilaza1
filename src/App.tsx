@@ -16,6 +16,8 @@ import MentionsLegales from "./pages/MentionsLegales.tsx";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite.tsx";
 import Auth from "./pages/Auth.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
+import Blog from "./pages/Blog.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
 import AdminLayout from "./pages/admin/AdminLayout.tsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
 import AdminProducts from "./pages/admin/AdminProducts.tsx";
@@ -27,6 +29,8 @@ import AdminInvoices from "./pages/admin/AdminInvoices.tsx";
 import AdminStatistics from "./pages/admin/AdminStatistics.tsx";
 import AdminClients from "./pages/admin/AdminClients.tsx";
 import AdminSettingsPage from "./pages/admin/AdminSettings.tsx";
+import AdminBlog from "./pages/admin/AdminBlog.tsx";
+import AdminBlogForm from "./pages/admin/AdminBlogForm.tsx";
 import ClientLayout from "./pages/client/ClientLayout.tsx";
 import ClientOrders from "./pages/client/ClientOrders.tsx";
 import ClientFavorites from "./pages/client/ClientFavorites.tsx";
@@ -48,6 +52,8 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/produits" element={<Produits />} />
               <Route path="/produits/:slug" element={<ProduitDetail />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/depannage" element={<Depannage />} />
               <Route path="/a-propos" element={<APropos />} />
               <Route path="/contact" element={<Contact />} />
@@ -82,6 +88,9 @@ const App = () => (
                 <Route path="produits" element={<AdminProducts />} />
                 <Route path="produits/nouveau" element={<AdminProductForm />} />
                 <Route path="produits/:id" element={<AdminProductForm />} />
+                <Route path="blog" element={<AdminBlog />} />
+                <Route path="blog/nouveau" element={<AdminBlogForm />} />
+                <Route path="blog/:id" element={<AdminBlogForm />} />
                 <Route path="commandes" element={<AdminOrders />} />
                 <Route path="factures" element={<AdminInvoices />} />
                 <Route path="statistiques" element={<AdminStatistics />} />

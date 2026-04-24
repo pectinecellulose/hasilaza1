@@ -390,36 +390,48 @@ const Index = () => {
       </section>
 
       {/* ADVANTAGES */}
-      <section className="py-24 bg-muted/30 border-y border-border">
-        <div className="container">
-          <div className="grid lg:grid-cols-12 gap-10 mb-14">
+      <section className="py-20 md:py-24 bg-muted/30 border-y border-border relative overflow-hidden">
+        <div className="absolute top-1/2 -left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-blob" />
+        <div className="container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="grid lg:grid-cols-12 gap-8 md:gap-10 mb-12 md:mb-14"
+          >
             <div className="lg:col-span-5">
               <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Pourquoi nous</span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
                 L'excellence à chaque étape.
               </h2>
             </div>
             <div className="lg:col-span-7 lg:pt-12">
-              <p className="text-lg text-muted-foreground">
+              <p className="text-base sm:text-lg text-muted-foreground">
                 Plus qu'un fournisseur, nous sommes votre partenaire de confiance. De la sélection rigoureuse de nos
                 véhicules à un service après-vente expert, nous engageons notre réputation sur chaque commande.
               </p>
             </div>
-          </div>
+          </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {advantages.map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="group bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-elegant transition-all"
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+                whileHover={{ y: -6 }}
+                className="group bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-ink transition-all duration-500"
               >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <motion.div
+                  whileHover={{ rotate: [0, -10, 10, -5, 0], scale: 1.15 }}
+                  transition={{ duration: 0.6 }}
+                  className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center mb-5 shadow-glow"
+                >
                   <item.icon className="w-6 h-6 text-primary-foreground" strokeWidth={2} />
-                </div>
-                <h3 className="font-display font-bold text-lg mb-2">{item.title}</h3>
+                </motion.div>
+                <h3 className="font-display font-bold text-lg mb-2 group-hover:text-primary transition-colors">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}

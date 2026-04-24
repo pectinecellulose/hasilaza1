@@ -440,31 +440,38 @@ const Index = () => {
       </section>
 
       {/* FEATURED PRODUCTS */}
-      <section className="py-24">
+      <section className="py-20 md:py-24">
         <div className="container">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-12"
+          >
             <div className="max-w-2xl">
               <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Best-sellers</span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
                 Nos produits les plus demandés.
               </h2>
             </div>
-            <Button asChild size="lg" variant="outline" className="border-2 rounded-full h-12 px-6 group hover:bg-secondary hover:text-secondary-foreground hover:border-secondary">
+            <Button asChild size="lg" variant="outline" className="border-2 rounded-full h-12 px-6 group hover:bg-secondary hover:text-secondary-foreground hover:border-secondary self-start md:self-auto">
               <Link to="/produits" className="flex items-center gap-2">
                 Tout voir
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
-          </div>
+          </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {featured.map((product, i) => (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
+                transition={{ delay: i * 0.05, duration: 0.5 }}
+                whileHover={{ y: -6 }}
               >
                 <Link
                   to={`/produits/${product.slug}`}

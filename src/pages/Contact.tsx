@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock, Send, Loader2, CheckCircle2, Sparkles } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Send, Loader2, CheckCircle2, Sparkles, Navigation, Calendar } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -65,12 +65,42 @@ const Contact = () => {
     }, 3000);
   };
 
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "AutomotiveBusiness"],
+    name: "Hasilaza Motor",
+    image: "https://hasilaza.com/og-image.jpg",
+    url: "https://hasilaza.com/contact",
+    telephone: "+221769358317",
+    email: "hasilazasenegal@gmail.com",
+    priceRange: "$$",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "HLM 2",
+      addressLocality: "Dakar",
+      addressRegion: "Dakar",
+      addressCountry: "SN",
+    },
+    geo: { "@type": "GeoCoordinates", latitude: 14.6928, longitude: -17.4467 },
+    hasMap: "https://www.google.com/maps/search/?api=1&query=Hasilaza+Motor+HLM+2+Dakar",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "09:00",
+        closes: "18:00",
+      },
+    ],
+    sameAs: ["https://wa.me/221769358317"],
+  };
+
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="Contact Hasilaza Motor - Tricycles & Motos à Dakar"
-        description="Contactez Hasilaza Motor : devis, conseils, SAV. WhatsApp +221 76 935 83 17. Atelier à Dakar, livraison partout au Sénégal."
+        title="Contact Hasilaza Motor - Adresse & Horaires à Dakar"
+        description="Visitez notre showroom à HLM 2, Dakar. Ouvert du lundi au samedi 9h-18h. WhatsApp +221 76 935 83 17. Livraison partout au Sénégal."
         canonical="/contact"
+        jsonLd={localBusinessSchema}
       />
       <Header />
 

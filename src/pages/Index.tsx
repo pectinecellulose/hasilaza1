@@ -588,39 +588,64 @@ const Index = () => {
       <Partners />
 
       {/* CTA */}
-      <section className="py-24">
+      <section className="py-20 md:py-24">
         <div className="container">
-          <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-primary p-12 md:p-20 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 40 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-gradient-primary p-8 sm:p-12 md:p-20 text-center"
+          >
             <div className="absolute inset-0 grain opacity-50" />
+            <div className="absolute -top-32 -right-32 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-blob" />
+            <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: "5s" }} />
             <div className="relative max-w-3xl mx-auto">
-              <Sparkles className="w-12 h-12 text-primary-foreground/80 mx-auto mb-6" />
-              <h2 className="font-display text-4xl md:text-6xl font-bold text-primary-foreground mb-6 text-balance">
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="inline-block mb-6"
+              >
+                <Sparkles className="w-12 h-12 text-primary-foreground/80 mx-auto" />
+              </motion.div>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-6xl font-bold text-primary-foreground mb-6 text-balance">
                 Prêt à transformer votre activité ?
               </h2>
-              <p className="text-lg text-primary-foreground/90 mb-10 max-w-xl mx-auto">
+              <p className="text-base sm:text-lg text-primary-foreground/90 mb-8 md:mb-10 max-w-xl mx-auto">
                 Contactez-nous pour un devis personnalisé et découvrez nos offres exclusives.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-8 rounded-full text-base">
-                  <Link to="/produits">Voir le catalogue</Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="border-2 border-primary-foreground/40 text-primary-foreground bg-transparent hover:bg-primary-foreground hover:text-primary h-14 px-8 rounded-full text-base">
-                  <a href="tel:+221769358317" className="flex items-center gap-2">
-                    <Phone className="w-5 h-5" />
-                    +221 76 935 83 17
-                  </a>
-                </Button>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                  <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-8 rounded-full text-base w-full">
+                    <Link to="/produits">Voir le catalogue</Link>
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                  <Button asChild size="lg" variant="outline" className="border-2 border-primary-foreground/40 text-primary-foreground bg-transparent hover:bg-primary-foreground hover:text-primary h-14 px-8 rounded-full text-base w-full">
+                    <a href="tel:+221769358317" className="flex items-center justify-center gap-2">
+                      <Phone className="w-5 h-5" />
+                      +221 76 935 83 17
+                    </a>
+                  </Button>
+                </motion.div>
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-6 mt-10 text-sm text-primary-foreground/80">
-                {["Sans engagement", "Devis gratuit", "Réponse sous 24h"].map((f) => (
-                  <span key={f} className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-8 md:mt-10 text-sm text-primary-foreground/80">
+                {["Sans engagement", "Devis gratuit", "Réponse sous 24h"].map((f, i) => (
+                  <motion.span
+                    key={f}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + i * 0.1 }}
+                    className="flex items-center gap-2"
+                  >
                     <CheckCircle2 className="w-4 h-4" />
                     {f}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 

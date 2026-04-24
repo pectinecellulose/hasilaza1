@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          author: string
+          content: string
+          cover_image: string | null
+          created_at: string
+          excerpt: string
+          id: string
+          keywords: string | null
+          published_at: string | null
+          reading_minutes: number
+          slug: string
+          status: Database["public"]["Enums"]["post_status"]
+          title: string
+          updated_at: string
+          views: number
+        }
+        Insert: {
+          author?: string
+          content: string
+          cover_image?: string | null
+          created_at?: string
+          excerpt: string
+          id?: string
+          keywords?: string | null
+          published_at?: string | null
+          reading_minutes?: number
+          slug: string
+          status?: Database["public"]["Enums"]["post_status"]
+          title: string
+          updated_at?: string
+          views?: number
+        }
+        Update: {
+          author?: string
+          content?: string
+          cover_image?: string | null
+          created_at?: string
+          excerpt?: string
+          id?: string
+          keywords?: string | null
+          published_at?: string | null
+          reading_minutes?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["post_status"]
+          title?: string
+          updated_at?: string
+          views?: number
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -473,6 +524,7 @@ export type Database = {
         | "shipped"
         | "delivered"
         | "cancelled"
+      post_status: "draft" | "published"
       product_category: "tricycle" | "moto" | "piece"
       repair_status:
         | "pending"
@@ -616,6 +668,7 @@ export const Constants = {
         "delivered",
         "cancelled",
       ],
+      post_status: ["draft", "published"],
       product_category: ["tricycle", "moto", "piece"],
       repair_status: [
         "pending",

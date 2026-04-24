@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   LogOut,
   Home,
+  BookOpen,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "@/components/NavLink";
@@ -32,6 +33,7 @@ import logo from "@/assets/logo.png";
 const mainItems = [
   { title: "Tableau de bord", url: "/admin", icon: LayoutDashboard, end: true },
   { title: "Produits", url: "/admin/produits", icon: Package },
+  { title: "Blog", url: "/admin/blog", icon: BookOpen },
   { title: "Commandes", url: "/admin/commandes", icon: ShoppingCart },
   { title: "Factures", url: "/admin/factures", icon: FileText },
   { title: "Statistiques", url: "/admin/statistiques", icon: BarChart3 },

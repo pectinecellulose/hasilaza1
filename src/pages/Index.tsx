@@ -150,17 +150,20 @@ const Index = () => {
                 <span className="text-xs font-medium text-primary uppercase tracking-widest">Leader au Sénégal</span>
               </div>
 
-              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] mb-8 text-balance">
+              <h1 className="font-display text-[2.5rem] sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] mb-6 sm:mb-8 text-balance">
                 La mobilité,{" "}
                 <span className="relative inline-block">
-                  <span className="text-gradient">repensée</span>
+                  <span className="text-gradient-animated">repensée</span>
                   <svg
                     className="absolute -bottom-2 left-0 w-full"
                     viewBox="0 0 200 12"
                     fill="none"
                     preserveAspectRatio="none"
                   >
-                    <path
+                    <motion.path
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
                       d="M2 9C50 3 100 3 198 9"
                       stroke="hsl(var(--primary))"
                       strokeWidth="3"
@@ -172,36 +175,41 @@ const Index = () => {
                 pour le Sénégal.
               </h1>
 
-              <p className="text-lg text-muted-foreground mb-10 max-w-xl leading-relaxed">
+              <p className="text-base sm:text-lg text-muted-foreground mb-8 sm:mb-10 max-w-xl leading-relaxed">
                 Tricycles cargo, motos urbaines et pièces détachées de qualité.
                 Hasilaza Motor accompagne votre activité depuis 2018.
               </p>
 
               <div className="flex flex-wrap gap-3 mb-12">
-                <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-7 rounded-full text-base shadow-ink group">
-                  <Link to="/produits" className="flex items-center gap-2">
-                    Voir le catalogue
-                    <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
-                  </Link>
-                </Button>
-                <Button variant="outline" size="lg" asChild className="h-14 px-7 text-base border-2 rounded-full bg-background/50 backdrop-blur hover:bg-background">
-                  <a href="https://wa.me/221769358317" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    <WhatsAppIcon className="w-5 h-5" />
-                    Discuter
-                  </a>
-                </Button>
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                  <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-7 rounded-full text-base shadow-ink group">
+                    <Link to="/produits" className="flex items-center gap-2">
+                      Voir le catalogue
+                      <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" />
+                    </Link>
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                  <Button variant="outline" size="lg" asChild className="h-14 px-7 text-base border-2 rounded-full bg-background/50 backdrop-blur hover:bg-background">
+                    <a href="https://wa.me/221769358317" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                      <WhatsAppIcon className="w-5 h-5" />
+                      Discuter
+                    </a>
+                  </Button>
+                </motion.div>
               </div>
 
-              <div className="grid grid-cols-4 gap-6 max-w-xl">
+              <div className="grid grid-cols-4 gap-3 sm:gap-6 max-w-xl">
                 {stats.map((stat, i) => (
                   <motion.div
                     key={stat.label}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + i * 0.08 }}
+                    whileHover={{ y: -4 }}
                   >
-                    <div className="font-display text-2xl md:text-3xl font-bold text-foreground">{stat.value}</div>
-                    <div className="text-xs text-muted-foreground uppercase tracking-wider mt-1">{stat.label}</div>
+                    <div className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-foreground">{stat.value}</div>
+                    <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mt-1">{stat.label}</div>
                   </motion.div>
                 ))}
               </div>

@@ -117,16 +117,19 @@ const Index = () => {
         keywords="tricycle Sénégal, tricycle cargo Dakar, moto 150cc, tricycle 250cc, tricycle 300cc, Hasilaza Motor, vente moto Dakar"
         jsonLd={{
           "@context": "https://schema.org",
-          "@type": "Organization",
+          "@type": "WebSite",
+          "@id": "https://hasilaza.com/#website",
           name: "Hasilaza Motor",
           url: "https://hasilaza.com",
-          logo: "https://hasilaza.com/og-image.jpg",
-          contactPoint: {
-            "@type": "ContactPoint",
-            telephone: "+221769358317",
-            contactType: "sales",
-            areaServed: "SN",
-            availableLanguage: ["fr"],
+          inLanguage: "fr-SN",
+          publisher: { "@id": "https://hasilaza.com/#business" },
+          potentialAction: {
+            "@type": "SearchAction",
+            target: {
+              "@type": "EntryPoint",
+              urlTemplate: "https://hasilaza.com/produits?q={search_term_string}",
+            },
+            "query-input": "required name=search_term_string",
           },
         }}
       />

@@ -29,7 +29,7 @@ import logo from "@/assets/logo.png";
 import categoryTricycle from "@/assets/category-tricycle.jpg";
 import categoryMoto from "@/assets/category-moto.jpg";
 import categoryPieces from "@/assets/category-pieces.jpg";
-import heroTricycle from "@/assets/hero-tricycle.png";
+import heroTricycle from "@/assets/hero-tricycle.jpg";
 
 const stats = [
   { value: "5+", label: "Années" },
@@ -263,23 +263,24 @@ const Index = () => {
                 <div className="relative w-full h-full">
                   <div className="absolute inset-0 bg-gradient-primary rounded-[2.5rem] blur-3xl opacity-40 animate-pulse" />
                   <div className="relative w-full h-full bg-secondary rounded-[2.5rem] overflow-hidden shadow-ink border border-white/10">
-                    <div className="absolute inset-0 bg-gradient-radial opacity-50" />
-                    <div className="absolute inset-0 grain" />
-                    <div className="relative w-full h-full flex flex-col items-center justify-center p-10 text-center">
-                      <motion.img
-                        src={heroTricycle}
-                        alt="Tricycle Hasilaza Motor"
-                        animate={{ y: [0, -12, 0] }}
-                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute w-[110%] max-w-none opacity-20 pointer-events-none select-none"
-                        loading="lazy"
-                      />
-                      <div className="relative flex flex-col items-center">
-                        <div className="w-40 h-40 md:w-48 md:h-48 rounded-3xl bg-white/95 flex items-center justify-center shadow-glow p-5 mb-6">
-                          <img src={logo} alt="Logo Hasilaza Motor" className="w-full h-full object-contain" />
-                        </div>
-                        <p className="font-display text-3xl font-bold text-secondary-foreground mb-2">Hasilaza</p>
-                        <p className="text-sm text-secondary-foreground/60 uppercase tracking-[0.3em]">Motor</p>
+                    <div className="absolute inset-0 bg-gradient-radial opacity-40" />
+                    <div className="absolute inset-0 grain z-20 pointer-events-none" />
+                    <motion.img
+                      src={heroTricycle}
+                      alt="Tricycle cargo Hasilaza Motor 250cc"
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      loading="eager"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-secondary/90 via-secondary/40 to-transparent z-10" />
+                    <div className="absolute bottom-6 left-6 right-6 z-20 flex items-end justify-between gap-4">
+                      <div>
+                        <p className="font-display text-2xl md:text-3xl font-bold text-white drop-shadow-lg">Hasilaza Motor</p>
+                        <p className="text-xs md:text-sm text-white/80 uppercase tracking-[0.3em] mt-1">Cargo 250cc</p>
+                      </div>
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/95 flex items-center justify-center shadow-glow p-2 shrink-0">
+                        <img src={logo} alt="Logo Hasilaza Motor" className="w-full h-full object-contain" />
                       </div>
                     </div>
                   </div>

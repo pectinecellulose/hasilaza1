@@ -213,14 +213,7 @@ export function Header() {
                 <div className="flex flex-col gap-2 mt-5 pt-5 border-t border-border">
                   <a
                     href="tel:+221769358317"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground"
-                  >
-                    <Phone className="w-5 h-5 text-primary" />
-                    <span className="font-medium">+221 76 935 83 17</span>
-                  </a>
-                  <a
-                    href="tel:+221769358317"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 text-foreground hover:bg-muted active:scale-[0.98] transition-all"
                   >
                     <Phone className="w-5 h-5 text-primary" />
                     <span className="font-medium">+221 76 935 83 17</span>

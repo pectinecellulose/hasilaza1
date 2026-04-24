@@ -129,28 +129,39 @@ const Depannage = () => (
       </div>
     </section>
 
-    <section className="py-24 bg-muted/30 border-y border-border">
+    <section className="py-20 md:py-24 bg-muted/30 border-y border-border">
       <div className="container">
-        <div className="max-w-2xl mx-auto text-center mb-14">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="max-w-2xl mx-auto text-center mb-12 md:mb-14"
+        >
           <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Services</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
             Une expertise complète.
           </h2>
-        </div>
+        </motion.div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {services.map((s, i) => (
             <motion.div
               key={s.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="group bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-elegant transition-all"
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              whileHover={{ y: -6 }}
+              className="group bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-ink transition-all duration-500"
             >
-              <div className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <motion.div
+                whileHover={{ rotate: [0, -10, 10, 0], scale: 1.15 }}
+                transition={{ duration: 0.6 }}
+                className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center mb-5 shadow-glow"
+              >
                 <s.icon className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="font-display font-bold text-lg mb-2">{s.title}</h3>
+              </motion.div>
+              <h3 className="font-display font-bold text-lg mb-2 group-hover:text-primary transition-colors">{s.title}</h3>
               <p className="text-sm text-muted-foreground">{s.desc}</p>
             </motion.div>
           ))}
@@ -158,27 +169,38 @@ const Depannage = () => (
       </div>
     </section>
 
-    <section className="py-24">
+    <section className="py-20 md:py-24">
       <div className="container">
-        <div className="max-w-2xl mx-auto text-center mb-14">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="max-w-2xl mx-auto text-center mb-12 md:mb-14"
+        >
           <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Processus</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
             Simple et transparent.
           </h2>
-        </div>
+        </motion.div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {steps.map((s, i) => (
             <motion.div
               key={s.num}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="relative bg-card border border-border rounded-3xl p-6 hover:border-primary/40 transition-all overflow-hidden"
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="relative bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-ink transition-all overflow-hidden group"
             >
-              <span className="absolute top-3 right-4 font-display text-7xl font-bold text-primary/10">{s.num}</span>
+              <span className="absolute top-3 right-4 font-display text-7xl font-bold text-primary/10 group-hover:text-primary/25 transition-colors">{s.num}</span>
               <div className="relative">
-                <div className="w-3 h-3 rounded-full bg-gradient-primary mb-12" />
+                <motion.div
+                  className="w-3 h-3 rounded-full bg-gradient-primary mb-12 shadow-glow"
+                  animate={{ scale: [1, 1.4, 1] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                />
                 <h3 className="font-display font-bold text-lg mb-2">{s.title}</h3>
                 <p className="text-sm text-muted-foreground">{s.desc}</p>
               </div>

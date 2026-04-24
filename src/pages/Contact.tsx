@@ -65,33 +65,19 @@ const Contact = () => {
     }, 3000);
   };
 
-  const localBusinessSchema = {
+  // Note : le schéma LocalBusiness complet est défini une seule fois dans index.html (#business)
+  // pour éviter les doublons. Ici on déclare juste une ContactPage qui référence le business via @id.
+  const contactPageSchema = {
     "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "AutomotiveBusiness"],
-    name: "Hasilaza Motor",
-    image: "https://hasilaza.com/og-image.jpg",
+    "@type": "ContactPage",
+    "@id": "https://hasilaza.com/contact#page",
     url: "https://hasilaza.com/contact",
-    telephone: "+221769358317",
-    email: "hasilazasenegal@gmail.com",
-    priceRange: "$$",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "HLM 2",
-      addressLocality: "Dakar",
-      addressRegion: "Dakar",
-      addressCountry: "SN",
-    },
-    geo: { "@type": "GeoCoordinates", latitude: 14.6928, longitude: -17.4467 },
-    hasMap: "https://www.google.com/maps/search/?api=1&query=Hasilaza+Motor+HLM+2+Dakar",
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        opens: "09:00",
-        closes: "18:00",
-      },
-    ],
-    sameAs: ["https://wa.me/221769358317"],
+    name: "Contact Hasilaza Motor",
+    description: "Adresse, horaires et coordonnées de Hasilaza Motor à Dakar.",
+    inLanguage: "fr-SN",
+    isPartOf: { "@id": "https://hasilaza.com/#website" },
+    about: { "@id": "https://hasilaza.com/#business" },
+    mainEntity: { "@id": "https://hasilaza.com/#business" },
   };
 
   return (
@@ -100,7 +86,7 @@ const Contact = () => {
         title="Contact Hasilaza Motor - Adresse & Horaires à Dakar"
         description="Visitez notre showroom à HLM 2, Dakar. Ouvert du lundi au samedi 9h-18h. WhatsApp +221 76 935 83 17. Livraison partout au Sénégal."
         canonical="/contact"
-        jsonLd={localBusinessSchema}
+        jsonLd={contactPageSchema}
       />
       <Header />
 

@@ -146,8 +146,7 @@ const AdminBlogForm = () => {
             <ImageUpload
               value={form.cover_image ? [form.cover_image] : []}
               onChange={(urls) => setForm({ ...form, cover_image: urls[0] ?? "" })}
-              maxFiles={1}
-              folder="blog"
+              max={1}
             />
           </div>
         </div>

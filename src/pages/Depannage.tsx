@@ -37,49 +37,58 @@ const Depannage = () => (
     />
     <Header />
 
-    <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">
+    <section className="relative pt-12 pb-16 md:pt-24 md:pb-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-radial opacity-60" />
-      <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl" />
+      <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl animate-blob" />
+      <div className="absolute bottom-0 -left-20 w-72 h-72 bg-primary-glow/10 rounded-full blur-3xl animate-blob" style={{ animationDelay: "4s" }} />
 
       <div className="relative container">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full mb-6">
-              <Zap className="w-3.5 h-3.5 text-primary" />
+              <Zap className="w-3.5 h-3.5 text-primary animate-pulse" />
               <span className="text-xs font-medium text-primary uppercase tracking-widest">Service rapide 6j/7</span>
             </div>
-            <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 text-balance leading-[1.05]">
-              Dépannage <span className="text-gradient">express.</span>
+            <h1 className="font-display text-[2.5rem] sm:text-5xl md:text-7xl font-bold mb-5 md:mb-6 text-balance leading-[1.05]">
+              Dépannage <span className="text-gradient-animated">express.</span>
             </h1>
-            <p className="text-lg text-muted-foreground mb-8 max-w-lg">
+            <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-lg">
               Une panne ? Une révision ? Notre équipe technique intervient rapidement à Dakar et dans tout le Sénégal,
               pour vous remettre en route au plus vite.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-7 rounded-full shadow-ink">
-                <a href="tel:+221769358317" className="flex items-center gap-2">
-                  <Phone className="w-5 h-5" />
-                  Appeler maintenant
-                </a>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="h-14 px-7 border-2 rounded-full bg-background/50 backdrop-blur"
-              >
-                <a
-                  href="https://wa.me/221769358317?text=Bonjour, j'ai besoin d'un dépannage"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2"
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-7 rounded-full shadow-ink">
+                  <a href="tel:+221769358317" className="flex items-center gap-2">
+                    <Phone className="w-5 h-5" />
+                    Appeler maintenant
+                  </a>
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="h-14 px-7 border-2 rounded-full bg-background/50 backdrop-blur"
                 >
-                  <WhatsAppIcon className="w-5 h-5" />
-                  WhatsApp
-                </a>
-              </Button>
+                  <a
+                    href="https://wa.me/221769358317?text=Bonjour, j'ai besoin d'un dépannage"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2"
+                  >
+                    <WhatsAppIcon className="w-5 h-5" />
+                    WhatsApp
+                  </a>
+                </Button>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}

@@ -276,6 +276,135 @@ const Contact = () => {
         </div>
       </section>
 
+      {/* TROUVEZ-NOUS - SEO LOCAL */}
+      <section className="pb-24" id="trouvez-nous">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-2xl mx-auto mb-10"
+          >
+            <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Notre showroom</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
+              Venez nous rencontrer à <span className="text-gradient-animated">Dakar</span>
+            </h2>
+            <p className="text-muted-foreground mt-4">
+              Découvrez notre showroom et nos véhicules en personne. Nos experts vous conseillent sur place.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6">
+            {/* Carte Google Maps */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative rounded-[2rem] overflow-hidden border border-border shadow-elegant min-h-[380px] lg:min-h-[480px] bg-muted"
+            >
+              <iframe
+                title="Localisation Hasilaza Motor à Dakar"
+                src="https://www.google.com/maps?q=HLM+2+Dakar+Senegal&hl=fr&z=14&output=embed"
+                width="100%"
+                height="100%"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0 w-full h-full border-0"
+              />
+            </motion.div>
+
+            {/* Infos pratiques + CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-card border border-border rounded-[2rem] p-6 sm:p-8 shadow-elegant flex flex-col"
+            >
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center shrink-0 shadow-glow">
+                  <MapPin className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground">Adresse</p>
+                  <p className="font-display font-semibold text-foreground mt-0.5">HLM 2, Dakar</p>
+                  <p className="text-sm text-muted-foreground">Sénégal · Région de Dakar</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Calendar className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Horaires d'ouverture</p>
+                  <ul className="space-y-1.5 text-sm">
+                    <li className="flex justify-between gap-4 text-foreground">
+                      <span>Lundi – Vendredi</span>
+                      <span className="font-medium">9h – 18h</span>
+                    </li>
+                    <li className="flex justify-between gap-4 text-foreground">
+                      <span>Samedi</span>
+                      <span className="font-medium">9h – 18h</span>
+                    </li>
+                    <li className="flex justify-between gap-4 text-muted-foreground">
+                      <span>Dimanche</span>
+                      <span className="font-medium">Fermé</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 mb-8">
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Phone className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground">Appel direct</p>
+                  <a href="tel:+221769358317" className="font-display font-semibold text-foreground mt-0.5 hover:text-primary transition-colors block">
+                    +221 76 935 83 17
+                  </a>
+                </div>
+              </div>
+
+              <div className="mt-auto space-y-3">
+                <Button
+                  asChild
+                  className="w-full h-13 bg-gradient-primary text-primary-foreground hover:opacity-90 rounded-2xl text-base font-semibold shadow-glow"
+                >
+                  <a
+                    href="https://www.google.com/maps/dir/?api=1&destination=HLM+2+Dakar+Senegal"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <Navigation className="w-5 h-5" />
+                    Itinéraire Google Maps
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full h-13 border-2 rounded-2xl text-base font-semibold"
+                >
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Hasilaza+Motor+HLM+2+Dakar"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <MapPin className="w-5 h-5" />
+                    Voir sur Google Maps
+                  </a>
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );

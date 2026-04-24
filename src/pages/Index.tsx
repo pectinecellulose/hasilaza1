@@ -649,6 +649,84 @@ const Index = () => {
         </div>
       </section>
 
+      {/* SHOWROOM LOCAL - SEO */}
+      <section className="py-20 md:py-24 bg-muted/30">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="grid lg:grid-cols-[1fr_1.2fr] gap-8 items-center"
+          >
+            <div>
+              <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Showroom Dakar</span>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 mb-5 text-balance">
+                Visitez notre <span className="text-gradient-animated">showroom</span> à Dakar
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                Tricycles, motos et pièces détachées exposés. Nos conseillers vous accompagnent et vous présentent
+                chaque modèle. Essais possibles sur rendez-vous.
+              </p>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <Phone className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground">Adresse</p>
+                    <p className="font-display font-semibold">HLM 2, Dakar — Sénégal</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <Sparkles className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground">Horaires</p>
+                    <p className="font-display font-semibold">Lun – Sam · 9h – 18h</p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild className="bg-gradient-primary text-primary-foreground hover:opacity-90 h-12 px-6 rounded-full shadow-glow">
+                  <a
+                    href="https://www.google.com/maps/dir/?api=1&destination=HLM+2+Dakar+Senegal"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2"
+                  >
+                    <ArrowUpRight className="w-5 h-5" />
+                    Itinéraire Google Maps
+                  </a>
+                </Button>
+                <Button asChild variant="outline" className="h-12 px-6 rounded-full border-2">
+                  <Link to="/contact#trouvez-nous">Tous les contacts</Link>
+                </Button>
+              </div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="relative rounded-[2rem] overflow-hidden border border-border shadow-elegant aspect-[4/3] lg:aspect-[5/4] bg-muted"
+            >
+              <iframe
+                title="Carte Hasilaza Motor à Dakar"
+                src="https://www.google.com/maps?q=HLM+2+Dakar+Senegal&hl=fr&z=14&output=embed"
+                width="100%"
+                height="100%"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0 w-full h-full border-0"
+              />
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );

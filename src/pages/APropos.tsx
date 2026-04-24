@@ -29,27 +29,33 @@ const APropos = () => (
     />
     <Header />
 
-    <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">
+    <section className="relative pt-12 pb-16 md:pt-24 md:pb-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-radial opacity-60" />
-      <div className="absolute -top-20 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl" />
+      <div className="absolute -top-20 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl animate-blob" />
+      <div className="absolute -bottom-20 -left-10 w-72 h-72 bg-primary-glow/10 rounded-full blur-3xl animate-blob" style={{ animationDelay: "5s" }} />
 
-      <div className="relative container">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="relative container"
+      >
         <div className="max-w-4xl">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
+            <Sparkles className="w-3.5 h-3.5 text-primary animate-pulse" />
             <span className="text-xs font-medium text-primary uppercase tracking-widest">Notre histoire</span>
           </div>
-          <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 text-balance leading-[1.05]">
+          <h1 className="font-display text-[2.5rem] sm:text-5xl md:text-7xl font-bold mb-5 md:mb-6 text-balance leading-[1.05]">
             Plus qu'une entreprise,{" "}
-            <span className="text-gradient">une mission.</span>
+            <span className="text-gradient-animated">une mission.</span>
           </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl">
             Depuis 2018, Hasilaza Motor accompagne les Sénégalais dans leur mobilité.
             Tricycles cargo, motos, pièces détachées : nous proposons des solutions
             fiables pour les professionnels et les particuliers.
           </p>
         </div>
-      </div>
+      </motion.div>
     </section>
 
     <section className="py-20 bg-muted/30 border-y border-border">

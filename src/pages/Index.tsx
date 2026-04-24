@@ -134,8 +134,8 @@ const Index = () => {
       {/* HERO */}
       <section className="relative overflow-hidden grain">
         <div className="absolute inset-0 bg-gradient-radial" />
-        <div className="absolute top-1/3 -right-40 w-[600px] h-[600px] bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-primary-glow/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 -right-40 w-[500px] md:w-[600px] h-[500px] md:h-[600px] bg-primary/20 rounded-full blur-3xl animate-blob" />
+        <div className="absolute -bottom-40 -left-40 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-primary-glow/15 rounded-full blur-3xl animate-blob" style={{ animationDelay: "4s" }} />
 
         <div className="relative container pt-16 pb-24 md:pt-24 md:pb-32">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
@@ -150,17 +150,20 @@ const Index = () => {
                 <span className="text-xs font-medium text-primary uppercase tracking-widest">Leader au Sénégal</span>
               </div>
 
-              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] mb-8 text-balance">
+              <h1 className="font-display text-[2.5rem] sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] mb-6 sm:mb-8 text-balance">
                 La mobilité,{" "}
                 <span className="relative inline-block">
-                  <span className="text-gradient">repensée</span>
+                  <span className="text-gradient-animated">repensée</span>
                   <svg
                     className="absolute -bottom-2 left-0 w-full"
                     viewBox="0 0 200 12"
                     fill="none"
                     preserveAspectRatio="none"
                   >
-                    <path
+                    <motion.path
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
                       d="M2 9C50 3 100 3 198 9"
                       stroke="hsl(var(--primary))"
                       strokeWidth="3"
@@ -172,36 +175,41 @@ const Index = () => {
                 pour le Sénégal.
               </h1>
 
-              <p className="text-lg text-muted-foreground mb-10 max-w-xl leading-relaxed">
+              <p className="text-base sm:text-lg text-muted-foreground mb-8 sm:mb-10 max-w-xl leading-relaxed">
                 Tricycles cargo, motos urbaines et pièces détachées de qualité.
                 Hasilaza Motor accompagne votre activité depuis 2018.
               </p>
 
               <div className="flex flex-wrap gap-3 mb-12">
-                <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-7 rounded-full text-base shadow-ink group">
-                  <Link to="/produits" className="flex items-center gap-2">
-                    Voir le catalogue
-                    <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
-                  </Link>
-                </Button>
-                <Button variant="outline" size="lg" asChild className="h-14 px-7 text-base border-2 rounded-full bg-background/50 backdrop-blur hover:bg-background">
-                  <a href="https://wa.me/221769358317" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    <WhatsAppIcon className="w-5 h-5" />
-                    Discuter
-                  </a>
-                </Button>
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                  <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-7 rounded-full text-base shadow-ink group">
+                    <Link to="/produits" className="flex items-center gap-2">
+                      Voir le catalogue
+                      <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" />
+                    </Link>
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                  <Button variant="outline" size="lg" asChild className="h-14 px-7 text-base border-2 rounded-full bg-background/50 backdrop-blur hover:bg-background">
+                    <a href="https://wa.me/221769358317" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                      <WhatsAppIcon className="w-5 h-5" />
+                      Discuter
+                    </a>
+                  </Button>
+                </motion.div>
               </div>
 
-              <div className="grid grid-cols-4 gap-6 max-w-xl">
+              <div className="grid grid-cols-4 gap-3 sm:gap-6 max-w-xl">
                 {stats.map((stat, i) => (
                   <motion.div
                     key={stat.label}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + i * 0.08 }}
+                    whileHover={{ y: -4 }}
                   >
-                    <div className="font-display text-2xl md:text-3xl font-bold text-foreground">{stat.value}</div>
-                    <div className="text-xs text-muted-foreground uppercase tracking-wider mt-1">{stat.label}</div>
+                    <div className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-foreground">{stat.value}</div>
+                    <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mt-1">{stat.label}</div>
                   </motion.div>
                 ))}
               </div>
@@ -296,23 +304,29 @@ const Index = () => {
       </section>
 
       {/* CATEGORIES */}
-      <section className="py-24">
+      <section className="py-20 md:py-24">
         <div className="container">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-14"
+          >
             <div className="max-w-2xl">
               <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Catégories</span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
                 Une gamme complète pour tous vos besoins.
               </h2>
             </div>
             <Link
               to="/produits"
-              className="hidden md:inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors group"
+              className="hidden md:inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors group story-link"
             >
               Voir tous les produits
               <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform" />
             </Link>
-          </div>
+          </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {categories.map((cat, i) => (
@@ -376,36 +390,48 @@ const Index = () => {
       </section>
 
       {/* ADVANTAGES */}
-      <section className="py-24 bg-muted/30 border-y border-border">
-        <div className="container">
-          <div className="grid lg:grid-cols-12 gap-10 mb-14">
+      <section className="py-20 md:py-24 bg-muted/30 border-y border-border relative overflow-hidden">
+        <div className="absolute top-1/2 -left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-blob" />
+        <div className="container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="grid lg:grid-cols-12 gap-8 md:gap-10 mb-12 md:mb-14"
+          >
             <div className="lg:col-span-5">
               <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Pourquoi nous</span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
                 L'excellence à chaque étape.
               </h2>
             </div>
             <div className="lg:col-span-7 lg:pt-12">
-              <p className="text-lg text-muted-foreground">
+              <p className="text-base sm:text-lg text-muted-foreground">
                 Plus qu'un fournisseur, nous sommes votre partenaire de confiance. De la sélection rigoureuse de nos
                 véhicules à un service après-vente expert, nous engageons notre réputation sur chaque commande.
               </p>
             </div>
-          </div>
+          </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {advantages.map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="group bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-elegant transition-all"
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+                whileHover={{ y: -6 }}
+                className="group bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-ink transition-all duration-500"
               >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <motion.div
+                  whileHover={{ rotate: [0, -10, 10, -5, 0], scale: 1.15 }}
+                  transition={{ duration: 0.6 }}
+                  className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center mb-5 shadow-glow"
+                >
                   <item.icon className="w-6 h-6 text-primary-foreground" strokeWidth={2} />
-                </div>
-                <h3 className="font-display font-bold text-lg mb-2">{item.title}</h3>
+                </motion.div>
+                <h3 className="font-display font-bold text-lg mb-2 group-hover:text-primary transition-colors">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
@@ -414,31 +440,38 @@ const Index = () => {
       </section>
 
       {/* FEATURED PRODUCTS */}
-      <section className="py-24">
+      <section className="py-20 md:py-24">
         <div className="container">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-12"
+          >
             <div className="max-w-2xl">
               <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Best-sellers</span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
                 Nos produits les plus demandés.
               </h2>
             </div>
-            <Button asChild size="lg" variant="outline" className="border-2 rounded-full h-12 px-6 group hover:bg-secondary hover:text-secondary-foreground hover:border-secondary">
+            <Button asChild size="lg" variant="outline" className="border-2 rounded-full h-12 px-6 group hover:bg-secondary hover:text-secondary-foreground hover:border-secondary self-start md:self-auto">
               <Link to="/produits" className="flex items-center gap-2">
                 Tout voir
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
-          </div>
+          </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {featured.map((product, i) => (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
+                transition={{ delay: i * 0.05, duration: 0.5 }}
+                whileHover={{ y: -6 }}
               >
                 <Link
                   to={`/produits/${product.slug}`}
@@ -499,30 +532,45 @@ const Index = () => {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="py-24 bg-secondary text-secondary-foreground relative overflow-hidden">
+      <section className="py-20 md:py-24 bg-secondary text-secondary-foreground relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial opacity-40" />
-        <div className="absolute -top-20 right-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute -top-20 right-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-blob" />
+        <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] bg-primary-glow/10 rounded-full blur-3xl animate-blob" style={{ animationDelay: "3s" }} />
         <div className="relative container">
-          <div className="max-w-2xl mb-14">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mb-12 md:mb-14"
+          >
             <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Témoignages</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
               Ils nous font confiance.
             </h2>
-          </div>
+          </motion.div>
           <div className="grid md:grid-cols-3 gap-5">
             {testimonials.map((t, i) => (
               <motion.div
                 key={t.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40, rotate: -2 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white/5 border border-white/10 backdrop-blur rounded-3xl p-7"
+                transition={{ delay: i * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -8, rotate: 1 }}
+                className="bg-white/5 border border-white/10 backdrop-blur rounded-3xl p-7 hover:bg-white/10 hover:border-primary/30 transition-colors"
               >
-                <Quote className="w-8 h-8 text-primary mb-4" />
+                <motion.div
+                  initial={{ scale: 0, rotate: -45 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.12 + 0.2, type: "spring", stiffness: 200 }}
+                >
+                  <Quote className="w-8 h-8 text-primary mb-4" />
+                </motion.div>
                 <p className="text-secondary-foreground/90 leading-relaxed mb-6">{t.text}</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-white/10">
-                  <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground">
+                  <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground shadow-glow">
                     {t.name[0]}
                   </div>
                   <div>
@@ -540,39 +588,64 @@ const Index = () => {
       <Partners />
 
       {/* CTA */}
-      <section className="py-24">
+      <section className="py-20 md:py-24">
         <div className="container">
-          <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-primary p-12 md:p-20 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 40 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-gradient-primary p-8 sm:p-12 md:p-20 text-center"
+          >
             <div className="absolute inset-0 grain opacity-50" />
+            <div className="absolute -top-32 -right-32 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-blob" />
+            <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: "5s" }} />
             <div className="relative max-w-3xl mx-auto">
-              <Sparkles className="w-12 h-12 text-primary-foreground/80 mx-auto mb-6" />
-              <h2 className="font-display text-4xl md:text-6xl font-bold text-primary-foreground mb-6 text-balance">
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="inline-block mb-6"
+              >
+                <Sparkles className="w-12 h-12 text-primary-foreground/80 mx-auto" />
+              </motion.div>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-6xl font-bold text-primary-foreground mb-6 text-balance">
                 Prêt à transformer votre activité ?
               </h2>
-              <p className="text-lg text-primary-foreground/90 mb-10 max-w-xl mx-auto">
+              <p className="text-base sm:text-lg text-primary-foreground/90 mb-8 md:mb-10 max-w-xl mx-auto">
                 Contactez-nous pour un devis personnalisé et découvrez nos offres exclusives.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-8 rounded-full text-base">
-                  <Link to="/produits">Voir le catalogue</Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="border-2 border-secondary text-secondary bg-transparent hover:bg-secondary hover:text-secondary-foreground h-14 px-8 rounded-full text-base">
-                  <a href="tel:+221769358317" className="flex items-center gap-2">
-                    <Phone className="w-5 h-5" />
-                    +221 76 935 83 17
-                  </a>
-                </Button>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                  <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-8 rounded-full text-base w-full">
+                    <Link to="/produits">Voir le catalogue</Link>
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                  <Button asChild size="lg" variant="outline" className="border-2 border-primary-foreground/40 text-primary-foreground bg-transparent hover:bg-primary-foreground hover:text-primary h-14 px-8 rounded-full text-base w-full">
+                    <a href="tel:+221769358317" className="flex items-center justify-center gap-2">
+                      <Phone className="w-5 h-5" />
+                      +221 76 935 83 17
+                    </a>
+                  </Button>
+                </motion.div>
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-6 mt-10 text-sm text-primary-foreground/80">
-                {["Sans engagement", "Devis gratuit", "Réponse sous 24h"].map((f) => (
-                  <span key={f} className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-8 md:mt-10 text-sm text-primary-foreground/80">
+                {["Sans engagement", "Devis gratuit", "Réponse sous 24h"].map((f, i) => (
+                  <motion.span
+                    key={f}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + i * 0.1 }}
+                    className="flex items-center gap-2"
+                  >
                     <CheckCircle2 className="w-4 h-4" />
                     {f}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 

@@ -29,27 +29,33 @@ const APropos = () => (
     />
     <Header />
 
-    <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">
+    <section className="relative pt-12 pb-16 md:pt-24 md:pb-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-radial opacity-60" />
-      <div className="absolute -top-20 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl" />
+      <div className="absolute -top-20 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl animate-blob" />
+      <div className="absolute -bottom-20 -left-10 w-72 h-72 bg-primary-glow/10 rounded-full blur-3xl animate-blob" style={{ animationDelay: "5s" }} />
 
-      <div className="relative container">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="relative container"
+      >
         <div className="max-w-4xl">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
+            <Sparkles className="w-3.5 h-3.5 text-primary animate-pulse" />
             <span className="text-xs font-medium text-primary uppercase tracking-widest">Notre histoire</span>
           </div>
-          <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 text-balance leading-[1.05]">
+          <h1 className="font-display text-[2.5rem] sm:text-5xl md:text-7xl font-bold mb-5 md:mb-6 text-balance leading-[1.05]">
             Plus qu'une entreprise,{" "}
-            <span className="text-gradient">une mission.</span>
+            <span className="text-gradient-animated">une mission.</span>
           </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl">
             Depuis 2018, Hasilaza Motor accompagne les Sénégalais dans leur mobilité.
             Tricycles cargo, motos, pièces détachées : nous proposons des solutions
             fiables pour les professionnels et les particuliers.
           </p>
         </div>
-      </div>
+      </motion.div>
     </section>
 
     <section className="py-20 bg-muted/30 border-y border-border">
@@ -124,15 +130,17 @@ const APropos = () => (
           {milestones.map((m, i) => (
             <motion.div
               key={m.year}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="relative bg-card border border-border rounded-3xl p-6 hover:border-primary/40 transition-all"
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="relative bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-ink transition-all overflow-hidden group"
             >
-              <div className="font-display text-5xl font-bold text-gradient mb-4">{m.year}</div>
-              <h3 className="font-display font-bold mb-2">{m.title}</h3>
-              <p className="text-sm text-muted-foreground">{m.desc}</p>
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/15 transition-colors" />
+              <div className="relative font-display text-5xl font-bold text-gradient-animated mb-4">{m.year}</div>
+              <h3 className="relative font-display font-bold mb-2">{m.title}</h3>
+              <p className="relative text-sm text-muted-foreground">{m.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -152,16 +160,21 @@ const APropos = () => (
           {values.map((v, i) => (
             <motion.div
               key={v.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="bg-white/5 border border-white/10 backdrop-blur rounded-3xl p-6 hover:bg-white/10 transition-all"
+              transition={{ delay: i * 0.1, duration: 0.6 }}
+              whileHover={{ y: -8 }}
+              className="group bg-white/5 border border-white/10 backdrop-blur rounded-3xl p-6 hover:bg-white/10 hover:border-primary/30 transition-all"
             >
-              <div className="w-14 h-14 bg-gradient-primary rounded-2xl flex items-center justify-center mb-4 shadow-glow">
+              <motion.div
+                whileHover={{ rotate: 360, scale: 1.1 }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
+                className="w-14 h-14 bg-gradient-primary rounded-2xl flex items-center justify-center mb-4 shadow-glow"
+              >
                 <v.icon className="w-7 h-7 text-primary-foreground" />
-              </div>
-              <h3 className="font-display font-bold text-secondary-foreground mb-2">{v.title}</h3>
+              </motion.div>
+              <h3 className="font-display font-bold text-secondary-foreground mb-2 group-hover:text-primary transition-colors">{v.title}</h3>
               <p className="text-sm text-secondary-foreground/70">{v.desc}</p>
             </motion.div>
           ))}

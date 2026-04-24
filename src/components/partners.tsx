@@ -5,6 +5,7 @@ import humanAppeal from "@/assets/partners/human-appeal.png";
 import qatarCharity from "@/assets/partners/qatar-charity.png";
 import socodevi from "@/assets/partners/socodevi.png";
 import somaphy from "@/assets/partners/somaphy.png";
+import sogepal from "@/assets/partners/sogepal.webp";
 
 const partners = [
   { name: "ANCS", logo: ancs },
@@ -13,6 +14,7 @@ const partners = [
   { name: "Qatar Charity", logo: qatarCharity },
   { name: "SOCODEVI", logo: socodevi },
   { name: "Somaphy West Africa", logo: somaphy },
+  { name: "SOGEPAL", logo: sogepal },
 ];
 
 export function Partners() {

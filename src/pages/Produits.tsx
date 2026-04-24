@@ -297,12 +297,14 @@ const Produits = () => {
                               <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{product.shortDescription}</p>
                               <div className="flex items-end justify-between pt-4 border-t border-border">
                                 <div>
-                                  {product.price > 0 ? (
+                                  {product.category === "piece" ? (
+                                    <span className="font-display text-sm font-bold text-primary">Prix sur demande</span>
+                                  ) : product.price > 0 ? (
                                     <span className="font-display text-xl font-bold">{formatPrice(product.price)}</span>
                                   ) : (
                                     <span className="font-display text-sm font-bold text-primary">Sur demande</span>
                                   )}
-                                  {product.oldPrice && (
+                                  {product.category !== "piece" && product.oldPrice && (
                                     <span className="text-xs text-muted-foreground line-through ml-2">
                                       {formatPrice(product.oldPrice)}
                                     </span>

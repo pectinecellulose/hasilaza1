@@ -188,7 +188,7 @@ const ProduitDetail = () => {
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title={`${product.name} - ${formatPrice(product.price)} | Hasilaza Motor Sénégal`}
+        title={`${product.name}${product.category === "piece" ? "" : ` - ${formatPrice(product.price)}`} | Hasilaza Motor Sénégal`}
         description={`${product.shortDescription} Livraison Dakar gratuite, garantie 2 ans. Commandez maintenant.`}
         canonical={`/produits/${product.slug}`}
         type="product"
@@ -415,7 +415,16 @@ const ProduitDetail = () => {
                 variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
                 className="flex items-baseline gap-3 mb-6 pb-6 border-b border-border"
               >
-                {product.price > 0 ? (
+                {product.category === "piece" ? (
+                  <motion.span
+                    initial={{ scale: 0.6, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.4, type: "spring", stiffness: 150 }}
+                    className="font-display text-3xl md:text-4xl font-bold text-gradient"
+                  >
+                    Prix sur demande
+                  </motion.span>
+                ) : product.price > 0 ? (
                   <motion.span
                     initial={{ scale: 0.6, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -427,7 +436,7 @@ const ProduitDetail = () => {
                 ) : (
                   <span className="font-display text-3xl md:text-4xl font-bold text-gradient">Sur demande</span>
                 )}
-                {product.oldPrice && (
+                {product.category !== "piece" && product.oldPrice && (
                   <span className="text-lg text-muted-foreground line-through">{formatPrice(product.oldPrice)}</span>
                 )}
               </motion.div>
@@ -757,7 +766,9 @@ const ProduitDetail = () => {
                         <h3 className="font-display font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 mb-1">
                           {p.name}
                         </h3>
-                        <span className="font-display text-base font-bold">{formatPrice(p.price)}</span>
+                        <span className="font-display text-base font-bold">
+                          {p.category === "piece" ? "Prix sur demande" : formatPrice(p.price)}
+                        </span>
                       </div>
                     </Link>
                   </motion.div>

@@ -134,8 +134,8 @@ const Index = () => {
       {/* HERO */}
       <section className="relative overflow-hidden grain">
         <div className="absolute inset-0 bg-gradient-radial" />
-        <div className="absolute top-1/3 -right-40 w-[600px] h-[600px] bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-primary-glow/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 -right-40 w-[500px] md:w-[600px] h-[500px] md:h-[600px] bg-primary/20 rounded-full blur-3xl animate-blob" />
+        <div className="absolute -bottom-40 -left-40 w-[400px] md:w-[500px] h-[400px] md:h-[500px] bg-primary-glow/15 rounded-full blur-3xl animate-blob" style={{ animationDelay: "4s" }} />
 
         <div className="relative container pt-16 pb-24 md:pt-24 md:pb-32">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
@@ -564,7 +564,7 @@ const Index = () => {
                 <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-8 rounded-full text-base">
                   <Link to="/produits">Voir le catalogue</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="border-2 border-secondary text-secondary bg-transparent hover:bg-secondary hover:text-secondary-foreground h-14 px-8 rounded-full text-base">
+                <Button asChild size="lg" variant="outline" className="border-2 border-primary-foreground/40 text-primary-foreground bg-transparent hover:bg-primary-foreground hover:text-primary h-14 px-8 rounded-full text-base">
                   <a href="tel:+221769358317" className="flex items-center gap-2">
                     <Phone className="w-5 h-5" />
                     +221 76 935 83 17

@@ -8,3 +8,4 @@ Disallow: /auth
 Disallow: /unsubscribe
 
 Sitemap: https://hasilaza.com/sitemap.xml
+Sitemap: https://apfvvhishvyjithdshdr.supabase.co/functions/v1/sitemap

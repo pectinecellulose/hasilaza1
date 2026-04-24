@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { supabase } from "@/integrations/supabase/client";
+import blogFallback from "@/assets/blog-fallback.jpg";
 
 interface Post {
   id: string;
@@ -101,18 +102,15 @@ const Blog = () => {
                     className="group block bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-ink transition-all duration-500 h-full"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                      {post.cover_image ? (
-                        <img
-                          src={post.cover_image}
-                          alt={post.title}
-                          loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-primary/10">
-                          <BookOpen className="w-16 h-16 text-primary/40" />
-                        </div>
-                      )}
+                      <img
+                        src={post.cover_image || blogFallback}
+                        alt={post.title}
+                        loading="lazy"
+                        width={1280}
+                        height={800}
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
                     <div className="p-6">
                       <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">

@@ -8,6 +8,7 @@ import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import NotFound from "@/pages/NotFound";
+import blogFallback from "@/assets/blog-fallback.jpg";
 
 interface Post {
   id: string;
@@ -181,16 +182,20 @@ const BlogPost = () => {
             </div>
           </motion.header>
 
-          {post.cover_image && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="aspect-[16/9] rounded-3xl overflow-hidden bg-muted mb-12 border border-border shadow-ink"
-            >
-              <img src={post.cover_image} alt={post.title} className="w-full h-full object-cover" />
-            </motion.div>
-          )}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="aspect-[16/9] rounded-3xl overflow-hidden bg-muted mb-12 border border-border shadow-ink"
+          >
+            <img
+              src={post.cover_image || blogFallback}
+              alt={post.title}
+              width={1280}
+              height={720}
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

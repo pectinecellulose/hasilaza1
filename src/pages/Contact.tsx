@@ -74,22 +74,28 @@ const Contact = () => {
       />
       <Header />
 
-      <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 overflow-hidden">
+      <section className="relative pt-12 pb-10 md:pt-24 md:pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial opacity-60" />
-        <div className="relative container">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-blob" />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="relative container"
+        >
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full mb-6">
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <Sparkles className="w-3.5 h-3.5 text-primary animate-pulse" />
               <span className="text-xs font-medium text-primary uppercase tracking-widest">Contact</span>
             </div>
-            <h1 className="font-display text-5xl md:text-7xl font-bold mb-5 text-balance leading-[1.05]">
-              Parlons de votre <span className="text-gradient">projet.</span>
+            <h1 className="font-display text-[2.5rem] sm:text-5xl md:text-7xl font-bold mb-4 md:mb-5 text-balance leading-[1.05]">
+              Parlons de votre <span className="text-gradient-animated">projet.</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-xl">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-xl">
               Une question, une commande spéciale ou un devis ? Notre équipe vous répond rapidement.
             </p>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <section className="pb-24">

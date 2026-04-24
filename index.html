@@ -39,15 +39,25 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "AutomotiveBusiness",
+      "@type": ["LocalBusiness", "AutomotiveBusiness", "Store"],
+      "@id": "https://hasilaza.com/#business",
       "name": "Hasilaza Motor",
+      "alternateName": "Hasilaza Motor Sénégal",
+      "description": "Vente de tricycles cargo (200/250/300CC), motos urbaines 150CC et pièces détachées au Sénégal. Livraison Dakar, garantie 2 ans, SAV expert.",
       "image": "https://hasilaza.com/og-image.jpg",
+      "logo": "https://hasilaza.com/og-image.jpg",
       "url": "https://hasilaza.com",
       "telephone": "+221769358317",
+      "email": "hasilazasenegal@gmail.com",
       "priceRange": "$$",
+      "currenciesAccepted": "XOF",
+      "paymentAccepted": "Cash, Mobile Money, Wave, Orange Money",
       "address": {
         "@type": "PostalAddress",
+        "streetAddress": "HLM 2",
         "addressLocality": "Dakar",
+        "addressRegion": "Dakar",
+        "postalCode": "11000",
         "addressCountry": "SN"
       },
       "geo": {
@@ -55,13 +65,33 @@
         "latitude": 14.6928,
         "longitude": -17.4467
       },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        "opens": "08:00",
-        "closes": "19:00"
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=Hasilaza+Motor+HLM+2+Dakar",
+      "areaServed": [
+        { "@type": "City", "name": "Dakar" },
+        { "@type": "City", "name": "Thiès" },
+        { "@type": "City", "name": "Saint-Louis" },
+        { "@type": "City", "name": "Mbour" },
+        { "@type": "City", "name": "Kaolack" },
+        { "@type": "Country", "name": "Sénégal" }
+      ],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "5000",
+        "bestRating": "5",
+        "worstRating": "1"
       },
-      "sameAs": ["https://wa.me/221769358317"]
+      "sameAs": [
+        "https://wa.me/221769358317"
+      ]
     }
     </script>
   </head>

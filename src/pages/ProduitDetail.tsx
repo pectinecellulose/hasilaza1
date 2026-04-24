@@ -529,7 +529,13 @@ const ProduitDetail = () => {
             </motion.div>
           </div>
 
-          <div className="mt-20">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-20"
+          >
             <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Tout savoir</span>
             <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">À propos de ce produit</h2>
 
@@ -537,21 +543,21 @@ const ProduitDetail = () => {
               <TabsList className="h-auto p-1.5 bg-muted/60 rounded-2xl flex flex-wrap gap-1 w-full sm:w-auto sm:inline-flex">
                 <TabsTrigger
                   value="description"
-                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2"
+                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2 transition-all"
                 >
                   <Sparkles className="w-4 h-4" />
                   Description
                 </TabsTrigger>
                 <TabsTrigger
                   value="specifications"
-                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2"
+                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2 transition-all"
                 >
                   <Package className="w-4 h-4" />
                   Spécifications
                 </TabsTrigger>
                 <TabsTrigger
                   value="features"
-                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2"
+                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2 transition-all"
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   Caractéristiques
@@ -559,51 +565,73 @@ const ProduitDetail = () => {
               </TabsList>
 
               <TabsContent value="description" className="mt-6">
-                <div className="bg-card rounded-3xl border border-border p-6 md:p-10">
-                  <div className="prose prose-neutral dark:prose-invert max-w-none">
+                <motion.div
+                  key="desc"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="bg-card rounded-3xl border border-border p-6 md:p-10 relative overflow-hidden"
+                >
+                  <div className="absolute -top-20 -right-20 w-60 h-60 bg-gradient-radial opacity-30 pointer-events-none" />
+                  <div className="prose prose-neutral dark:prose-invert max-w-none relative">
                     <p className="text-foreground/85 leading-relaxed text-base md:text-lg whitespace-pre-line">
                       {product.description}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               </TabsContent>
 
               <TabsContent value="specifications" className="mt-6">
                 {product.specifications.length > 0 ? (
-                  <div className="bg-card rounded-3xl border border-border overflow-hidden">
+                  <motion.div
+                    initial="hidden"
+                    animate="show"
+                    variants={{ hidden: {}, show: { transition: { staggerChildren: 0.04 } } }}
+                    className="bg-card rounded-3xl border border-border overflow-hidden"
+                  >
                     <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border">
                       <div className="divide-y divide-border">
                         {product.specifications
                           .filter((_, i) => i % 2 === 0)
                           .map((spec) => (
-                            <div
+                            <motion.div
                               key={spec.label}
-                              className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-muted/30 transition-colors"
+                              variants={{
+                                hidden: { opacity: 0, x: -20 },
+                                show: { opacity: 1, x: 0 },
+                              }}
+                              whileHover={{ backgroundColor: "hsl(var(--muted) / 0.5)", x: 4 }}
+                              className="flex items-center justify-between gap-4 px-6 py-4 transition-colors"
                             >
                               <dt className="font-medium text-muted-foreground text-sm">{spec.label}</dt>
                               <dd className="font-display font-semibold text-foreground text-sm text-right">
                                 {spec.value}
                               </dd>
-                            </div>
+                            </motion.div>
                           ))}
                       </div>
                       <div className="divide-y divide-border">
                         {product.specifications
                           .filter((_, i) => i % 2 === 1)
                           .map((spec) => (
-                            <div
+                            <motion.div
                               key={spec.label}
-                              className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-muted/30 transition-colors"
+                              variants={{
+                                hidden: { opacity: 0, x: 20 },
+                                show: { opacity: 1, x: 0 },
+                              }}
+                              whileHover={{ backgroundColor: "hsl(var(--muted) / 0.5)", x: -4 }}
+                              className="flex items-center justify-between gap-4 px-6 py-4 transition-colors"
                             >
                               <dt className="font-medium text-muted-foreground text-sm">{spec.label}</dt>
                               <dd className="font-display font-semibold text-foreground text-sm text-right">
                                 {spec.value}
                               </dd>
-                            </div>
+                            </motion.div>
                           ))}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ) : (
                   <div className="bg-card rounded-3xl border border-border p-10 text-center text-muted-foreground">
                     Aucune spécification disponible pour ce produit.
@@ -614,19 +642,33 @@ const ProduitDetail = () => {
               <TabsContent value="features" className="mt-6">
                 {product.features.length > 0 ? (
                   <div className="bg-card rounded-3xl border border-border p-6 md:p-8">
-                    <div className="grid sm:grid-cols-2 gap-3">
+                    <motion.div
+                      initial="hidden"
+                      animate="show"
+                      variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}
+                      className="grid sm:grid-cols-2 gap-3"
+                    >
                       {product.features.map((feature) => (
-                        <div
+                        <motion.div
                           key={feature}
-                          className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 border border-border/50 hover:border-primary/40 hover:bg-muted/60 transition-all"
+                          variants={{
+                            hidden: { opacity: 0, y: 20, scale: 0.95 },
+                            show: { opacity: 1, y: 0, scale: 1 },
+                          }}
+                          whileHover={{ y: -4, scale: 1.02 }}
+                          className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 border border-border/50 hover:border-primary/40 hover:bg-muted/60 hover:shadow-elegant transition-all cursor-default"
                         >
-                          <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                          <motion.div
+                            whileHover={{ rotate: 360, scale: 1.1 }}
+                            transition={{ duration: 0.5 }}
+                            className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0"
+                          >
                             <CheckCircle2 className="w-4 h-4 text-primary" />
-                          </div>
+                          </motion.div>
                           <span className="text-foreground/90 text-sm leading-relaxed pt-1">{feature}</span>
-                        </div>
+                        </motion.div>
                       ))}
-                    </div>
+                    </motion.div>
                   </div>
                 ) : (
                   <div className="bg-card rounded-3xl border border-border p-10 text-center text-muted-foreground">
@@ -635,46 +677,68 @@ const ProduitDetail = () => {
                 )}
               </TabsContent>
             </Tabs>
-          </div>
+          </motion.div>
 
           {related.length > 0 && (
-            <div className="mt-24">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.6 }}
+              className="mt-24"
+            >
               <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Vous aimerez aussi</span>
               <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">Produits similaires</h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              <motion.div
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+                className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
+              >
                 {related.map((p) => (
-                  <Link
+                  <motion.div
                     key={p.id}
-                    to={`/produits/${p.slug}`}
-                    className="group block bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-ink transition-all duration-500"
+                    variants={{
+                      hidden: { opacity: 0, y: 30, scale: 0.95 },
+                      show: { opacity: 1, y: 0, scale: 1 },
+                    }}
+                    whileHover={{ y: -8 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
                   >
-                    <div className="relative aspect-square overflow-hidden bg-muted">
-                      {p.images?.[0] ? (
-                        <img
-                          src={p.images[0]}
-                          alt={p.name}
-                          loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Wrench className="w-14 h-14 text-muted-foreground/30 group-hover:rotate-12 transition-transform duration-500" />
+                    <Link
+                      to={`/produits/${p.slug}`}
+                      className="group block bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-ink transition-all duration-500"
+                    >
+                      <div className="relative aspect-square overflow-hidden bg-muted">
+                        {p.images?.[0] ? (
+                          <img
+                            src={p.images[0]}
+                            alt={p.name}
+                            loading="lazy"
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Wrench className="w-14 h-14 text-muted-foreground/30 group-hover:rotate-12 transition-transform duration-500" />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-secondary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute top-3 right-3 w-9 h-9 rounded-full bg-card/90 backdrop-blur flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-300">
+                          <ArrowUpRight className="w-4 h-4" />
                         </div>
-                      )}
-                      <div className="absolute top-3 right-3 w-9 h-9 rounded-full bg-card/90 backdrop-blur flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
-                        <ArrowUpRight className="w-4 h-4" />
                       </div>
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-display font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 mb-1">
-                        {p.name}
-                      </h3>
-                      <span className="font-display text-base font-bold">{formatPrice(p.price)}</span>
-                    </div>
-                  </Link>
+                      <div className="p-4">
+                        <h3 className="font-display font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 mb-1">
+                          {p.name}
+                        </h3>
+                        <span className="font-display text-base font-bold">{formatPrice(p.price)}</span>
+                      </div>
+                    </Link>
+                  </motion.div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           )}
         </div>
       </section>

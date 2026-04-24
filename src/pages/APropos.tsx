@@ -130,15 +130,17 @@ const APropos = () => (
           {milestones.map((m, i) => (
             <motion.div
               key={m.year}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="relative bg-card border border-border rounded-3xl p-6 hover:border-primary/40 transition-all"
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="relative bg-card border border-border rounded-3xl p-6 hover:border-primary/40 hover:shadow-ink transition-all overflow-hidden group"
             >
-              <div className="font-display text-5xl font-bold text-gradient mb-4">{m.year}</div>
-              <h3 className="font-display font-bold mb-2">{m.title}</h3>
-              <p className="text-sm text-muted-foreground">{m.desc}</p>
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/15 transition-colors" />
+              <div className="relative font-display text-5xl font-bold text-gradient-animated mb-4">{m.year}</div>
+              <h3 className="relative font-display font-bold mb-2">{m.title}</h3>
+              <p className="relative text-sm text-muted-foreground">{m.desc}</p>
             </motion.div>
           ))}
         </div>

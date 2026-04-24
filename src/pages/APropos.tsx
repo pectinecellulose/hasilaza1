@@ -158,16 +158,21 @@ const APropos = () => (
           {values.map((v, i) => (
             <motion.div
               key={v.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="bg-white/5 border border-white/10 backdrop-blur rounded-3xl p-6 hover:bg-white/10 transition-all"
+              transition={{ delay: i * 0.1, duration: 0.6 }}
+              whileHover={{ y: -8 }}
+              className="group bg-white/5 border border-white/10 backdrop-blur rounded-3xl p-6 hover:bg-white/10 hover:border-primary/30 transition-all"
             >
-              <div className="w-14 h-14 bg-gradient-primary rounded-2xl flex items-center justify-center mb-4 shadow-glow">
+              <motion.div
+                whileHover={{ rotate: 360, scale: 1.1 }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
+                className="w-14 h-14 bg-gradient-primary rounded-2xl flex items-center justify-center mb-4 shadow-glow"
+              >
                 <v.icon className="w-7 h-7 text-primary-foreground" />
-              </div>
-              <h3 className="font-display font-bold text-secondary-foreground mb-2">{v.title}</h3>
+              </motion.div>
+              <h3 className="font-display font-bold text-secondary-foreground mb-2 group-hover:text-primary transition-colors">{v.title}</h3>
               <p className="text-sm text-secondary-foreground/70">{v.desc}</p>
             </motion.div>
           ))}

@@ -304,23 +304,29 @@ const Index = () => {
       </section>
 
       {/* CATEGORIES */}
-      <section className="py-24">
+      <section className="py-20 md:py-24">
         <div className="container">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-14"
+          >
             <div className="max-w-2xl">
               <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Catégories</span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
                 Une gamme complète pour tous vos besoins.
               </h2>
             </div>
             <Link
               to="/produits"
-              className="hidden md:inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors group"
+              className="hidden md:inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors group story-link"
             >
               Voir tous les produits
               <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform" />
             </Link>
-          </div>
+          </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {categories.map((cat, i) => (

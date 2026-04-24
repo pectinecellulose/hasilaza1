@@ -334,8 +334,18 @@ const ProduitDetail = () => {
               )}
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <div className="flex items-center gap-2 flex-wrap">
+            <motion.div
+              initial="hidden"
+              animate="show"
+              variants={{
+                hidden: {},
+                show: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
+              }}
+            >
+              <motion.div
+                variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+                className="flex items-center gap-2 flex-wrap"
+              >
                 <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">
                   {product.subcategory ?? product.category}
                 </span>

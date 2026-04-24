@@ -29,6 +29,7 @@ import logo from "@/assets/logo.png";
 import categoryTricycle from "@/assets/category-tricycle.jpg";
 import categoryMoto from "@/assets/category-moto.jpg";
 import categoryPieces from "@/assets/category-pieces.jpg";
+import heroTricycle from "@/assets/hero-tricycle.png";
 
 const stats = [
   { value: "5+", label: "Années" },
@@ -262,13 +263,14 @@ const Index = () => {
                     <div className="absolute inset-0 bg-gradient-radial opacity-50" />
                     <div className="absolute inset-0 grain" />
                     <div className="relative w-full h-full flex flex-col items-center justify-center p-10 text-center">
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                        className="absolute"
-                      >
-                        <Cog className="w-72 h-72 text-primary/10" />
-                      </motion.div>
+                      <motion.img
+                        src={heroTricycle}
+                        alt="Tricycle Hasilaza Motor"
+                        animate={{ y: [0, -12, 0] }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute w-[110%] max-w-none opacity-20 pointer-events-none select-none"
+                        loading="lazy"
+                      />
                       <div className="relative flex flex-col items-center">
                         <div className="w-40 h-40 md:w-48 md:h-48 rounded-3xl bg-white/95 flex items-center justify-center shadow-glow p-5 mb-6">
                           <img src={logo} alt="Logo Hasilaza Motor" className="w-full h-full object-contain" />

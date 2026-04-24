@@ -532,30 +532,45 @@ const Index = () => {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="py-24 bg-secondary text-secondary-foreground relative overflow-hidden">
+      <section className="py-20 md:py-24 bg-secondary text-secondary-foreground relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial opacity-40" />
-        <div className="absolute -top-20 right-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute -top-20 right-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-blob" />
+        <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] bg-primary-glow/10 rounded-full blur-3xl animate-blob" style={{ animationDelay: "3s" }} />
         <div className="relative container">
-          <div className="max-w-2xl mb-14">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mb-12 md:mb-14"
+          >
             <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Témoignages</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-3 text-balance">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 text-balance">
               Ils nous font confiance.
             </h2>
-          </div>
+          </motion.div>
           <div className="grid md:grid-cols-3 gap-5">
             {testimonials.map((t, i) => (
               <motion.div
                 key={t.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40, rotate: -2 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white/5 border border-white/10 backdrop-blur rounded-3xl p-7"
+                transition={{ delay: i * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -8, rotate: 1 }}
+                className="bg-white/5 border border-white/10 backdrop-blur rounded-3xl p-7 hover:bg-white/10 hover:border-primary/30 transition-colors"
               >
-                <Quote className="w-8 h-8 text-primary mb-4" />
+                <motion.div
+                  initial={{ scale: 0, rotate: -45 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.12 + 0.2, type: "spring", stiffness: 200 }}
+                >
+                  <Quote className="w-8 h-8 text-primary mb-4" />
+                </motion.div>
                 <p className="text-secondary-foreground/90 leading-relaxed mb-6">{t.text}</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-white/10">
-                  <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground">
+                  <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground shadow-glow">
                     {t.name[0]}
                   </div>
                   <div>

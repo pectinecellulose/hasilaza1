@@ -355,107 +355,177 @@ const ProduitDetail = () => {
                     En stock · Livraison rapide
                   </span>
                 )}
-              </div>
-              <h1 className="font-display text-3xl md:text-5xl font-bold mt-3 mb-5 leading-tight text-balance">
+              </motion.div>
+              <motion.h1
+                variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
+                className="font-display text-3xl md:text-5xl font-bold mt-3 mb-5 leading-tight text-balance"
+              >
                 {product.name}
-              </h1>
+              </motion.h1>
 
-              <div className="flex items-center gap-3 mb-6">
+              <motion.div
+                variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+                className="flex items-center gap-3 mb-6"
+              >
                 <div className="flex items-center gap-0.5">
                   {[...Array(5)].map((_, i) => (
-                    <Star
+                    <motion.div
                       key={i}
-                      className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-primary fill-primary" : "text-muted"}`}
-                    />
+                      initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                      transition={{ delay: 0.5 + i * 0.08, type: "spring", stiffness: 200 }}
+                    >
+                      <Star
+                        className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-primary fill-primary" : "text-muted"}`}
+                      />
+                    </motion.div>
                   ))}
                 </div>
                 <span className="text-sm text-muted-foreground">
                   {product.rating} · {product.reviews} avis vérifiés
                 </span>
-              </div>
+              </motion.div>
 
-              <div className="flex items-baseline gap-3 mb-6 pb-6 border-b border-border">
+              <motion.div
+                variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+                className="flex items-baseline gap-3 mb-6 pb-6 border-b border-border"
+              >
                 {product.price > 0 ? (
-                  <span className="font-display text-4xl md:text-5xl font-bold text-gradient">{formatPrice(product.price)}</span>
+                  <motion.span
+                    initial={{ scale: 0.6, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.4, type: "spring", stiffness: 150 }}
+                    className="font-display text-4xl md:text-5xl font-bold text-gradient"
+                  >
+                    {formatPrice(product.price)}
+                  </motion.span>
                 ) : (
                   <span className="font-display text-3xl md:text-4xl font-bold text-gradient">Sur demande</span>
                 )}
                 {product.oldPrice && (
                   <span className="text-lg text-muted-foreground line-through">{formatPrice(product.oldPrice)}</span>
                 )}
-              </div>
+              </motion.div>
 
-              <p className="text-muted-foreground leading-relaxed mb-7">{product.shortDescription}</p>
+              <motion.p
+                variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+                className="text-muted-foreground leading-relaxed mb-7"
+              >
+                {product.shortDescription}
+              </motion.p>
 
-              <div className="flex items-center gap-3 mb-7 p-4 rounded-2xl bg-primary/5 border border-primary/20">
-                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <motion.div
+                variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+                whileHover={{ scale: 1.02 }}
+                className="flex items-center gap-3 mb-7 p-4 rounded-2xl bg-primary/5 border border-primary/20 hover:border-primary/40 transition-colors"
+              >
+                <motion.div
+                  animate={{ rotate: [0, -12, 12, -12, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
+                  className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0"
+                >
                   <Phone className="w-5 h-5 text-primary" />
-                </div>
+                </motion.div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">Besoin de conseils ?</p>
                   <a href="tel:+221769358317" className="font-display font-bold text-foreground hover:text-primary transition-colors">
                     +221 76 935 83 17
                   </a>
                 </div>
-              </div>
+              </motion.div>
 
               {product.category !== "piece" && (
-                <div className="flex items-center gap-4 mb-6">
+                <motion.div
+                  variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+                  className="flex items-center gap-4 mb-6"
+                >
                   <span className="text-sm font-medium text-foreground">Quantité</span>
                   <div className="flex items-center bg-muted/50 border border-border rounded-2xl">
-                    <button
+                    <motion.button
+                      whileTap={{ scale: 0.85 }}
                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                      className="w-11 h-11 flex items-center justify-center hover:bg-muted rounded-l-2xl active:scale-95 transition-all"
+                      className="w-11 h-11 flex items-center justify-center hover:bg-muted rounded-l-2xl transition-colors"
                       aria-label="Diminuer"
                     >
                       <Minus className="w-4 h-4" />
-                    </button>
-                    <span className="w-12 text-center font-display font-bold">{quantity}</span>
-                    <button
+                    </motion.button>
+                    <AnimatePresence mode="popLayout">
+                      <motion.span
+                        key={quantity}
+                        initial={{ y: -15, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 15, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="w-12 text-center font-display font-bold"
+                      >
+                        {quantity}
+                      </motion.span>
+                    </AnimatePresence>
+                    <motion.button
+                      whileTap={{ scale: 0.85 }}
                       onClick={() => setQuantity((q) => q + 1)}
-                      className="w-11 h-11 flex items-center justify-center hover:bg-muted rounded-r-2xl active:scale-95 transition-all"
+                      className="w-11 h-11 flex items-center justify-center hover:bg-muted rounded-r-2xl transition-colors"
                       aria-label="Augmenter"
                     >
                       <Plus className="w-4 h-4" />
-                    </button>
+                    </motion.button>
                   </div>
-                </div>
+                </motion.div>
               )}
 
-              <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                <Button
-                  size="lg"
-                  onClick={() => setOrderOpen(true)}
-                  className="flex-1 h-14 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-2xl text-base font-semibold shadow-ink"
-                >
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                  Commander
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  asChild
-                  className="flex-1 h-14 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-2xl text-base font-semibold bg-transparent"
-                >
-                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="w-5 h-5 mr-2" />
-                    WhatsApp
-                  </a>
-                </Button>
-              </div>
+              <motion.div
+                variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+                className="flex flex-col sm:flex-row gap-3 mb-10"
+              >
+                <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }} className="flex-1">
+                  <Button
+                    size="lg"
+                    onClick={() => setOrderOpen(true)}
+                    className="w-full h-14 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-2xl text-base font-semibold shadow-ink relative overflow-hidden group"
+                  >
+                    <span className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <span className="relative flex items-center justify-center">
+                      <ShoppingCart className="w-5 h-5 mr-2" />
+                      Commander
+                    </span>
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }} className="flex-1">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    asChild
+                    className="w-full h-14 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-2xl text-base font-semibold bg-transparent"
+                  >
+                    <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="w-5 h-5 mr-2" />
+                      WhatsApp
+                    </a>
+                  </Button>
+                </motion.div>
+              </motion.div>
 
-              <div className="grid grid-cols-3 gap-4 p-5 bg-muted/40 rounded-2xl border border-border">
+              <motion.div
+                variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+                className="grid grid-cols-3 gap-4 p-5 bg-muted/40 rounded-2xl border border-border"
+              >
                 {[
                   { icon: Truck, label: "Livraison Dakar" },
                   { icon: Shield, label: "Garantie 2 ans" },
                   { icon: Wrench, label: "SAV expert" },
                 ].map((item) => (
-                  <div key={item.label} className="text-center">
-                    <item.icon className="w-5 h-5 text-primary mx-auto mb-2" />
+                  <motion.div
+                    key={item.label}
+                    whileHover={{ y: -4, scale: 1.05 }}
+                    className="text-center cursor-default"
+                  >
+                    <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }} className="inline-block">
+                      <item.icon className="w-5 h-5 text-primary mx-auto mb-2" />
+                    </motion.div>
                     <p className="text-[11px] text-muted-foreground font-medium">{item.label}</p>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </motion.div>
           </div>
 

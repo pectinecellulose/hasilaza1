@@ -29,7 +29,7 @@ import logo from "@/assets/logo.png";
 import categoryTricycle from "@/assets/category-tricycle.jpg";
 import categoryMoto from "@/assets/category-moto.jpg";
 import categoryPieces from "@/assets/category-pieces.jpg";
-import heroTricycle from "@/assets/hero-tricycle.png";
+import heroTricycle from "@/assets/hero-tricycle.jpg";
 
 const stats = [
   { value: "5+", label: "Années" },

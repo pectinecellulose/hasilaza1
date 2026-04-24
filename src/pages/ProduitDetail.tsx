@@ -573,36 +573,17 @@ const ProduitDetail = () => {
             <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Tout savoir</span>
             <h2 className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">À propos de ce produit</h2>
 
-            <Tabs defaultValue="description" className="w-full">
-              <TabsList className="h-auto p-1.5 bg-muted/60 rounded-2xl flex flex-wrap gap-1 w-full sm:w-auto sm:inline-flex">
-                <TabsTrigger
-                  value="description"
-                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2 transition-all"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  Description
-                </TabsTrigger>
-                <TabsTrigger
-                  value="specifications"
-                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2 transition-all"
-                >
-                  <Package className="w-4 h-4" />
-                  Spécifications
-                </TabsTrigger>
-                <TabsTrigger
-                  value="features"
-                  className="rounded-xl px-5 py-2.5 text-sm font-semibold data-[state=active]:bg-background data-[state=active]:shadow-elegant gap-2 transition-all"
-                >
-                  <CheckCircle2 className="w-4 h-4" />
-                  Caractéristiques
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="description" className="mt-6">
+            <div className="w-full space-y-12">
+              {/* Description */}
+              <section>
+                <div className="flex items-center gap-2 mb-4">
+                  <Sparkles className="w-5 h-5 text-primary" />
+                  <h3 className="font-display text-2xl font-bold">Description</h3>
+                </div>
                 <motion.div
-                  key="desc"
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.4 }}
                   className="bg-card rounded-3xl border border-border p-6 md:p-10 relative overflow-hidden"
                 >
@@ -613,13 +594,19 @@ const ProduitDetail = () => {
                     </p>
                   </div>
                 </motion.div>
-              </TabsContent>
+              </section>
 
-              <TabsContent value="specifications" className="mt-6">
+              {/* Spécifications */}
+              <section>
+                <div className="flex items-center gap-2 mb-4">
+                  <Package className="w-5 h-5 text-primary" />
+                  <h3 className="font-display text-2xl font-bold">Spécifications</h3>
+                </div>
                 {product.specifications.length > 0 ? (
                   <motion.div
                     initial="hidden"
-                    animate="show"
+                    whileInView="show"
+                    viewport={{ once: true }}
                     variants={{ hidden: {}, show: { transition: { staggerChildren: 0.04 } } }}
                     className="bg-card rounded-3xl border border-border overflow-hidden"
                   >
@@ -671,14 +658,20 @@ const ProduitDetail = () => {
                     Aucune spécification disponible pour ce produit.
                   </div>
                 )}
-              </TabsContent>
+              </section>
 
-              <TabsContent value="features" className="mt-6">
+              {/* Caractéristiques */}
+              <section>
+                <div className="flex items-center gap-2 mb-4">
+                  <CheckCircle2 className="w-5 h-5 text-primary" />
+                  <h3 className="font-display text-2xl font-bold">Caractéristiques</h3>
+                </div>
                 {product.features.length > 0 ? (
                   <div className="bg-card rounded-3xl border border-border p-6 md:p-8">
                     <motion.div
                       initial="hidden"
-                      animate="show"
+                      whileInView="show"
+                      viewport={{ once: true }}
                       variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}
                       className="grid sm:grid-cols-2 gap-3"
                     >
@@ -709,8 +702,8 @@ const ProduitDetail = () => {
                     Aucune caractéristique disponible pour ce produit.
                   </div>
                 )}
-              </TabsContent>
-            </Tabs>
+              </section>
+            </div>
           </motion.div>
 
           {related.length > 0 && (

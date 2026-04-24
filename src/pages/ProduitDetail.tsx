@@ -141,7 +141,7 @@ const ProduitDetail = () => {
     offers: {
       "@type": "Offer",
       priceCurrency: "XOF",
-      price: product.price > 0 ? product.price : undefined,
+      price: product.category !== "piece" && product.price > 0 ? product.price : undefined,
       priceValidUntil,
       itemCondition: "https://schema.org/NewCondition",
       availability: product.inStock

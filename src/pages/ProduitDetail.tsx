@@ -117,31 +117,56 @@ const ProduitDetail = () => {
     `Bonjour, je suis intéressé par : ${product.name}`,
   )}`;
 
+  const priceValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    description: product.shortDescription,
+    description: product.description || product.shortDescription,
     image: product.images && product.images.length > 0 ? product.images : undefined,
     sku: product.id,
+    mpn: product.slug,
     category: product.category,
     brand: { "@type": "Brand", name: "Hasilaza Motor" },
+    manufacturer: { "@type": "Organization", name: "Hasilaza Motor" },
     aggregateRating: product.rating
       ? {
           "@type": "AggregateRating",
           ratingValue: product.rating,
           reviewCount: Math.max(product.reviews ?? 1, 1),
+          bestRating: 5,
+          worstRating: 1,
         }
       : undefined,
     offers: {
       "@type": "Offer",
       priceCurrency: "XOF",
       price: product.price > 0 ? product.price : undefined,
+      priceValidUntil,
+      itemCondition: "https://schema.org/NewCondition",
       availability: product.inStock
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
       url: `https://hasilaza.com/produits/${product.slug}`,
       seller: { "@type": "Organization", name: "Hasilaza Motor" },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "XOF" },
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: "SN" },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 1, unitCode: "DAY" },
+          transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 5, unitCode: "DAY" },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "SN",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 7,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/FreeReturn",
+      },
     },
   };
 

@@ -183,80 +183,154 @@ const ProduitDetail = () => {
           </Link>
 
           <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-12">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <div className="relative aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-[2rem] overflow-hidden flex items-center justify-center border border-border group">
-                <div className="absolute inset-0 bg-gradient-radial opacity-30" />
+            <motion.div
+              ref={heroRef}
+              initial={{ opacity: 0, x: -40, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              style={{ perspective: 1200 }}
+            >
+              <motion.div
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                className="relative aspect-square bg-gradient-to-br from-muted to-muted/50 rounded-[2rem] overflow-hidden flex items-center justify-center border border-border group shadow-ink"
+              >
+                {/* Animated glow */}
+                <motion.div
+                  className="absolute -inset-10 bg-gradient-radial opacity-40 pointer-events-none"
+                  animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
+                  transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                />
+                {/* Shimmer sweep */}
+                <div className="absolute inset-0 shimmer pointer-events-none opacity-50" />
+
                 {product.images && product.images.length > 0 ? (
-                  <img
-                    src={product.images[activeImage] ?? product.images[0]}
-                    alt={`${product.name} - vue ${activeImage + 1}`}
-                    loading="eager"
-                    className="relative w-full h-full object-cover transition-opacity duration-300"
-                  />
+                  <AnimatePresence mode="wait" custom={direction}>
+                    <motion.img
+                      key={activeImage}
+                      src={product.images[activeImage] ?? product.images[0]}
+                      alt={`${product.name} - vue ${activeImage + 1}`}
+                      loading="eager"
+                      custom={direction}
+                      initial={{ opacity: 0, x: direction * 60, scale: 1.05, filter: "blur(8px)" }}
+                      animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, x: direction * -60, scale: 0.95, filter: "blur(8px)" }}
+                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ y: imageY, scale: imageScale }}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </AnimatePresence>
                 ) : (
-                  <Wrench className="relative w-40 h-40 text-muted-foreground/30" strokeWidth={1} />
+                  <motion.div
+                    animate={{ rotate: [0, 8, -8, 0] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <Wrench className="relative w-40 h-40 text-muted-foreground/30" strokeWidth={1} />
+                  </motion.div>
                 )}
 
                 {product.images && product.images.length > 1 && (
                   <>
-                    <button
-                      onClick={() =>
-                        setActiveImage((i) => (i === 0 ? product.images.length - 1 : i - 1))
-                      }
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-background/80 backdrop-blur-md border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-background hover:scale-110"
+                    <motion.button
+                      onClick={prevImage}
+                      whileHover={{ scale: 1.15, x: -3 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-background/80 backdrop-blur-md border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-elegant z-10"
                       aria-label="Image précédente"
                     >
                       <ChevronLeft className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={() =>
-                        setActiveImage((i) => (i === product.images.length - 1 ? 0 : i + 1))
-                      }
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-background/80 backdrop-blur-md border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-background hover:scale-110"
+                    </motion.button>
+                    <motion.button
+                      onClick={nextImage}
+                      whileHover={{ scale: 1.15, x: 3 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-background/80 backdrop-blur-md border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-elegant z-10"
                       aria-label="Image suivante"
                     >
                       <ChevronRight className="w-5 h-5" />
-                    </button>
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-border text-xs font-medium">
-                      {activeImage + 1} / {product.images.length}
-                    </div>
+                    </motion.button>
+                    <motion.div
+                      key={`counter-${activeImage}`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-border text-xs font-bold tracking-wider z-10"
+                    >
+                      {String(activeImage + 1).padStart(2, "0")} / {String(product.images.length).padStart(2, "0")}
+                    </motion.div>
                   </>
                 )}
 
-                <div className="absolute top-5 left-5 flex flex-col gap-2">
+                <div className="absolute top-5 left-5 flex flex-col gap-2 z-10">
                   {product.isBestSeller && (
-                    <span className="px-3 py-1.5 bg-gradient-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant">
-                      Best-Seller
-                    </span>
+                    <motion.span
+                      initial={{ opacity: 0, x: -20, rotate: -10 }}
+                      animate={{ opacity: 1, x: 0, rotate: 0 }}
+                      transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
+                      className="px-3 py-1.5 bg-gradient-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-glow animate-pulse-glow"
+                    >
+                      ★ Best-Seller
+                    </motion.span>
                   )}
                   {product.isNew && (
-                    <span className="px-3 py-1.5 bg-secondary text-secondary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant">
-                      Nouveau
-                    </span>
+                    <motion.span
+                      initial={{ opacity: 0, x: -20, rotate: -10 }}
+                      animate={{ opacity: 1, x: 0, rotate: 0 }}
+                      transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+                      className="px-3 py-1.5 bg-secondary text-secondary-foreground text-[10px] font-bold uppercase tracking-wider rounded-full shadow-elegant"
+                    >
+                      ✨ Nouveau
+                    </motion.span>
                   )}
                 </div>
-                <div className="absolute top-5 right-5">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.6, type: "spring" }}
+                  className="absolute top-5 right-5 z-10"
+                >
                   <FavoriteButton productId={product.id} />
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               {product.images && product.images.length > 1 && (
-                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2.5 mt-4">
+                <motion.div
+                  initial="hidden"
+                  animate="show"
+                  variants={{
+                    hidden: {},
+                    show: { transition: { staggerChildren: 0.08, delayChildren: 0.3 } },
+                  }}
+                  className="grid grid-cols-4 sm:grid-cols-5 gap-2.5 mt-4"
+                >
                   {product.images.map((img, idx) => (
-                    <button
+                    <motion.button
                       key={img + idx}
-                      onClick={() => setActiveImage(idx)}
+                      variants={{
+                        hidden: { opacity: 0, y: 20, scale: 0.8 },
+                        show: { opacity: 1, y: 0, scale: 1 },
+                      }}
+                      whileHover={{ y: -4, scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => goToImage(idx)}
                       className={`relative aspect-square rounded-2xl overflow-hidden border-2 transition-all ${
                         activeImage === idx
-                          ? "border-primary shadow-elegant scale-[1.02]"
-                          : "border-border hover:border-primary/40 opacity-70 hover:opacity-100"
+                          ? "border-primary shadow-glow"
+                          : "border-border hover:border-primary/40 opacity-60 hover:opacity-100"
                       }`}
                       aria-label={`Voir image ${idx + 1}`}
                     >
+                      {activeImage === idx && (
+                        <motion.div
+                          layoutId="thumbActive"
+                          className="absolute inset-0 ring-2 ring-primary rounded-2xl z-10 pointer-events-none"
+                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        />
+                      )}
                       <img src={img} alt={`miniature ${idx + 1}`} loading="lazy" className="w-full h-full object-cover" />
-                    </button>
+                    </motion.button>
                   ))}
-                </div>
+                </motion.div>
               )}
             </motion.div>
 

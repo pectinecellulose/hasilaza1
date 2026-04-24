@@ -139,7 +139,13 @@ const Contact = () => {
               </a>
             </div>
 
-            <div className="bg-card border border-border rounded-[2rem] p-8 md:p-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-card border border-border rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-elegant"
+            >
               <h2 className="font-display text-2xl md:text-3xl font-bold mb-2">Envoyez-nous un message</h2>
               <p className="text-sm text-muted-foreground mb-7">Réponse garantie sous 24h ouvrées.</p>
 

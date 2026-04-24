@@ -244,13 +244,14 @@ const Produits = () => {
                       {filtered.map((product, i) => (
                         <motion.div
                           key={product.id}
-                          initial={{ opacity: 0, y: 20 }}
+                          initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.3, delay: i * 0.03 }}
+                          transition={{ duration: 0.4, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                          whileHover={{ y: -6 }}
                         >
                           <Link
                             to={`/produits/${product.slug}`}
-                            className="group block bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-ink transition-all duration-500"
+                            className="group block bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-ink transition-all duration-500 h-full"
                           >
                             <div className="relative aspect-square overflow-hidden bg-muted">
                               {product.images?.[0] ? (

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import ancs from "@/assets/partners/ancs.png";
 import enabel from "@/assets/partners/enabel.png";
 import humanAppeal from "@/assets/partners/human-appeal.png";

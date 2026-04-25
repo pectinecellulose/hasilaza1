@@ -34,17 +34,13 @@ export function Partners() {
           </p>
         </div>
 
-        {/* Mobile: défilement horizontal */}
-        <div className="md:hidden -mx-4 px-4 overflow-x-auto scrollbar-hide">
-          <div className="flex gap-3 pb-2 snap-x snap-mandatory">
-            {partners.map((partner, i) => (
-              <motion.div
-                key={partner.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06, duration: 0.5 }}
-                className="group relative shrink-0 snap-start w-32 h-32 bg-card border border-border rounded-2xl p-4 flex items-center justify-center hover:border-primary/40 hover:shadow-elegant transition-all duration-300"
+        {/* Mobile: défilement automatique en continu */}
+        <div className="md:hidden -mx-4 overflow-hidden relative">
+          <div className="flex gap-3 w-max animate-marquee">
+            {[...partners, ...partners].map((partner, i) => (
+              <div
+                key={`${partner.name}-${i}`}
+                className="group relative shrink-0 w-32 h-32 bg-card border border-border rounded-2xl p-4 flex items-center justify-center"
               >
                 <img
                   src={partner.logo}
@@ -52,7 +48,7 @@ export function Partners() {
                   loading="lazy"
                   className="max-w-full max-h-full object-contain"
                 />
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

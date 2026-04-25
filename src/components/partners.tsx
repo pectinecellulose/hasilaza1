@@ -33,7 +33,7 @@ export function Partners() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
+        <div className="grid grid-cols-7 gap-2 md:gap-4">
           {partners.map((partner, i) => (
             <motion.div
               key={partner.name}

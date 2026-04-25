@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import ancs from "@/assets/partners/ancs.png";
 import enabel from "@/assets/partners/enabel.png";
 import humanAppeal from "@/assets/partners/human-appeal.png";
@@ -18,6 +17,8 @@ const partners = [
 ];
 
 export function Partners() {
+  const looped = [...partners, ...partners];
+
   return (
     <section className="py-20 md:py-24 bg-background border-y border-border">
       <div className="container">
@@ -33,13 +34,13 @@ export function Partners() {
           </p>
         </div>
 
-        {/* Mobile: défilement automatique en continu */}
+        {/* Mobile: défilement automatique */}
         <div className="md:hidden -mx-4 overflow-hidden relative">
           <div className="flex gap-3 w-max animate-marquee">
-            {[...partners, ...partners].map((partner, i) => (
+            {looped.map((partner, i) => (
               <div
-                key={`${partner.name}-${i}`}
-                className="group relative shrink-0 w-32 h-32 bg-card border border-border rounded-2xl p-4 flex items-center justify-center"
+                key={`m-${partner.name}-${i}`}
+                className="relative shrink-0 w-32 h-32 bg-card border border-border rounded-2xl p-4 flex items-center justify-center"
               >
                 <img
                   src={partner.logo}
@@ -52,25 +53,23 @@ export function Partners() {
           </div>
         </div>
 
-        {/* Desktop: grille sur une ligne */}
-        <div className="hidden md:grid grid-cols-7 gap-4">
-          {partners.map((partner, i) => (
-            <motion.div
-              key={partner.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.5 }}
-              className="group relative aspect-square bg-card border border-border rounded-2xl p-6 flex items-center justify-center hover:border-primary/40 hover:shadow-elegant transition-all duration-300"
-            >
-              <img
-                src={partner.logo}
-                alt={`Logo ${partner.name}`}
-                loading="lazy"
-                className="max-w-full max-h-full object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
-              />
-            </motion.div>
-          ))}
+        {/* Desktop: défilement automatique */}
+        <div className="hidden md:block overflow-hidden relative group">
+          <div className="flex gap-4 w-max animate-marquee group-hover:[animation-play-state:paused]">
+            {looped.map((partner, i) => (
+              <div
+                key={`d-${partner.name}-${i}`}
+                className="relative shrink-0 w-40 h-40 lg:w-44 lg:h-44 bg-card border border-border rounded-2xl p-6 flex items-center justify-center hover:border-primary/40 hover:shadow-elegant transition-all duration-300"
+              >
+                <img
+                  src={partner.logo}
+                  alt={`Logo ${partner.name}`}
+                  loading="lazy"
+                  className="max-w-full max-h-full object-contain grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

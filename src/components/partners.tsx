@@ -33,7 +33,31 @@ export function Partners() {
           </p>
         </div>
 
-        <div className="grid grid-cols-7 gap-2 md:gap-4">
+        {/* Mobile: défilement horizontal */}
+        <div className="md:hidden -mx-4 px-4 overflow-x-auto scrollbar-hide">
+          <div className="flex gap-3 pb-2 snap-x snap-mandatory">
+            {partners.map((partner, i) => (
+              <motion.div
+                key={partner.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.5 }}
+                className="group relative shrink-0 snap-start w-32 h-32 bg-card border border-border rounded-2xl p-4 flex items-center justify-center hover:border-primary/40 hover:shadow-elegant transition-all duration-300"
+              >
+                <img
+                  src={partner.logo}
+                  alt={`Logo ${partner.name}`}
+                  loading="lazy"
+                  className="max-w-full max-h-full object-contain"
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: grille sur une ligne */}
+        <div className="hidden md:grid grid-cols-7 gap-4">
           {partners.map((partner, i) => (
             <motion.div
               key={partner.name}
@@ -41,7 +65,7 @@ export function Partners() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.06, duration: 0.5 }}
-              className="group relative aspect-square bg-card border border-border rounded-2xl p-5 md:p-6 flex items-center justify-center hover:border-primary/40 hover:shadow-elegant transition-all duration-300"
+              className="group relative aspect-square bg-card border border-border rounded-2xl p-6 flex items-center justify-center hover:border-primary/40 hover:shadow-elegant transition-all duration-300"
             >
               <img
                 src={partner.logo}

@@ -19,10 +19,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [roleChecked, setRoleChecked] = useState(false);
 
   const checkAdmin = async (uid: string | undefined) => {
     if (!uid) {
       setIsAdmin(false);
+      setRoleChecked(true);
       return;
     }
     const { data } = await supabase
@@ -32,6 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .eq("role", "admin")
       .maybeSingle();
     setIsAdmin(!!data);
+    setRoleChecked(true);
   };
 
   useEffect(() => {
@@ -39,6 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession);
       setUser(newSession?.user ?? null);
+      setRoleChecked(false);
       // Defer Supabase call to avoid deadlock
       setTimeout(() => {
         checkAdmin(newSession?.user?.id);

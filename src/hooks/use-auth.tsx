@@ -7,6 +7,7 @@ interface AuthContextValue {
   user: User | null;
   isAdmin: boolean;
   loading: boolean;
+  roleChecked: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }

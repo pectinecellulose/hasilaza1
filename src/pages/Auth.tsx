@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { SEO } from "@/components/seo";
 
 const Auth = () => {
-  const { user, isAdmin, signIn, loading } = useAuth();
+  const { user, isAdmin, signIn, loading, roleChecked } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [email, setEmail] = useState("");
@@ -17,10 +17,10 @@ const Auth = () => {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && user && roleChecked) {
       navigate(isAdmin ? "/admin" : "/", { replace: true });
     }
-  }, [user, isAdmin, loading, navigate]);
+  }, [user, isAdmin, loading, roleChecked, navigate]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

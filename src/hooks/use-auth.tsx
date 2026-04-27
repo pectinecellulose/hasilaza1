@@ -7,6 +7,7 @@ interface AuthContextValue {
   user: User | null;
   isAdmin: boolean;
   loading: boolean;
+  roleChecked: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }
@@ -18,10 +19,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [roleChecked, setRoleChecked] = useState(false);
 
   const checkAdmin = async (uid: string | undefined) => {
     if (!uid) {
       setIsAdmin(false);
+      setRoleChecked(true);
       return;
     }
     const { data } = await supabase
@@ -31,6 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .eq("role", "admin")
       .maybeSingle();
     setIsAdmin(!!data);
+    setRoleChecked(true);
   };
 
   useEffect(() => {
@@ -38,6 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession);
       setUser(newSession?.user ?? null);
+      setRoleChecked(false);
       // Defer Supabase call to avoid deadlock
       setTimeout(() => {
         checkAdmin(newSession?.user?.id);
@@ -64,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ session, user, isAdmin, loading, signIn, signOut }}>
+    <AuthContext.Provider value={{ session, user, isAdmin, loading, roleChecked, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

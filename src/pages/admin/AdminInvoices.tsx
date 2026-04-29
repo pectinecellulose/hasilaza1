@@ -446,45 +446,50 @@ const downloadManualPDF = async (inv: ManualInvoice) => {
   doc.setTextColor(20);
   doc.text(inv.status.toUpperCase(), pageW - margin, 67, { align: "right" });
 
+  const safe = (n: number) => formatPrice(Number.isFinite(n) ? n : 0);
+
   autoTable(doc, {
     startY: 92,
     head: [["Description", "Qté", "PU", "Total"]],
     body: inv.lines.map((l) => [
       l.description,
       String(l.quantity),
-      formatPrice(l.unit_price),
-      formatPrice(l.quantity * l.unit_price),
+      safe(l.unit_price),
+      safe(l.quantity * l.unit_price),
     ]),
     theme: "plain",
     headStyles: { fillColor: [245, 245, 245], textColor: 100, fontSize: 9, fontStyle: "bold" },
-    bodyStyles: { fontSize: 10, textColor: 30, cellPadding: 4 },
+    bodyStyles: { fontSize: 10, textColor: 30, cellPadding: 4, overflow: "linebreak" },
     columnStyles: {
-      1: { halign: "right" },
-      2: { halign: "right" },
-      3: { halign: "right", fontStyle: "bold" },
+      0: { cellWidth: "auto" },
+      1: { halign: "right", cellWidth: 18 },
+      2: { halign: "right", cellWidth: 38 },
+      3: { halign: "right", fontStyle: "bold", cellWidth: 38 },
     },
     margin: { left: margin, right: margin },
+    tableWidth: pageW - margin * 2,
   });
 
   const finalY = (doc as any).lastAutoTable.finalY + 10;
-  const boxX = pageW - margin - 70;
-  const boxW = 70;
+  const boxW = 90;
+  const boxX = pageW - margin - boxW;
+  const boxH = 32;
   doc.setFillColor(250, 250, 250);
-  doc.roundedRect(boxX, finalY, boxW, 28, 2, 2, "F");
+  doc.roundedRect(boxX, finalY, boxW, boxH, 2, 2, "F");
   doc.setFontSize(9);
   doc.setTextColor(80);
   doc.setFont("helvetica", "normal");
-  doc.text("Sous-total", boxX + 4, finalY + 7);
-  doc.text(formatPrice(subtotal), boxX + boxW - 4, finalY + 7, { align: "right" });
-  doc.text("Livraison", boxX + 4, finalY + 13);
-  doc.text(inv.shipping > 0 ? formatPrice(inv.shipping) : "Gratuite", boxX + boxW - 4, finalY + 13, { align: "right" });
+  doc.text("Sous-total", boxX + 5, finalY + 8);
+  doc.text(safe(subtotal), boxX + boxW - 5, finalY + 8, { align: "right" });
+  doc.text("Livraison", boxX + 5, finalY + 14);
+  doc.text(inv.shipping > 0 ? safe(inv.shipping) : "Gratuite", boxX + boxW - 5, finalY + 14, { align: "right" });
   doc.setDrawColor(...orange);
-  doc.line(boxX + 3, finalY + 17, boxX + boxW - 3, finalY + 17);
+  doc.line(boxX + 4, finalY + 19, boxX + boxW - 4, finalY + 19);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.setTextColor(...orange);
-  doc.text("Total TTC", boxX + 4, finalY + 24);
-  doc.text(formatPrice(total), boxX + boxW - 4, finalY + 24, { align: "right" });
+  doc.text("Total TTC", boxX + 5, finalY + 27);
+  doc.text(safe(total), boxX + boxW - 5, finalY + 27, { align: "right" });
 
   if (inv.notes) {
     const notesY = finalY + 34;

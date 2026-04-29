@@ -167,7 +167,7 @@ const downloadInvoicePDF = async (order: InvoiceOrder) => {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(100);
-  doc.text(`Émise le ${date}`, margin, 34);
+  doc.text(`Émise le ${date}`, titleX, 34);
 
   // Brand right
   doc.setFont("helvetica", "bold");

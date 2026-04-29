@@ -298,6 +298,8 @@ interface ManualInvoice {
   notes: string;
 }
 
+const fmt = (n: number) => formatPrice(Number.isFinite(n) ? n : 0).replace(/\u202F|\u00A0/g, " ");
+
 const buildManualHTML = (inv: ManualInvoice) => {
   const dateStr = new Date(inv.date).toLocaleDateString("fr-FR");
   const subtotal = inv.lines.reduce((s, l) => s + l.quantity * l.unit_price, 0);
@@ -306,8 +308,8 @@ const buildManualHTML = (inv: ManualInvoice) => {
     <tr>
       <td><strong>${l.description}</strong></td>
       <td class="right">${l.quantity}</td>
-      <td class="right">${formatPrice(l.unit_price)}</td>
-      <td class="right"><strong>${formatPrice(l.quantity * l.unit_price)}</strong></td>
+      <td class="right">${fmt(l.unit_price)}</td>
+      <td class="right"><strong>${fmt(l.quantity * l.unit_price)}</strong></td>
     </tr>`).join("");
   return `<!doctype html><html><head><meta charset="utf-8"/><title>${inv.number}</title><style>
     *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}
@@ -321,10 +323,14 @@ const buildManualHTML = (inv: ManualInvoice) => {
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:48px}
     .block h3{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.15em;margin-bottom:8px}
     .block p{font-size:14px;line-height:1.6}
-    table{width:100%;border-collapse:collapse;margin-bottom:32px}
+    table{width:100%;border-collapse:collapse;margin-bottom:32px;table-layout:fixed}
+    col.c-desc{width:auto}
+    col.c-qty{width:60px}
+    col.c-pu{width:160px}
+    col.c-total{width:170px}
     th{background:#f5f5f5;padding:12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#666}
-    td{padding:16px 12px;border-bottom:1px solid #eee;font-size:14px}
-    .right{text-align:right}
+    td{padding:16px 12px;border-bottom:1px solid #eee;font-size:14px;word-wrap:break-word}
+    td.right,th.right{text-align:right;white-space:nowrap}
     .total{display:flex;justify-content:flex-end;margin-bottom:32px}
     .total .box{width:300px;background:#fafafa;padding:24px;border-radius:12px}
     .total .row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}
@@ -356,13 +362,14 @@ const buildManualHTML = (inv: ManualInvoice) => {
       </div>
     </div>
     <table>
+      <colgroup><col class="c-desc"/><col class="c-qty"/><col class="c-pu"/><col class="c-total"/></colgroup>
       <thead><tr><th>Description</th><th class="right">Qté</th><th class="right">PU</th><th class="right">Total</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
     <div class="total"><div class="box">
-      <div class="row"><span>Sous-total</span><span>${formatPrice(subtotal)}</span></div>
-      <div class="row"><span>Livraison</span><span>${inv.shipping > 0 ? formatPrice(inv.shipping) : "Gratuite"}</span></div>
-      <div class="row grand"><span>Total TTC</span><span>${formatPrice(total)}</span></div>
+      <div class="row"><span>Sous-total</span><span>${fmt(subtotal)}</span></div>
+      <div class="row"><span>Livraison</span><span>${inv.shipping > 0 ? fmt(inv.shipping) : "Gratuite"}</span></div>
+      <div class="row grand"><span>Total TTC</span><span>${fmt(total)}</span></div>
     </div></div>
     ${inv.notes ? `<div class="notes"><strong>Notes :</strong> ${inv.notes.replace(/</g, "&lt;")}</div>` : ""}
     <div class="footer">Merci de votre confiance.<br/>${COMPANY.name} — Tricycles, motos et pièces détachées au Sénégal<br/>RCCM: ${COMPANY.rccm} • NINEA: ${COMPANY.ninea}</div>

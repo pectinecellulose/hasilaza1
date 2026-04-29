@@ -367,9 +367,9 @@ const buildManualHTML = (inv: ManualInvoice) => {
       <tbody>${rows}</tbody>
     </table>
     <div class="total"><div class="box">
-      <div class="row"><span>Sous-total</span><span>${formatPrice(subtotal)}</span></div>
-      <div class="row"><span>Livraison</span><span>${inv.shipping > 0 ? formatPrice(inv.shipping) : "Gratuite"}</span></div>
-      <div class="row grand"><span>Total TTC</span><span>${formatPrice(total)}</span></div>
+      <div class="row"><span>Sous-total</span><span>${fmt(subtotal)}</span></div>
+      <div class="row"><span>Livraison</span><span>${inv.shipping > 0 ? fmt(inv.shipping) : "Gratuite"}</span></div>
+      <div class="row grand"><span>Total TTC</span><span>${fmt(total)}</span></div>
     </div></div>
     ${inv.notes ? `<div class="notes"><strong>Notes :</strong> ${inv.notes.replace(/</g, "&lt;")}</div>` : ""}
     <div class="footer">Merci de votre confiance.<br/>${COMPANY.name} — Tricycles, motos et pièces détachées au Sénégal<br/>RCCM: ${COMPANY.rccm} • NINEA: ${COMPANY.ninea}</div>

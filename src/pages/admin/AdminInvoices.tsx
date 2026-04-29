@@ -759,6 +759,181 @@ const AdminInvoices = () => {
           </div>
         )}
       </div>
+
+      {/* Manual invoice dialog */}
+      <Dialog open={manualOpen} onOpenChange={setManualOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl">Nouvelle facture manuelle</DialogTitle>
+            <DialogDescription>
+              Saisissez les informations puis téléchargez le PDF ou imprimez directement.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6 py-2">
+            {/* Meta */}
+            <div className="grid sm:grid-cols-3 gap-4">
+              <div>
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">N° Facture</Label>
+                <Input
+                  value={manual.number}
+                  onChange={(e) => setManual({ ...manual, number: e.target.value })}
+                  className="mt-1 rounded-xl"
+                />
+              </div>
+              <div>
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Date</Label>
+                <Input
+                  type="date"
+                  value={manual.date}
+                  onChange={(e) => setManual({ ...manual, date: e.target.value })}
+                  className="mt-1 rounded-xl"
+                />
+              </div>
+              <div>
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Statut</Label>
+                <select
+                  value={manual.status}
+                  onChange={(e) => setManual({ ...manual, status: e.target.value })}
+                  className="mt-1 w-full h-10 rounded-xl border border-input bg-background px-3 text-sm"
+                >
+                  <option value="pending">En attente</option>
+                  <option value="confirmed">Confirmée</option>
+                  <option value="processing">En traitement</option>
+                  <option value="shipped">Expédiée</option>
+                  <option value="delivered">Livrée</option>
+                  <option value="cancelled">Annulée</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Customer */}
+            <div>
+              <h3 className="font-display font-bold text-sm mb-3 uppercase tracking-wider text-muted-foreground">Client</h3>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <Input
+                  placeholder="Nom complet *"
+                  value={manual.customer_name}
+                  onChange={(e) => setManual({ ...manual, customer_name: e.target.value })}
+                  className="rounded-xl"
+                />
+                <Input
+                  placeholder="Téléphone"
+                  value={manual.customer_phone}
+                  onChange={(e) => setManual({ ...manual, customer_phone: e.target.value })}
+                  className="rounded-xl"
+                />
+                <Input
+                  placeholder="Email"
+                  type="email"
+                  value={manual.customer_email}
+                  onChange={(e) => setManual({ ...manual, customer_email: e.target.value })}
+                  className="rounded-xl"
+                />
+                <Input
+                  placeholder="Ville / Adresse"
+                  value={manual.customer_city}
+                  onChange={(e) => setManual({ ...manual, customer_city: e.target.value })}
+                  className="rounded-xl"
+                />
+              </div>
+            </div>
+
+            {/* Lines */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-display font-bold text-sm uppercase tracking-wider text-muted-foreground">Articles</h3>
+                <Button type="button" size="sm" variant="outline" className="rounded-xl" onClick={addLine}>
+                  <Plus className="w-4 h-4 mr-1" />
+                  Ligne
+                </Button>
+              </div>
+              <div className="space-y-2">
+                {manual.lines.map((l, i) => (
+                  <div key={i} className="grid grid-cols-12 gap-2 items-start">
+                    <Input
+                      placeholder="Description *"
+                      value={l.description}
+                      onChange={(e) => updateLine(i, { description: e.target.value })}
+                      className="col-span-6 rounded-xl"
+                    />
+                    <Input
+                      type="number"
+                      min="1"
+                      placeholder="Qté"
+                      value={l.quantity}
+                      onChange={(e) => updateLine(i, { quantity: Number(e.target.value) || 0 })}
+                      className="col-span-2 rounded-xl"
+                    />
+                    <Input
+                      type="number"
+                      min="0"
+                      placeholder="Prix unitaire"
+                      value={l.unit_price}
+                      onChange={(e) => updateLine(i, { unit_price: Number(e.target.value) || 0 })}
+                      className="col-span-3 rounded-xl"
+                    />
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="ghost"
+                      className="col-span-1 rounded-xl text-destructive hover:bg-destructive/10"
+                      onClick={() => removeLine(i)}
+                      disabled={manual.lines.length === 1}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Shipping & notes */}
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Livraison (FCFA)</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={manual.shipping}
+                  onChange={(e) => setManual({ ...manual, shipping: Number(e.target.value) || 0 })}
+                  className="mt-1 rounded-xl"
+                />
+              </div>
+              <div>
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Notes (optionnel)</Label>
+                <Input
+                  value={manual.notes}
+                  onChange={(e) => setManual({ ...manual, notes: e.target.value })}
+                  placeholder="Remarques, conditions..."
+                  className="mt-1 rounded-xl"
+                />
+              </div>
+            </div>
+
+            {/* Totals preview */}
+            <div className="bg-muted/40 rounded-2xl p-4 space-y-1 text-sm">
+              <div className="flex justify-between"><span className="text-muted-foreground">Sous-total</span><span>{formatPrice(manualSubtotal)}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Livraison</span><span>{manual.shipping > 0 ? formatPrice(manual.shipping) : "Gratuite"}</span></div>
+              <div className="flex justify-between pt-2 border-t border-border font-display font-bold text-base text-primary"><span>Total TTC</span><span>{formatPrice(manualTotal)}</span></div>
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-2">
+            <Button variant="outline" className="rounded-xl" onClick={() => setManualOpen(false)}>
+              Annuler
+            </Button>
+            <Button variant="outline" className="rounded-xl" onClick={() => handleManualGenerate("print")}>
+              <Printer className="w-4 h-4 mr-2" />
+              Imprimer
+            </Button>
+            <Button className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => handleManualGenerate("pdf")}>
+              <FileDown className="w-4 h-4 mr-2" />
+              Télécharger PDF
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

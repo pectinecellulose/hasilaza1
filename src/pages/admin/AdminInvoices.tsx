@@ -492,7 +492,7 @@ const downloadManualPDF = async (inv: ManualInvoice) => {
   doc.text(safe(total), boxX + boxW - 5, finalY + 27, { align: "right" });
 
   if (inv.notes) {
-    const notesY = finalY + 34;
+    const notesY = finalY + 40;
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     doc.setTextColor(80);

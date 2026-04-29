@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react";
-import { FileText, Loader2, Download, Search, Printer } from "lucide-react";
+import { FileText, Loader2, Download, Search, Printer, FileDown } from "lucide-react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/products-data";
+
+const COMPANY = {
+  name: "Hasilaza Motor",
+  address: "HLM 2, Dakar, Sénégal",
+  phone: "+221 76 935 83 17",
+  email: "hasilazasenegal@gmail.com",
+  rccm: "SN DKR 2022 B 41650",
+  ninea: "009893216",
+};
 
 interface InvoiceOrder {
   id: string;
@@ -67,8 +78,8 @@ const printInvoice = (order: InvoiceOrder) => {
         <div style="font-size:13px;color:#666;margin-top:8px">Émise le ${date}</div>
       </div>
       <div class="brand">
-        <div class="name">Hasilaza Motor</div>
-        <div class="info">HLM 2, Dakar, Sénégal<br/>+221 76 935 83 17<br/>hasilazasenegal@gmail.com</div>
+        <div class="name">${COMPANY.name}</div>
+        <div class="info">${COMPANY.address}<br/>${COMPANY.phone}<br/>${COMPANY.email}<br/><strong>RCCM:</strong> ${COMPANY.rccm}<br/><strong>NINEA:</strong> ${COMPANY.ninea}</div>
       </div>
     </div>
     <div class="grid">
@@ -93,7 +104,7 @@ const printInvoice = (order: InvoiceOrder) => {
       <div class="row"><span>Livraison</span><span>Gratuite</span></div>
       <div class="row grand"><span>Total TTC</span><span>${order.total_price ? formatPrice(Number(order.total_price)) : "—"}</span></div>
     </div></div>
-    <div class="footer">Merci de votre confiance.<br/>Hasilaza Motor — Tricycles, motos et pièces détachées au Sénégal</div>
+    <div class="footer">Merci de votre confiance.<br/>${COMPANY.name} — Tricycles, motos et pièces détachées au Sénégal<br/>RCCM: ${COMPANY.rccm} • NINEA: ${COMPANY.ninea}</div>
   </body></html>`;
   const w = window.open("", "_blank");
   if (w) {
@@ -101,6 +112,139 @@ const printInvoice = (order: InvoiceOrder) => {
     w.document.close();
     setTimeout(() => w.print(), 250);
   }
+};
+
+const downloadInvoicePDF = (order: InvoiceOrder) => {
+  const number = formatInvoiceNumber(order.id, order.created_at);
+  const date = new Date(order.created_at).toLocaleDateString("fr-FR");
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const pageW = doc.internal.pageSize.getWidth();
+  const margin = 15;
+  const orange: [number, number, number] = [229, 126, 92];
+
+  // Header band
+  doc.setFillColor(...orange);
+  doc.rect(0, 0, pageW, 4, "F");
+
+  // Title left
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(120);
+  doc.text("FACTURE", margin, 20);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(20);
+  doc.setTextColor(...orange);
+  doc.text(number, margin, 28);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(100);
+  doc.text(`Émise le ${date}`, margin, 34);
+
+  // Brand right
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(20);
+  doc.text(COMPANY.name, pageW - margin, 20, { align: "right" });
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(100);
+  const brandLines = [
+    COMPANY.address,
+    COMPANY.phone,
+    COMPANY.email,
+    `RCCM: ${COMPANY.rccm}`,
+    `NINEA: ${COMPANY.ninea}`,
+  ];
+  brandLines.forEach((l, i) => doc.text(l, pageW - margin, 26 + i * 4.5, { align: "right" }));
+
+  // Separator
+  doc.setDrawColor(...orange);
+  doc.setLineWidth(0.6);
+  doc.line(margin, 52, pageW - margin, 52);
+
+  // Bill to
+  doc.setFontSize(9);
+  doc.setTextColor(150);
+  doc.text("FACTURÉ À", margin, 60);
+  doc.setFontSize(11);
+  doc.setTextColor(20);
+  doc.setFont("helvetica", "bold");
+  doc.text(order.customer_name, margin, 67);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(80);
+  const billLines = [
+    order.customer_phone,
+    order.customer_email ?? "",
+    order.customer_city,
+  ].filter(Boolean);
+  billLines.forEach((l, i) => doc.text(l, margin, 72 + i * 4.5));
+
+  // Status right
+  doc.setFontSize(9);
+  doc.setTextColor(150);
+  doc.text("STATUT", pageW - margin, 60, { align: "right" });
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(20);
+  doc.text(order.status.toUpperCase(), pageW - margin, 67, { align: "right" });
+
+  // Table
+  autoTable(doc, {
+    startY: 92,
+    head: [["Description", "Qté", "PU", "Total"]],
+    body: [[
+      order.product_name,
+      String(order.quantity),
+      order.unit_price ? formatPrice(Number(order.unit_price)) : "—",
+      order.total_price ? formatPrice(Number(order.total_price)) : "—",
+    ]],
+    theme: "plain",
+    headStyles: { fillColor: [245, 245, 245], textColor: 100, fontSize: 9, fontStyle: "bold" },
+    bodyStyles: { fontSize: 10, textColor: 30, cellPadding: 4 },
+    columnStyles: {
+      1: { halign: "right" },
+      2: { halign: "right" },
+      3: { halign: "right", fontStyle: "bold" },
+    },
+    margin: { left: margin, right: margin },
+  });
+
+  const finalY = (doc as any).lastAutoTable.finalY + 10;
+  const total = order.total_price ? formatPrice(Number(order.total_price)) : "—";
+
+  // Totals box
+  const boxX = pageW - margin - 70;
+  const boxW = 70;
+  doc.setFillColor(250, 250, 250);
+  doc.roundedRect(boxX, finalY, boxW, 28, 2, 2, "F");
+  doc.setFontSize(9);
+  doc.setTextColor(80);
+  doc.setFont("helvetica", "normal");
+  doc.text("Sous-total", boxX + 4, finalY + 7);
+  doc.text(total, boxX + boxW - 4, finalY + 7, { align: "right" });
+  doc.text("Livraison", boxX + 4, finalY + 13);
+  doc.text("Gratuite", boxX + boxW - 4, finalY + 13, { align: "right" });
+  doc.setDrawColor(...orange);
+  doc.line(boxX + 3, finalY + 17, boxX + boxW - 3, finalY + 17);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(...orange);
+  doc.text("Total TTC", boxX + 4, finalY + 24);
+  doc.text(total, boxX + boxW - 4, finalY + 24, { align: "right" });
+
+  // Footer
+  const ph = doc.internal.pageSize.getHeight();
+  doc.setDrawColor(230);
+  doc.line(margin, ph - 25, pageW - margin, ph - 25);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8);
+  doc.setTextColor(140);
+  doc.text("Merci de votre confiance.", pageW / 2, ph - 19, { align: "center" });
+  doc.text(`${COMPANY.name} — Tricycles, motos et pièces détachées au Sénégal`, pageW / 2, ph - 14, { align: "center" });
+  doc.text(`RCCM: ${COMPANY.rccm}  •  NINEA: ${COMPANY.ninea}`, pageW / 2, ph - 9, { align: "center" });
+
+  doc.save(`${number}.pdf`);
 };
 
 const AdminInvoices = () => {
@@ -250,15 +394,26 @@ const AdminInvoices = () => {
                     </div>
                   </div>
                 </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="rounded-xl shrink-0"
-                  onClick={() => printInvoice(o)}
-                >
-                  <Printer className="w-4 h-4 mr-2" />
-                  Imprimer
-                </Button>
+                <div className="flex gap-2 shrink-0">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="rounded-xl"
+                    onClick={() => downloadInvoicePDF(o)}
+                  >
+                    <FileDown className="w-4 h-4 mr-2" />
+                    PDF
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="rounded-xl"
+                    onClick={() => printInvoice(o)}
+                  >
+                    <Printer className="w-4 h-4 mr-2" />
+                    Imprimer
+                  </Button>
+                </div>
               </div>
             ))}
           </div>

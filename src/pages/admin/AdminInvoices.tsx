@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
-import { FileText, Loader2, Download, Search, Printer, FileDown } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { FileText, Loader2, Download, Search, Printer, FileDown, Plus, Trash2 } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/products-data";
 import logoUrl from "@/assets/logo.png";

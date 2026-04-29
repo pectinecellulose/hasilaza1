@@ -321,10 +321,14 @@ const buildManualHTML = (inv: ManualInvoice) => {
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:48px}
     .block h3{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.15em;margin-bottom:8px}
     .block p{font-size:14px;line-height:1.6}
-    table{width:100%;border-collapse:collapse;margin-bottom:32px}
+    table{width:100%;border-collapse:collapse;margin-bottom:32px;table-layout:fixed}
+    col.c-desc{width:auto}
+    col.c-qty{width:60px}
+    col.c-pu{width:160px}
+    col.c-total{width:170px}
     th{background:#f5f5f5;padding:12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#666}
-    td{padding:16px 12px;border-bottom:1px solid #eee;font-size:14px}
-    .right{text-align:right}
+    td{padding:16px 12px;border-bottom:1px solid #eee;font-size:14px;word-wrap:break-word}
+    td.right,th.right{text-align:right;white-space:nowrap}
     .total{display:flex;justify-content:flex-end;margin-bottom:32px}
     .total .box{width:300px;background:#fafafa;padding:24px;border-radius:12px}
     .total .row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}

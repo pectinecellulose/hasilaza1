@@ -222,48 +222,50 @@ const downloadInvoicePDF = async (order: InvoiceOrder) => {
   doc.text(order.status.toUpperCase(), pageW - margin, 67, { align: "right" });
 
   // Table
+  const safeOrder = (n: number) => formatPrice(Number.isFinite(n) ? n : 0);
   autoTable(doc, {
     startY: 92,
     head: [["Description", "Qté", "PU", "Total"]],
     body: [[
       order.product_name,
       String(order.quantity),
-      order.unit_price ? formatPrice(Number(order.unit_price)) : "—",
-      order.total_price ? formatPrice(Number(order.total_price)) : "—",
+      order.unit_price ? safeOrder(Number(order.unit_price)) : "—",
+      order.total_price ? safeOrder(Number(order.total_price)) : "—",
     ]],
     theme: "plain",
     headStyles: { fillColor: [245, 245, 245], textColor: 100, fontSize: 9, fontStyle: "bold" },
-    bodyStyles: { fontSize: 10, textColor: 30, cellPadding: 4 },
+    bodyStyles: { fontSize: 10, textColor: 30, cellPadding: 4, overflow: "linebreak" },
     columnStyles: {
-      1: { halign: "right" },
-      2: { halign: "right" },
-      3: { halign: "right", fontStyle: "bold" },
+      0: { cellWidth: "auto" },
+      1: { halign: "right", cellWidth: 18 },
+      2: { halign: "right", cellWidth: 38 },
+      3: { halign: "right", fontStyle: "bold", cellWidth: 38 },
     },
     margin: { left: margin, right: margin },
   });
 
   const finalY = (doc as any).lastAutoTable.finalY + 10;
-  const total = order.total_price ? formatPrice(Number(order.total_price)) : "—";
+  const total = order.total_price ? safeOrder(Number(order.total_price)) : "—";
 
   // Totals box
-  const boxX = pageW - margin - 70;
-  const boxW = 70;
+  const boxW = 90;
+  const boxX = pageW - margin - boxW;
   doc.setFillColor(250, 250, 250);
-  doc.roundedRect(boxX, finalY, boxW, 28, 2, 2, "F");
+  doc.roundedRect(boxX, finalY, boxW, 32, 2, 2, "F");
   doc.setFontSize(9);
   doc.setTextColor(80);
   doc.setFont("helvetica", "normal");
-  doc.text("Sous-total", boxX + 4, finalY + 7);
-  doc.text(total, boxX + boxW - 4, finalY + 7, { align: "right" });
-  doc.text("Livraison", boxX + 4, finalY + 13);
-  doc.text("Gratuite", boxX + boxW - 4, finalY + 13, { align: "right" });
+  doc.text("Sous-total", boxX + 5, finalY + 8);
+  doc.text(total, boxX + boxW - 5, finalY + 8, { align: "right" });
+  doc.text("Livraison", boxX + 5, finalY + 14);
+  doc.text("Gratuite", boxX + boxW - 5, finalY + 14, { align: "right" });
   doc.setDrawColor(...orange);
-  doc.line(boxX + 3, finalY + 17, boxX + boxW - 3, finalY + 17);
+  doc.line(boxX + 4, finalY + 19, boxX + boxW - 4, finalY + 19);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.setTextColor(...orange);
-  doc.text("Total TTC", boxX + 4, finalY + 24);
-  doc.text(total, boxX + boxW - 4, finalY + 24, { align: "right" });
+  doc.text("Total TTC", boxX + 5, finalY + 27);
+  doc.text(total, boxX + boxW - 5, finalY + 27, { align: "right" });
 
   // Footer
   const ph = doc.internal.pageSize.getHeight();

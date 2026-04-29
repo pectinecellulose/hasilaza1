@@ -7,6 +7,23 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/products-data";
+import logoUrl from "@/assets/logo.png";
+
+// Cache du logo en base64 pour jsPDF
+let logoDataUrlCache: string | null = null;
+const getLogoDataUrl = async (): Promise<string> => {
+  if (logoDataUrlCache) return logoDataUrlCache;
+  const res = await fetch(logoUrl);
+  const blob = await res.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      logoDataUrlCache = reader.result as string;
+      resolve(logoDataUrlCache);
+    };
+    reader.readAsDataURL(blob);
+  });
+};
 
 const COMPANY = {
   name: "Hasilaza Motor",

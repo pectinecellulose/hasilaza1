@@ -649,10 +649,19 @@ const AdminInvoices = () => {
             Historique complet et impression PDF de toutes les factures.
           </p>
         </div>
-        <Button onClick={exportCSV} variant="outline" className="rounded-xl">
-          <Download className="w-4 h-4 mr-2" />
-          Exporter CSV
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            onClick={() => { resetManual(); setManualOpen(true); }}
+            className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Nouvelle facture
+          </Button>
+          <Button onClick={exportCSV} variant="outline" className="rounded-xl">
+            <Download className="w-4 h-4 mr-2" />
+            Exporter CSV
+          </Button>
+        </div>
       </div>
 
       {/* Summary */}

@@ -519,6 +519,70 @@ const AdminInvoices = () => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // Manual invoice creation
+  const [manualOpen, setManualOpen] = useState(false);
+  const [manual, setManual] = useState<ManualInvoice>(() => ({
+    number: generateManualNumber(),
+    date: new Date().toISOString().slice(0, 10),
+    customer_name: "",
+    customer_phone: "",
+    customer_email: "",
+    customer_city: "",
+    status: "pending",
+    lines: [{ description: "", quantity: 1, unit_price: 0 }],
+    shipping: 0,
+    notes: "",
+  }));
+
+  const manualSubtotal = useMemo(
+    () => manual.lines.reduce((s, l) => s + (l.quantity || 0) * (l.unit_price || 0), 0),
+    [manual.lines],
+  );
+  const manualTotal = manualSubtotal + (manual.shipping || 0);
+
+  const resetManual = () => setManual({
+    number: generateManualNumber(),
+    date: new Date().toISOString().slice(0, 10),
+    customer_name: "",
+    customer_phone: "",
+    customer_email: "",
+    customer_city: "",
+    status: "pending",
+    lines: [{ description: "", quantity: 1, unit_price: 0 }],
+    shipping: 0,
+    notes: "",
+  });
+
+  const updateLine = (idx: number, patch: Partial<ManualLine>) =>
+    setManual((m) => ({ ...m, lines: m.lines.map((l, i) => (i === idx ? { ...l, ...patch } : l)) }));
+  const addLine = () =>
+    setManual((m) => ({ ...m, lines: [...m.lines, { description: "", quantity: 1, unit_price: 0 }] }));
+  const removeLine = (idx: number) =>
+    setManual((m) => ({ ...m, lines: m.lines.length > 1 ? m.lines.filter((_, i) => i !== idx) : m.lines }));
+
+  const validateManual = (): string | null => {
+    if (!manual.customer_name.trim()) return "Le nom du client est requis.";
+    if (!manual.lines.length) return "Ajoutez au moins une ligne.";
+    for (const [i, l] of manual.lines.entries()) {
+      if (!l.description.trim()) return `Ligne ${i + 1} : description manquante.`;
+      if (l.quantity <= 0) return `Ligne ${i + 1} : quantité invalide.`;
+      if (l.unit_price < 0) return `Ligne ${i + 1} : prix invalide.`;
+    }
+    return null;
+  };
+
+  const handleManualGenerate = async (mode: "pdf" | "print") => {
+    const err = validateManual();
+    if (err) {
+      toast({ title: "Validation", description: err, variant: "destructive" });
+      return;
+    }
+    if (mode === "pdf") await downloadManualPDF(manual);
+    else printManualInvoice(manual);
+    toast({ title: "Facture générée", description: `${manual.number} créée avec succès.` });
+  };
+
+
   useEffect(() => {
     (async () => {
       const { data } = await supabase

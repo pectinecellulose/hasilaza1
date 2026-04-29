@@ -7,6 +7,23 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/products-data";
+import logoUrl from "@/assets/logo.png";
+
+// Cache du logo en base64 pour jsPDF
+let logoDataUrlCache: string | null = null;
+const getLogoDataUrl = async (): Promise<string> => {
+  if (logoDataUrlCache) return logoDataUrlCache;
+  const res = await fetch(logoUrl);
+  const blob = await res.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      logoDataUrlCache = reader.result as string;
+      resolve(logoDataUrlCache);
+    };
+    reader.readAsDataURL(blob);
+  });
+};
 
 const COMPANY = {
   name: "Hasilaza Motor",
@@ -72,10 +89,13 @@ const printInvoice = (order: InvoiceOrder) => {
     @media print{body{padding:24px}}
   </style></head><body>
     <div class="head">
-      <div>
-        <h1>Facture</h1>
-        <div class="num">${number}</div>
-        <div style="font-size:13px;color:#666;margin-top:8px">Émise le ${date}</div>
+      <div style="display:flex;align-items:center;gap:18px">
+        <img src="${window.location.origin}/logo.png" alt="${COMPANY.name}" style="width:64px;height:64px;object-fit:contain"/>
+        <div>
+          <h1>Facture</h1>
+          <div class="num">${number}</div>
+          <div style="font-size:13px;color:#666;margin-top:8px">Émise le ${date}</div>
+        </div>
       </div>
       <div class="brand">
         <div class="name">${COMPANY.name}</div>
@@ -114,7 +134,7 @@ const printInvoice = (order: InvoiceOrder) => {
   }
 };
 
-const downloadInvoicePDF = (order: InvoiceOrder) => {
+const downloadInvoicePDF = async (order: InvoiceOrder) => {
   const number = formatInvoiceNumber(order.id, order.created_at);
   const date = new Date(order.created_at).toLocaleDateString("fr-FR");
   const doc = new jsPDF({ unit: "mm", format: "a4" });
@@ -126,19 +146,28 @@ const downloadInvoicePDF = (order: InvoiceOrder) => {
   doc.setFillColor(...orange);
   doc.rect(0, 0, pageW, 4, "F");
 
-  // Title left
+  // Logo top-left
+  try {
+    const logoData = await getLogoDataUrl();
+    doc.addImage(logoData, "PNG", margin, 12, 22, 22);
+  } catch (e) {
+    console.warn("Logo non chargé", e);
+  }
+
+  // Title left (décalé à droite du logo)
+  const titleX = margin + 28;
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor(120);
-  doc.text("FACTURE", margin, 20);
+  doc.text("FACTURE", titleX, 20);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(20);
   doc.setTextColor(...orange);
-  doc.text(number, margin, 28);
+  doc.text(number, titleX, 28);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(100);
-  doc.text(`Émise le ${date}`, margin, 34);
+  doc.text(`Émise le ${date}`, titleX, 34);
 
   // Brand right
   doc.setFont("helvetica", "bold");

@@ -298,6 +298,8 @@ interface ManualInvoice {
   notes: string;
 }
 
+const fmt = (n: number) => formatPrice(Number.isFinite(n) ? n : 0).replace(/\u202F|\u00A0/g, " ");
+
 const buildManualHTML = (inv: ManualInvoice) => {
   const dateStr = new Date(inv.date).toLocaleDateString("fr-FR");
   const subtotal = inv.lines.reduce((s, l) => s + l.quantity * l.unit_price, 0);
@@ -306,8 +308,8 @@ const buildManualHTML = (inv: ManualInvoice) => {
     <tr>
       <td><strong>${l.description}</strong></td>
       <td class="right">${l.quantity}</td>
-      <td class="right">${formatPrice(l.unit_price)}</td>
-      <td class="right"><strong>${formatPrice(l.quantity * l.unit_price)}</strong></td>
+      <td class="right">${fmt(l.unit_price)}</td>
+      <td class="right"><strong>${fmt(l.quantity * l.unit_price)}</strong></td>
     </tr>`).join("");
   return `<!doctype html><html><head><meta charset="utf-8"/><title>${inv.number}</title><style>
     *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}

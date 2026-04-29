@@ -78,8 +78,8 @@ const printInvoice = (order: InvoiceOrder) => {
         <div style="font-size:13px;color:#666;margin-top:8px">Émise le ${date}</div>
       </div>
       <div class="brand">
-        <div class="name">Hasilaza Motor</div>
-        <div class="info">HLM 2, Dakar, Sénégal<br/>+221 76 935 83 17<br/>hasilazasenegal@gmail.com</div>
+        <div class="name">${COMPANY.name}</div>
+        <div class="info">${COMPANY.address}<br/>${COMPANY.phone}<br/>${COMPANY.email}<br/><strong>RCCM:</strong> ${COMPANY.rccm}<br/><strong>NINEA:</strong> ${COMPANY.ninea}</div>
       </div>
     </div>
     <div class="grid">

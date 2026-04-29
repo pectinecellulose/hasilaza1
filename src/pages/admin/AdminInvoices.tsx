@@ -89,10 +89,13 @@ const printInvoice = (order: InvoiceOrder) => {
     @media print{body{padding:24px}}
   </style></head><body>
     <div class="head">
-      <div>
-        <h1>Facture</h1>
-        <div class="num">${number}</div>
-        <div style="font-size:13px;color:#666;margin-top:8px">Émise le ${date}</div>
+      <div style="display:flex;align-items:center;gap:18px">
+        <img src="${window.location.origin}/logo.png" alt="${COMPANY.name}" style="width:64px;height:64px;object-fit:contain"/>
+        <div>
+          <h1>Facture</h1>
+          <div class="num">${number}</div>
+          <div style="font-size:13px;color:#666;margin-top:8px">Émise le ${date}</div>
+        </div>
       </div>
       <div class="brand">
         <div class="name">${COMPANY.name}</div>

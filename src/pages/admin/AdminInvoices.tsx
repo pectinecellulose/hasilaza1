@@ -104,7 +104,7 @@ const printInvoice = (order: InvoiceOrder) => {
       <div class="row"><span>Livraison</span><span>Gratuite</span></div>
       <div class="row grand"><span>Total TTC</span><span>${order.total_price ? formatPrice(Number(order.total_price)) : "—"}</span></div>
     </div></div>
-    <div class="footer">Merci de votre confiance.<br/>Hasilaza Motor — Tricycles, motos et pièces détachées au Sénégal</div>
+    <div class="footer">Merci de votre confiance.<br/>${COMPANY.name} — Tricycles, motos et pièces détachées au Sénégal<br/>RCCM: ${COMPANY.rccm} • NINEA: ${COMPANY.ninea}</div>
   </body></html>`;
   const w = window.open("", "_blank");
   if (w) {

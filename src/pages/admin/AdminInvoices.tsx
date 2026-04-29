@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react";
-import { FileText, Loader2, Download, Search, Printer } from "lucide-react";
+import { FileText, Loader2, Download, Search, Printer, FileDown } from "lucide-react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/products-data";
+
+const COMPANY = {
+  name: "Hasilaza Motor",
+  address: "HLM 2, Dakar, Sénégal",
+  phone: "+221 76 935 83 17",
+  email: "hasilazasenegal@gmail.com",
+  rccm: "SN DKR 2022 B 41650",
+  ninea: "009893216",
+};
 
 interface InvoiceOrder {
   id: string;

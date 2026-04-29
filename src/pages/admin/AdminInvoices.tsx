@@ -65,6 +65,8 @@ const formatInvoiceNumber = (id: string, date: string) => {
   return `FAC-${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}-${id.slice(0, 6).toUpperCase()}`;
 };
 
+const formatPdfPrice = (n: number) => formatPrice(Number.isFinite(n) ? n : 0).replace(/\u202F|\u00A0/g, " ");
+
 const printInvoice = (order: InvoiceOrder) => {
   const number = formatInvoiceNumber(order.id, order.created_at);
   const date = new Date(order.created_at).toLocaleDateString("fr-FR");
@@ -143,6 +145,9 @@ const downloadInvoicePDF = async (order: InvoiceOrder) => {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const pageW = doc.internal.pageSize.getWidth();
   const margin = 15;
+  const quantityColW = 16;
+  const priceColW = 42;
+  const descriptionColW = pageW - margin * 2 - quantityColW - priceColW * 2;
   const orange: [number, number, number] = [229, 126, 92];
 
   // Header band
@@ -222,7 +227,7 @@ const downloadInvoicePDF = async (order: InvoiceOrder) => {
   doc.text(order.status.toUpperCase(), pageW - margin, 67, { align: "right" });
 
   // Table
-  const safeOrder = (n: number) => formatPrice(Number.isFinite(n) ? n : 0);
+  const safeOrder = (n: number) => formatPdfPrice(n);
   autoTable(doc, {
     startY: 92,
     head: [["Description", "Qté", "PU", "Total"]],
@@ -234,14 +239,15 @@ const downloadInvoicePDF = async (order: InvoiceOrder) => {
     ]],
     theme: "plain",
     headStyles: { fillColor: [245, 245, 245], textColor: 100, fontSize: 9, fontStyle: "bold" },
-    bodyStyles: { fontSize: 10, textColor: 30, cellPadding: 4, overflow: "linebreak" },
+    bodyStyles: { fontSize: 9, textColor: 30, cellPadding: 3.5, overflow: "linebreak" },
     columnStyles: {
-      0: { cellWidth: "auto" },
-      1: { halign: "right", cellWidth: 18 },
-      2: { halign: "right", cellWidth: 38 },
-      3: { halign: "right", fontStyle: "bold", cellWidth: 38 },
+      0: { cellWidth: descriptionColW },
+      1: { halign: "right", cellWidth: quantityColW },
+      2: { halign: "right", cellWidth: priceColW },
+      3: { halign: "right", fontStyle: "bold", cellWidth: priceColW },
     },
     margin: { left: margin, right: margin },
+    tableWidth: pageW - margin * 2,
   });
 
   const finalY = (doc as any).lastAutoTable.finalY + 10;
@@ -394,6 +400,9 @@ const downloadManualPDF = async (inv: ManualInvoice) => {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const pageW = doc.internal.pageSize.getWidth();
   const margin = 15;
+  const quantityColW = 16;
+  const priceColW = 42;
+  const descriptionColW = pageW - margin * 2 - quantityColW - priceColW * 2;
   const orange: [number, number, number] = [229, 126, 92];
 
   doc.setFillColor(...orange);
@@ -455,7 +464,7 @@ const downloadManualPDF = async (inv: ManualInvoice) => {
   doc.setTextColor(20);
   doc.text(inv.status.toUpperCase(), pageW - margin, 67, { align: "right" });
 
-  const safe = (n: number) => formatPrice(Number.isFinite(n) ? n : 0);
+  const safe = (n: number) => formatPdfPrice(n);
 
   autoTable(doc, {
     startY: 92,
@@ -468,12 +477,12 @@ const downloadManualPDF = async (inv: ManualInvoice) => {
     ]),
     theme: "plain",
     headStyles: { fillColor: [245, 245, 245], textColor: 100, fontSize: 9, fontStyle: "bold" },
-    bodyStyles: { fontSize: 10, textColor: 30, cellPadding: 4, overflow: "linebreak" },
+    bodyStyles: { fontSize: 9, textColor: 30, cellPadding: 3.5, overflow: "linebreak" },
     columnStyles: {
-      0: { cellWidth: "auto" },
-      1: { halign: "right", cellWidth: 18 },
-      2: { halign: "right", cellWidth: 38 },
-      3: { halign: "right", fontStyle: "bold", cellWidth: 38 },
+      0: { cellWidth: descriptionColW },
+      1: { halign: "right", cellWidth: quantityColW },
+      2: { halign: "right", cellWidth: priceColW },
+      3: { halign: "right", fontStyle: "bold", cellWidth: priceColW },
     },
     margin: { left: margin, right: margin },
     tableWidth: pageW - margin * 2,

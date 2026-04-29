@@ -360,6 +360,7 @@ const buildManualHTML = (inv: ManualInvoice) => {
       </div>
     </div>
     <table>
+      <colgroup><col class="c-desc"/><col class="c-qty"/><col class="c-pu"/><col class="c-total"/></colgroup>
       <thead><tr><th>Description</th><th class="right">Qté</th><th class="right">PU</th><th class="right">Total</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>

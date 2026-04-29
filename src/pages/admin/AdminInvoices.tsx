@@ -394,15 +394,26 @@ const AdminInvoices = () => {
                     </div>
                   </div>
                 </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="rounded-xl shrink-0"
-                  onClick={() => printInvoice(o)}
-                >
-                  <Printer className="w-4 h-4 mr-2" />
-                  Imprimer
-                </Button>
+                <div className="flex gap-2 shrink-0">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="rounded-xl"
+                    onClick={() => downloadInvoicePDF(o)}
+                  >
+                    <FileDown className="w-4 h-4 mr-2" />
+                    PDF
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="rounded-xl"
+                    onClick={() => printInvoice(o)}
+                  >
+                    <Printer className="w-4 h-4 mr-2" />
+                    Imprimer
+                  </Button>
+                </div>
               </div>
             ))}
           </div>

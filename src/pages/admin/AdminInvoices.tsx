@@ -134,7 +134,7 @@ const printInvoice = (order: InvoiceOrder) => {
   }
 };
 
-const downloadInvoicePDF = (order: InvoiceOrder) => {
+const downloadInvoicePDF = async (order: InvoiceOrder) => {
   const number = formatInvoiceNumber(order.id, order.created_at);
   const date = new Date(order.created_at).toLocaleDateString("fr-FR");
   const doc = new jsPDF({ unit: "mm", format: "a4" });
@@ -146,15 +146,24 @@ const downloadInvoicePDF = (order: InvoiceOrder) => {
   doc.setFillColor(...orange);
   doc.rect(0, 0, pageW, 4, "F");
 
-  // Title left
+  // Logo top-left
+  try {
+    const logoData = await getLogoDataUrl();
+    doc.addImage(logoData, "PNG", margin, 12, 22, 22);
+  } catch (e) {
+    console.warn("Logo non chargé", e);
+  }
+
+  // Title left (décalé à droite du logo)
+  const titleX = margin + 28;
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor(120);
-  doc.text("FACTURE", margin, 20);
+  doc.text("FACTURE", titleX, 20);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(20);
   doc.setTextColor(...orange);
-  doc.text(number, margin, 28);
+  doc.text(number, titleX, 28);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(100);

@@ -911,14 +911,48 @@ const AdminInvoices = () => {
                 </Button>
               </div>
               <div className="space-y-2">
-                {manual.lines.map((l, i) => (
+                {manual.lines.map((l, i) => {
+                  const query = l.description.trim().toLowerCase();
+                  const suggestions =
+                    activeSuggestionLine === i && query.length > 0
+                      ? products
+                          .filter((p) => p.name.toLowerCase().includes(query))
+                          .slice(0, 6)
+                      : [];
+                  return (
                   <div key={i} className="grid grid-cols-12 gap-2 items-start">
-                    <Input
-                      placeholder="Description *"
-                      value={l.description}
-                      onChange={(e) => updateLine(i, { description: e.target.value })}
-                      className="col-span-6 rounded-xl"
-                    />
+                    <div className="col-span-6 relative">
+                      <Input
+                        placeholder="Description * (tapez pour suggérer)"
+                        value={l.description}
+                        onChange={(e) => updateLine(i, { description: e.target.value })}
+                        onFocus={() => setActiveSuggestionLine(i)}
+                        onBlur={() => setTimeout(() => setActiveSuggestionLine((v) => (v === i ? null : v)), 150)}
+                        className="rounded-xl"
+                        autoComplete="off"
+                      />
+                      {suggestions.length > 0 && (
+                        <div className="absolute z-50 left-0 right-0 mt-1 bg-popover border border-border rounded-xl shadow-lg overflow-hidden max-h-64 overflow-y-auto">
+                          {suggestions.map((p) => (
+                            <button
+                              key={p.id}
+                              type="button"
+                              onMouseDown={(e) => {
+                                e.preventDefault();
+                                updateLine(i, { description: p.name, unit_price: Number(p.price) || 0 });
+                                setActiveSuggestionLine(null);
+                              }}
+                              className="w-full text-left px-3 py-2 text-sm hover:bg-muted flex justify-between items-center gap-3"
+                            >
+                              <span className="truncate">{p.name}</span>
+                              <span className="text-xs text-muted-foreground shrink-0">
+                                {formatPrice(Number(p.price) || 0)}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     <Input
                       type="number"
                       min="1"

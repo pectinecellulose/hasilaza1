@@ -638,6 +638,11 @@ const AdminInvoices = () => {
         )
         .order("created_at", { ascending: false });
       setOrders((data as InvoiceOrder[]) ?? []);
+      const { data: prods } = await supabase
+        .from("products")
+        .select("id, name, price")
+        .order("name");
+      setProducts((prods as ProductSuggestion[]) ?? []);
       setLoading(false);
     })();
   }, []);

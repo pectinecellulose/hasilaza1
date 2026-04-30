@@ -552,10 +552,18 @@ const generateManualNumber = () => {
   return `FAC-${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}-${rand}`;
 };
 
+interface ProductSuggestion {
+  id: string;
+  name: string;
+  price: number;
+}
+
 const AdminInvoices = () => {
   const [orders, setOrders] = useState<InvoiceOrder[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<ProductSuggestion[]>([]);
+  const [activeSuggestionLine, setActiveSuggestionLine] = useState<number | null>(null);
 
   // Manual invoice creation
   const [manualOpen, setManualOpen] = useState(false);

@@ -41,7 +41,7 @@ const COMPANY = {
   phone: "+221 76 935 83 17",
   email: "hasilazasenegal@gmail.com",
   rccm: "SN DKR 2022 B 41650",
-  ninea: "0098932162C2",
+  ninea: "009893216 2C2",
 };
 
 interface InvoiceOrder {

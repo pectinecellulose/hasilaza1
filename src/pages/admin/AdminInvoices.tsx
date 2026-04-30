@@ -6,7 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/products-data";
@@ -34,7 +41,7 @@ const COMPANY = {
   phone: "+221 76 935 83 17",
   email: "hasilazasenegal@gmail.com",
   rccm: "SN DKR 2022 B 41650",
-  ninea: "009893216",
+  ninea: "009893216C2",
 };
 
 interface InvoiceOrder {
@@ -210,11 +217,7 @@ const downloadInvoicePDF = async (order: InvoiceOrder) => {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(80);
-  const billLines = [
-    order.customer_phone,
-    order.customer_email ?? "",
-    order.customer_city,
-  ].filter(Boolean);
+  const billLines = [order.customer_phone, order.customer_email ?? "", order.customer_city].filter(Boolean);
   billLines.forEach((l, i) => doc.text(l, margin, 72 + i * 4.5));
 
   // Status right
@@ -231,12 +234,14 @@ const downloadInvoicePDF = async (order: InvoiceOrder) => {
   autoTable(doc, {
     startY: 92,
     head: [["Description", "Qté", "PU", "Total"]],
-    body: [[
-      order.product_name,
-      String(order.quantity),
-      order.unit_price ? safeOrder(Number(order.unit_price)) : "—",
-      order.total_price ? safeOrder(Number(order.total_price)) : "—",
-    ]],
+    body: [
+      [
+        order.product_name,
+        String(order.quantity),
+        order.unit_price ? safeOrder(Number(order.unit_price)) : "—",
+        order.total_price ? safeOrder(Number(order.total_price)) : "—",
+      ],
+    ],
     theme: "plain",
     headStyles: { fillColor: [245, 245, 245], textColor: 100, fontSize: 9, fontStyle: "bold" },
     bodyStyles: { fontSize: 9, textColor: 30, cellPadding: 3.5, overflow: "linebreak" },
@@ -281,7 +286,9 @@ const downloadInvoicePDF = async (order: InvoiceOrder) => {
   doc.setFontSize(8);
   doc.setTextColor(140);
   doc.text("Merci de votre confiance.", pageW / 2, ph - 19, { align: "center" });
-  doc.text(`${COMPANY.name} — Tricycles, motos et pièces détachées au Sénégal`, pageW / 2, ph - 14, { align: "center" });
+  doc.text(`${COMPANY.name} — Tricycles, motos et pièces détachées au Sénégal`, pageW / 2, ph - 14, {
+    align: "center",
+  });
   doc.text(`RCCM: ${COMPANY.rccm}  •  NINEA: ${COMPANY.ninea}`, pageW / 2, ph - 9, { align: "center" });
 
   doc.save(`${number}.pdf`);
@@ -312,13 +319,17 @@ const buildManualHTML = (inv: ManualInvoice) => {
   const dateStr = new Date(inv.date).toLocaleDateString("fr-FR");
   const subtotal = inv.lines.reduce((s, l) => s + l.quantity * l.unit_price, 0);
   const total = subtotal + (inv.shipping || 0);
-  const rows = inv.lines.map((l) => `
+  const rows = inv.lines
+    .map(
+      (l) => `
     <tr>
       <td><strong>${l.description}</strong></td>
       <td class="right">${l.quantity}</td>
       <td class="right">${fmt(l.unit_price)}</td>
       <td class="right"><strong>${fmt(l.quantity * l.unit_price)}</strong></td>
-    </tr>`).join("");
+    </tr>`,
+    )
+    .join("");
   return `<!doctype html><html><head><meta charset="utf-8"/><title>${inv.number}</title><style>
     *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}
     body{padding:48px;color:#0a0a0a;background:#fff}
@@ -436,8 +447,9 @@ const downloadManualPDF = async (inv: ManualInvoice) => {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(100);
-  [COMPANY.address, COMPANY.phone, COMPANY.email, `RCCM: ${COMPANY.rccm}`, `NINEA: ${COMPANY.ninea}`]
-    .forEach((l, i) => doc.text(l, pageW - margin, 26 + i * 4.5, { align: "right" }));
+  [COMPANY.address, COMPANY.phone, COMPANY.email, `RCCM: ${COMPANY.rccm}`, `NINEA: ${COMPANY.ninea}`].forEach((l, i) =>
+    doc.text(l, pageW - margin, 26 + i * 4.5, { align: "right" }),
+  );
 
   doc.setDrawColor(...orange);
   doc.setLineWidth(0.6);
@@ -453,7 +465,8 @@ const downloadManualPDF = async (inv: ManualInvoice) => {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(80);
-  [inv.customer_phone, inv.customer_email, inv.customer_city].filter(Boolean)
+  [inv.customer_phone, inv.customer_email, inv.customer_city]
+    .filter(Boolean)
     .forEach((l, i) => doc.text(l, margin, 72 + i * 4.5));
 
   doc.setFontSize(9);
@@ -525,7 +538,9 @@ const downloadManualPDF = async (inv: ManualInvoice) => {
   doc.setFontSize(8);
   doc.setTextColor(140);
   doc.text("Merci de votre confiance.", pageW / 2, ph - 19, { align: "center" });
-  doc.text(`${COMPANY.name} — Tricycles, motos et pièces détachées au Sénégal`, pageW / 2, ph - 14, { align: "center" });
+  doc.text(`${COMPANY.name} — Tricycles, motos et pièces détachées au Sénégal`, pageW / 2, ph - 14, {
+    align: "center",
+  });
   doc.text(`RCCM: ${COMPANY.rccm}  •  NINEA: ${COMPANY.ninea}`, pageW / 2, ph - 9, { align: "center" });
 
   doc.save(`${inv.number}.pdf`);
@@ -563,18 +578,19 @@ const AdminInvoices = () => {
   );
   const manualTotal = manualSubtotal + (manual.shipping || 0);
 
-  const resetManual = () => setManual({
-    number: generateManualNumber(),
-    date: new Date().toISOString().slice(0, 10),
-    customer_name: "",
-    customer_phone: "",
-    customer_email: "",
-    customer_city: "",
-    status: "pending",
-    lines: [{ description: "", quantity: 1, unit_price: 0 }],
-    shipping: 0,
-    notes: "",
-  });
+  const resetManual = () =>
+    setManual({
+      number: generateManualNumber(),
+      date: new Date().toISOString().slice(0, 10),
+      customer_name: "",
+      customer_phone: "",
+      customer_email: "",
+      customer_city: "",
+      status: "pending",
+      lines: [{ description: "", quantity: 1, unit_price: 0 }],
+      shipping: 0,
+      notes: "",
+    });
 
   const updateLine = (idx: number, patch: Partial<ManualLine>) =>
     setManual((m) => ({ ...m, lines: m.lines.map((l, i) => (i === idx ? { ...l, ...patch } : l)) }));
@@ -605,12 +621,13 @@ const AdminInvoices = () => {
     toast({ title: "Facture générée", description: `${manual.number} créée avec succès.` });
   };
 
-
   useEffect(() => {
     (async () => {
       const { data } = await supabase
         .from("orders")
-        .select("id, customer_name, customer_email, customer_phone, customer_city, product_name, quantity, unit_price, total_price, status, created_at")
+        .select(
+          "id, customer_name, customer_email, customer_phone, customer_city, product_name, quantity, unit_price, total_price, status, created_at",
+        )
         .order("created_at", { ascending: false });
       setOrders((data as InvoiceOrder[]) ?? []);
       setLoading(false);
@@ -674,7 +691,10 @@ const AdminInvoices = () => {
         </div>
         <div className="flex flex-wrap gap-2">
           <Button
-            onClick={() => { resetManual(); setManualOpen(true); }}
+            onClick={() => {
+              resetManual();
+              setManualOpen(true);
+            }}
             className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -701,7 +721,10 @@ const AdminInvoices = () => {
           <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Période</p>
           <p className="font-display text-2xl font-bold mt-2">
             {orders.length > 0
-              ? new Date(orders[orders.length - 1].created_at).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })
+              ? new Date(orders[orders.length - 1].created_at).toLocaleDateString("fr-FR", {
+                  month: "short",
+                  year: "numeric",
+                })
               : "—"}{" "}
             →{" "}
             {orders.length > 0
@@ -742,37 +765,36 @@ const AdminInvoices = () => {
                 <div className="min-w-0 flex-1 grid md:grid-cols-3 gap-2 md:gap-6 items-center">
                   <div className="min-w-0">
                     <p className="font-display font-bold text-sm">{formatInvoiceNumber(o.id, o.created_at)}</p>
-                    <p className="text-xs text-muted-foreground">{new Date(o.created_at).toLocaleDateString("fr-FR")}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {new Date(o.created_at).toLocaleDateString("fr-FR")}
+                    </p>
                   </div>
                   <div className="min-w-0">
                     <p className="font-medium text-sm truncate">{o.customer_name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{o.product_name} × {o.quantity}</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {o.product_name} × {o.quantity}
+                    </p>
                   </div>
                   <div className="flex items-center gap-3 md:justify-end">
                     <div className="text-right">
-                      <p className="font-display font-bold">{o.total_price ? formatPrice(Number(o.total_price)) : "—"}</p>
-                      <Badge variant="outline" className={`${statusColor[o.status]} mt-1 text-[10px] border rounded-full`}>
+                      <p className="font-display font-bold">
+                        {o.total_price ? formatPrice(Number(o.total_price)) : "—"}
+                      </p>
+                      <Badge
+                        variant="outline"
+                        className={`${statusColor[o.status]} mt-1 text-[10px] border rounded-full`}
+                      >
                         {o.status}
                       </Badge>
                     </div>
                   </div>
                 </div>
                 <div className="flex gap-2 shrink-0">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="rounded-xl"
-                    onClick={() => downloadInvoicePDF(o)}
-                  >
+                  <Button size="sm" variant="outline" className="rounded-xl" onClick={() => downloadInvoicePDF(o)}>
                     <FileDown className="w-4 h-4 mr-2" />
                     PDF
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="rounded-xl"
-                    onClick={() => printInvoice(o)}
-                  >
+                  <Button size="sm" variant="outline" className="rounded-xl" onClick={() => printInvoice(o)}>
                     <Printer className="w-4 h-4 mr-2" />
                     Imprimer
                   </Button>
@@ -832,7 +854,9 @@ const AdminInvoices = () => {
 
             {/* Customer */}
             <div>
-              <h3 className="font-display font-bold text-sm mb-3 uppercase tracking-wider text-muted-foreground">Client</h3>
+              <h3 className="font-display font-bold text-sm mb-3 uppercase tracking-wider text-muted-foreground">
+                Client
+              </h3>
               <div className="grid sm:grid-cols-2 gap-3">
                 <Input
                   placeholder="Nom complet *"
@@ -865,7 +889,9 @@ const AdminInvoices = () => {
             {/* Lines */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-display font-bold text-sm uppercase tracking-wider text-muted-foreground">Articles</h3>
+                <h3 className="font-display font-bold text-sm uppercase tracking-wider text-muted-foreground">
+                  Articles
+                </h3>
                 <Button type="button" size="sm" variant="outline" className="rounded-xl" onClick={addLine}>
                   <Plus className="w-4 h-4 mr-1" />
                   Ligne
@@ -936,9 +962,18 @@ const AdminInvoices = () => {
 
             {/* Totals preview */}
             <div className="bg-muted/40 rounded-2xl p-4 space-y-1 text-sm">
-              <div className="flex justify-between"><span className="text-muted-foreground">Sous-total</span><span>{formatPrice(manualSubtotal)}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Livraison</span><span>{manual.shipping > 0 ? formatPrice(manual.shipping) : "Gratuite"}</span></div>
-              <div className="flex justify-between pt-2 border-t border-border font-display font-bold text-base text-primary"><span>Total TTC</span><span>{formatPrice(manualTotal)}</span></div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Sous-total</span>
+                <span>{formatPrice(manualSubtotal)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Livraison</span>
+                <span>{manual.shipping > 0 ? formatPrice(manual.shipping) : "Gratuite"}</span>
+              </div>
+              <div className="flex justify-between pt-2 border-t border-border font-display font-bold text-base text-primary">
+                <span>Total TTC</span>
+                <span>{formatPrice(manualTotal)}</span>
+              </div>
             </div>
           </div>
 
@@ -950,7 +985,10 @@ const AdminInvoices = () => {
               <Printer className="w-4 h-4 mr-2" />
               Imprimer
             </Button>
-            <Button className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => handleManualGenerate("pdf")}>
+            <Button
+              className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
+              onClick={() => handleManualGenerate("pdf")}
+            >
               <FileDown className="w-4 h-4 mr-2" />
               Télécharger PDF
             </Button>

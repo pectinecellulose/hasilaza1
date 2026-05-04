@@ -185,6 +185,38 @@ const ProduitDetail = () => {
     ],
   };
 
+  const faq = [
+    {
+      q: `Quel est le prix du ${product.name} au Sénégal ?`,
+      a:
+        product.category === "piece" || !product.price
+          ? `Le prix du ${product.name} est disponible sur demande. Contactez Hasilaza Motor au +221 76 935 83 17 ou via WhatsApp pour un devis immédiat.`
+          : `Le ${product.name} est proposé à ${formatPrice(product.price)} chez Hasilaza Motor. Livraison gratuite à Dakar et garantie 2 ans incluses.`,
+    },
+    {
+      q: `Le ${product.name} est-il livré à Dakar et au Sénégal ?`,
+      a: `Oui. Hasilaza Motor assure la livraison gratuite à Dakar et la livraison rapide partout au Sénégal (Thiès, Saint-Louis, Mbour, Kaolack, Touba, Ziguinchor) sous 1 à 5 jours ouvrés.`,
+    },
+    {
+      q: `Quelle garantie pour le ${product.name} ?`,
+      a: `Tous nos véhicules bénéficient d'une garantie 2 ans pièces et main-d'œuvre, avec un SAV expert assuré par notre atelier à Dakar (HLM 2).`,
+    },
+    {
+      q: `Comment commander le ${product.name} ?`,
+      a: `Vous pouvez commander en ligne sur hasilaza.com, par WhatsApp au +221 76 935 83 17, ou en venant directement à notre showroom HLM 2 à Dakar.`,
+    },
+  ];
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <main className="min-h-screen bg-background">
       <SEO

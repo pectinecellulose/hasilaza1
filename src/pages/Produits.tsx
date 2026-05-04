@@ -99,16 +99,27 @@ const Produits = () => {
         title={seoTitle}
         description={seoDesc}
         canonical={activeCategory === "all" ? "/produits" : `/produits?category=${activeCategory}`}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          itemListElement: filtered.slice(0, 20).map((p, i) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            url: `https://hasilaza.com/produits/${p.slug}`,
-            name: p.name,
-          })),
-        }}
+        keywords="tricycle Sénégal, tricycle cargo Dakar, moto 150cc Sénégal, tricycle 200cc, tricycle 250cc, tricycle 300cc, pièces détachées moto Sénégal, vendeur moto Dakar"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            itemListElement: filtered.slice(0, 20).map((p, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              url: `https://hasilaza.com/produits/${p.slug}`,
+              name: p.name,
+            })),
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Accueil", item: "https://hasilaza.com/" },
+              { "@type": "ListItem", position: 2, name: "Produits", item: "https://hasilaza.com/produits" },
+            ],
+          },
+        ]}
       />
       <Header />
 

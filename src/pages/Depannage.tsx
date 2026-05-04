@@ -25,8 +25,9 @@ const Depannage = () => (
   <main className="min-h-screen bg-background">
     <SEO
       title="Dépannage Moto & Tricycle à Dakar - SAV Hasilaza Motor"
-      description="Service de dépannage rapide pour tricycles et motos au Sénégal. Diagnostic, réparation, pièces d'origine. Intervention sur place à Dakar."
+      description="Dépannage et réparation moto/tricycle au Sénégal. Diagnostic, pièces d'origine, intervention sur place à Dakar. Devis WhatsApp immédiat."
       canonical="/depannage"
+      keywords="dépannage moto Dakar, réparation tricycle Sénégal, atelier moto Dakar, SAV moto Sénégal, mécanicien tricycle Dakar"
       jsonLd={{
         "@context": "https://schema.org",
         "@type": "Service",

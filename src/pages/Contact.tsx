@@ -296,7 +296,7 @@ const Contact = () => {
                 src="https://www.google.com/maps?q=HLM+2+Dakar+Senegal&hl=fr&z=14&output=embed"
                 width="100%"
                 height="100%"
-                loading="lazy"
+                loading="lazy" decoding="async"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="absolute inset-0 w-full h-full border-0"
               />

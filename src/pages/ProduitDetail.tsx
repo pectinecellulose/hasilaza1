@@ -268,7 +268,7 @@ const ProduitDetail = () => {
                       key={activeImage}
                       src={product.images[activeImage] ?? product.images[0]}
                       alt={`${product.name} - vue ${activeImage + 1}`}
-                      loading="eager"
+                      loading="eager" decoding="async" fetchPriority="high"
                       custom={direction}
                       initial={{ opacity: 0, x: direction * 60, scale: 1.05, filter: "blur(8px)" }}
                       animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
@@ -384,7 +384,7 @@ const ProduitDetail = () => {
                           transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         />
                       )}
-                      <img src={img} alt={`miniature ${idx + 1}`} loading="lazy" className="w-full h-full object-cover" />
+                      <img src={img} alt={`miniature ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     </motion.button>
                   ))}
                 </motion.div>
@@ -803,7 +803,7 @@ const ProduitDetail = () => {
                           <img
                             src={p.images[0]}
                             alt={p.name}
-                            loading="lazy"
+                            loading="lazy" decoding="async"
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           />
                         ) : (

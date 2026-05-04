@@ -271,7 +271,7 @@ const Index = () => {
                       animate={{ y: [0, -10, 0] }}
                       transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                       className="absolute inset-0 w-full h-full object-cover"
-                      loading="eager"
+                      loading="eager" decoding="async" fetchPriority="high"
                     />
                     <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-secondary/90 via-secondary/40 to-transparent z-10" />
                     <div className="absolute bottom-6 left-6 right-6 z-20 flex items-end justify-between gap-4">
@@ -351,7 +351,7 @@ const Index = () => {
                   <img
                     src={cat.image}
                     alt={cat.title}
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                     width={1024}
                     height={1280}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
@@ -488,7 +488,7 @@ const Index = () => {
                       <img
                         src={product.images[0]}
                         alt={product.name}
-                        loading="lazy"
+                        loading="lazy" decoding="async"
                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                     ) : (
@@ -724,7 +724,7 @@ const Index = () => {
                 src="https://www.google.com/maps?q=HLM+2+Dakar+Senegal&hl=fr&z=14&output=embed"
                 width="100%"
                 height="100%"
-                loading="lazy"
+                loading="lazy" decoding="async"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="absolute inset-0 w-full h-full border-0"
               />

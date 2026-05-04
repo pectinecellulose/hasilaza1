@@ -225,7 +225,7 @@ const ProduitDetail = () => {
         canonical={`/produits/${product.slug}`}
         type="product"
         image={product.images?.[0]}
-        jsonLd={[productJsonLd, breadcrumbJsonLd]}
+        jsonLd={[productJsonLd, breadcrumbJsonLd, faqJsonLd]}
       />
       <Header />
 

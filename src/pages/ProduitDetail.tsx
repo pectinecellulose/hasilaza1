@@ -738,6 +738,35 @@ const ProduitDetail = () => {
             </div>
           </motion.div>
 
+          {/* FAQ - SEO */}
+          <motion.section
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="mt-20"
+            aria-labelledby="faq-heading"
+          >
+            <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Questions fréquentes</span>
+            <h2 id="faq-heading" className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">
+              FAQ — {product.name}
+            </h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              {faq.map((item) => (
+                <details
+                  key={item.q}
+                  className="group bg-card rounded-2xl border border-border p-5 hover:border-primary/40 transition-colors"
+                >
+                  <summary className="cursor-pointer font-display font-semibold text-foreground flex items-center justify-between gap-4 list-none">
+                    <span>{item.q}</span>
+                    <Plus className="w-4 h-4 text-primary shrink-0 transition-transform group-open:rotate-45" />
+                  </summary>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </motion.section>
+
           {related.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 40 }}

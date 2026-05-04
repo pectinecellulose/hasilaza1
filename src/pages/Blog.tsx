@@ -105,7 +105,7 @@ const Blog = () => {
                       <img
                         src={post.cover_image || blogFallback}
                         alt={post.title}
-                        loading="lazy"
+                        loading="lazy" decoding="async"
                         width={1280}
                         height={800}
                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

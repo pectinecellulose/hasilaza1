@@ -24,8 +24,9 @@ const APropos = () => (
   <main className="min-h-screen bg-background">
     <SEO
       title="À propos - Hasilaza Motor, Leader des Tricycles au Sénégal"
-      description="Hasilaza Motor : 5+ ans d'expertise, 5000+ clients, leader des tricycles cargo et motos au Sénégal. Notre histoire, nos valeurs."
+      description="Hasilaza Motor : 5+ ans d'expertise, 5000+ clients, leader des tricycles cargo et motos au Sénégal. Notre histoire, nos valeurs, notre engagement."
       canonical="/a-propos"
+      keywords="Hasilaza Motor, leader tricycle Sénégal, vendeur moto Dakar, importateur tricycle Sénégal, histoire Hasilaza"
     />
     <Header />
 

@@ -185,6 +185,38 @@ const ProduitDetail = () => {
     ],
   };
 
+  const faq = [
+    {
+      q: `Quel est le prix du ${product.name} au Sénégal ?`,
+      a:
+        product.category === "piece" || !product.price
+          ? `Le prix du ${product.name} est disponible sur demande. Contactez Hasilaza Motor au +221 76 935 83 17 ou via WhatsApp pour un devis immédiat.`
+          : `Le ${product.name} est proposé à ${formatPrice(product.price)} chez Hasilaza Motor. Livraison gratuite à Dakar et garantie 2 ans incluses.`,
+    },
+    {
+      q: `Le ${product.name} est-il livré à Dakar et au Sénégal ?`,
+      a: `Oui. Hasilaza Motor assure la livraison gratuite à Dakar et la livraison rapide partout au Sénégal (Thiès, Saint-Louis, Mbour, Kaolack, Touba, Ziguinchor) sous 1 à 5 jours ouvrés.`,
+    },
+    {
+      q: `Quelle garantie pour le ${product.name} ?`,
+      a: `Tous nos véhicules bénéficient d'une garantie 2 ans pièces et main-d'œuvre, avec un SAV expert assuré par notre atelier à Dakar (HLM 2).`,
+    },
+    {
+      q: `Comment commander le ${product.name} ?`,
+      a: `Vous pouvez commander en ligne sur hasilaza.com, par WhatsApp au +221 76 935 83 17, ou en venant directement à notre showroom HLM 2 à Dakar.`,
+    },
+  ];
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <main className="min-h-screen bg-background">
       <SEO
@@ -193,7 +225,7 @@ const ProduitDetail = () => {
         canonical={`/produits/${product.slug}`}
         type="product"
         image={product.images?.[0]}
-        jsonLd={[productJsonLd, breadcrumbJsonLd]}
+        jsonLd={[productJsonLd, breadcrumbJsonLd, faqJsonLd]}
       />
       <Header />
 
@@ -236,7 +268,7 @@ const ProduitDetail = () => {
                       key={activeImage}
                       src={product.images[activeImage] ?? product.images[0]}
                       alt={`${product.name} - vue ${activeImage + 1}`}
-                      loading="eager"
+                      loading="eager" decoding="async" fetchPriority="high"
                       custom={direction}
                       initial={{ opacity: 0, x: direction * 60, scale: 1.05, filter: "blur(8px)" }}
                       animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
@@ -352,7 +384,7 @@ const ProduitDetail = () => {
                           transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         />
                       )}
-                      <img src={img} alt={`miniature ${idx + 1}`} loading="lazy" className="w-full h-full object-cover" />
+                      <img src={img} alt={`miniature ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     </motion.button>
                   ))}
                 </motion.div>
@@ -706,6 +738,35 @@ const ProduitDetail = () => {
             </div>
           </motion.div>
 
+          {/* FAQ - SEO */}
+          <motion.section
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="mt-20"
+            aria-labelledby="faq-heading"
+          >
+            <span className="text-xs uppercase tracking-[0.3em] text-primary font-medium">Questions fréquentes</span>
+            <h2 id="faq-heading" className="font-display text-3xl md:text-4xl font-bold mt-3 mb-8">
+              FAQ — {product.name}
+            </h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              {faq.map((item) => (
+                <details
+                  key={item.q}
+                  className="group bg-card rounded-2xl border border-border p-5 hover:border-primary/40 transition-colors"
+                >
+                  <summary className="cursor-pointer font-display font-semibold text-foreground flex items-center justify-between gap-4 list-none">
+                    <span>{item.q}</span>
+                    <Plus className="w-4 h-4 text-primary shrink-0 transition-transform group-open:rotate-45" />
+                  </summary>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </motion.section>
+
           {related.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -742,7 +803,7 @@ const ProduitDetail = () => {
                           <img
                             src={p.images[0]}
                             alt={p.name}
-                            loading="lazy"
+                            loading="lazy" decoding="async"
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           />
                         ) : (

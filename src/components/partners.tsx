@@ -45,7 +45,7 @@ export function Partners() {
                 <img
                   src={partner.logo}
                   alt={`Logo ${partner.name}`}
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                   className="max-w-full max-h-full object-contain"
                 />
               </div>
@@ -64,7 +64,7 @@ export function Partners() {
                 <img
                   src={partner.logo}
                   alt={`Logo ${partner.name}`}
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                   className="max-w-full max-h-full object-contain grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
                 />
               </div>

@@ -86,6 +86,7 @@ const Contact = () => {
         title="Contact Hasilaza Motor - Adresse & Horaires à Dakar"
         description="Visitez notre showroom à HLM 2, Dakar. Ouvert du lundi au samedi 9h-18h. WhatsApp +221 76 935 83 17. Livraison partout au Sénégal."
         canonical="/contact"
+        keywords="contact Hasilaza Motor, showroom moto Dakar, adresse tricycle Dakar, HLM 2 Dakar moto, WhatsApp Hasilaza"
         jsonLd={contactPageSchema}
       />
       <Header />
@@ -295,7 +296,7 @@ const Contact = () => {
                 src="https://www.google.com/maps?q=HLM+2+Dakar+Senegal&hl=fr&z=14&output=embed"
                 width="100%"
                 height="100%"
-                loading="lazy"
+                loading="lazy" decoding="async"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="absolute inset-0 w-full h-full border-0"
               />
